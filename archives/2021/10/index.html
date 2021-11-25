@@ -6,21 +6,15 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Hexo</title>
+  <title>Archives: 2021/10 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="KMP算法1.概述：KMP算法主要用在字符串匹配上，需要一个前缀表和一个next数组 2.过程：">
-<meta property="og:type" content="article">
+  <meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/2021/11/19/KMP%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:url" content="http://example.com/archives/2021/10/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="KMP算法1.概述：KMP算法主要用在字符串匹配上，需要一个前缀表和一个next数组 2.过程：">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/images/KMP%E7%B2%BE%E8%AE%B21.gif">
-<meta property="article:published_time" content="2021-11-19T11:45:21.360Z">
-<meta property="article:modified_time" content="2021-11-22T13:34:00.050Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/images/KMP%E7%B2%BE%E8%AE%B21.gif">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -159,209 +153,244 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-KMP算法" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
+            
+  
+  
     
-    <div class="article-entry" itemprop="articleBody">
+    
       
-        <h2 id="KMP算法"><a href="#KMP算法" class="headerlink" title="KMP算法"></a>KMP算法</h2><h4 id="1-概述："><a href="#1-概述：" class="headerlink" title="1.概述："></a>1.概述：</h4><p>KMP算法主要用在字符串匹配上，需要一个前缀表和一个next数组</p>
-<h4 id="2-过程："><a href="#2-过程：" class="headerlink" title="2.过程："></a>2.过程：</h4><span id="more"></span>
-
-<p>以模板字符串 aabaaf 和目标字符串 aabaabaafa 为例：</p>
-<p>1）如果暴力匹配，那么在 f 匹配不上时，就需要从头开始匹配，效率很低</p>
-<p>2）如果是KMP算法，模板字符串匹配到 f 时， 不从头开始，而是从 b 开始匹配。思想非常简单，我们可以发现，对于 aabaabaafa 在第二个 b 我们匹配不上了，但是这个b前面的aa和模板字符串的开头aa是一样的，所以从aa后面一个值开始匹配是效率最高的。</p>
-<p>动图如下：</p>
-<p> <img src="/images/KMP%E7%B2%BE%E8%AE%B21.gif"></p>
-<h4 id="3-前缀表"><a href="#3-前缀表" class="headerlink" title="3.前缀表"></a>3.前缀表</h4><p>现在有一个问题是，在字符不匹配时，我们怎么知道下一步该从哪里开始呢？这里就需要用到前缀表了。</p>
-<h6 id="1）先说一下什么是前缀和后缀："><a href="#1）先说一下什么是前缀和后缀：" class="headerlink" title="1）先说一下什么是前缀和后缀："></a>1）先说一下什么是前缀和后缀：</h6><p>前缀：不包括最后一个字符，包括第一个字符的所有连续子字符串。</p>
-<p>eg：aabaaf的所有前缀：a, aa, aab, aaba, aabaa 不包括aabaaf</p>
-<p>后缀：与前缀刚好相反 </p>
-<p>eg：aabaaf的所有后缀：f, af, aaf, baaf, abaaf  不包括aabaaf</p>
-<h6 id="2）前缀表：记录当前索引-i-之前（包括-i-）的字符串中，有多大长度的相同前后缀。"><a href="#2）前缀表：记录当前索引-i-之前（包括-i-）的字符串中，有多大长度的相同前后缀。" class="headerlink" title="2）前缀表：记录当前索引 i 之前（包括 i ）的字符串中，有多大长度的相同前后缀。"></a>2）前缀表：记录当前索引 i 之前（包括 i ）的字符串中，有多大长度的相同前后缀。</h6><p>aabaaf的前缀表 </p>
-<table>
-<thead>
-<tr>
-<th>0</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>4</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>a</td>
-<td>aa</td>
-<td>aab</td>
-<td>aaba</td>
-<td>aabaa</td>
-</tr>
-<tr>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>1</td>
-<td>2</td>
-</tr>
-</tbody></table>
-<p>单纯得到这个表还是很简单的，要么把字符串的前后缀都写出来，看交集最长为多少，要么就直接看字符串前后重合的字符有多少个。关键是要理解这个表的意思。</p>
-<h6 id="3-前缀表的含义"><a href="#3-前缀表的含义" class="headerlink" title="3)前缀表的含义"></a>3)前缀表的含义</h6><p>前面已经说过，碰到不匹配的字符串时，我们不能浪费掉之前已经匹配过的字符串，我们跳过索引 i 之前已经匹配好了的字符串，从这个字符串的后面一个开始匹配。</p>
-<p>目标字符串从索引5的 b 开始不匹配，也就是说b以前的都是匹配的，而我们又知道在模板字符串里，同样索引位置的前两个字符在开头有重复，所以，我们就可以跳到第三个（索引2）开始下一次匹配。这也是KMP算法对暴力算法的优化所在于，它不再从头开始。</p>
-<h4 id="4-得到next数组"><a href="#4-得到next数组" class="headerlink" title="4.得到next数组"></a>4.得到next数组</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">const getNext = (s)=&gt;&#123;</span><br><span class="line">       let next = [];</span><br><span class="line">       let j = 0;</span><br><span class="line">       next.push(j);</span><br><span class="line">       for(let i = 1;i&lt;s.length;++i)&#123;</span><br><span class="line">       //注意这里是while 不是 if 因为j是连续回跳，直到到了索引0或者跳到了指定位置</span><br><span class="line">           while(j&gt;0&amp;&amp;s[i]!==s[j])&#123;</span><br><span class="line">               j = next[j-1]</span><br><span class="line">           &#125;</span><br><span class="line">           if(s[i]===s[j])</span><br><span class="line">               j++;</span><br><span class="line">           next.push(j);</span><br><span class="line">       &#125;</span><br><span class="line">       return next;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="5-例题"><a href="#5-例题" class="headerlink" title="5.例题"></a>5.例题</h4><h6 id="leetcode459-重复的字符子串-https-leetcode-cn-com-problems-repeated-substring-pattern"><a href="#leetcode459-重复的字符子串-https-leetcode-cn-com-problems-repeated-substring-pattern" class="headerlink" title="leetcode459 重复的字符子串 https://leetcode-cn.com/problems/repeated-substring-pattern/"></a>leetcode459 重复的字符子串 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/repeated-substring-pattern/">https://leetcode-cn.com/problems/repeated-substring-pattern/</a></h6><p>给定一个非空的字符串，判断它是否可以由它的一个子串重复多次构成。给定的字符串只含有小写英文字母，并且长度不超过10000。 </p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">示例：</span><br><span class="line">输入: &quot;abab&quot;</span><br><span class="line">输出: True</span><br><span class="line">解释: 可由子字符串 &quot;ab&quot; 重复两次构成。</span><br><span class="line"></span><br><span class="line">输入: &quot;aba&quot;</span><br><span class="line">输出: False</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// KMP</span><br><span class="line">var repeatedSubstringPattern = function(s) &#123;</span><br><span class="line">    if(s.length === 0) return false;</span><br><span class="line">    const getNext = (s)=&gt;&#123;</span><br><span class="line">        let next = [];</span><br><span class="line">        let j = 0;</span><br><span class="line">        next.push(j);</span><br><span class="line">        for(let i = 1;i&lt;s.length;++i)&#123;</span><br><span class="line">            while(j&gt;0&amp;&amp;s[i]!==s[j])&#123;</span><br><span class="line">                j = next[j-1]</span><br><span class="line">            &#125;</span><br><span class="line">            if(s[i]===s[j])</span><br><span class="line">                j++;</span><br><span class="line">            next.push(j);</span><br><span class="line">        &#125;</span><br><span class="line">        return next;</span><br><span class="line">    &#125;</span><br><span class="line">    let next = getNext(s);</span><br><span class="line">    if(next[next.length-1]!==0 &amp;&amp; s.length%(s.length - next[next.length - 1])===0)</span><br><span class="line">        return true;</span><br><span class="line">    return false;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h6 id="leetcode28-实现-strStr-函数-https-leetcode-cn-com-problems-implement-strstr"><a href="#leetcode28-实现-strStr-函数-https-leetcode-cn-com-problems-implement-strstr" class="headerlink" title="leetcode28 实现 strStr() 函数 https://leetcode-cn.com/problems/implement-strstr"></a>leetcode28 实现 strStr() 函数 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/implement-strstr">https://leetcode-cn.com/problems/implement-strstr</a></h6><p>给你两个字符串 haystack 和 needle ，请你在 haystack 字符串中找出 needle 字符串出现的第一个位置（下标从 0 开始）。如果不存在，则返回  -1 。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">var strStr = function(haystack, needle) &#123;</span><br><span class="line">    if(needle.length === 0) return 0;</span><br><span class="line">    const getNext = (needle)=&gt;&#123;</span><br><span class="line">        let next = [];</span><br><span class="line">        let j = 0;</span><br><span class="line">        next.push(j);</span><br><span class="line">        for(let i = 1;i&lt;needle.length;++i)&#123;</span><br><span class="line">            while(j&gt;0&amp;&amp;needle[i]!==needle[j])&#123;</span><br><span class="line">                j = next[j-1]</span><br><span class="line">            &#125;</span><br><span class="line">            if(needle[i]===needle[j])</span><br><span class="line">                j++;</span><br><span class="line">            next.push(j);</span><br><span class="line">        &#125;</span><br><span class="line">        return next;</span><br><span class="line">    &#125;</span><br><span class="line">    let next = getNext(needle);</span><br><span class="line">    let j = 0;</span><br><span class="line">    for(let i = 0;i&lt;haystack.length;++i)&#123;</span><br><span class="line">        while(j&gt;0&amp;&amp;haystack[i]!==needle[j])</span><br><span class="line">            j = next[j-1];</span><br><span class="line">        if(haystack[i]===needle[j])</span><br><span class="line">            j++;</span><br><span class="line">        if(j === needle.length)</span><br><span class="line">            return (i-needle.length+1)</span><br><span class="line">    &#125;</span><br><span class="line">    return -1;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
       
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2021" class="archive-year">2021</a>
         </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2021/10/22/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95CSS-CSS3/" class="archive-article-date">
+  	<time datetime="2021-10-22T11:34:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-22</time>
+</a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2021/10/22/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95CSS-CSS3/">前端面试CSS CSS3</a>
+    </h1>
+  
 
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/11/19/KMP%E7%AE%97%E6%B3%95/" alt="微信分享二维码">
-    </div>
-</div>
+        <div class="article-info info-on-right">
+          
+          
 
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
   
-<nav id="article-nav">
-  
-    <a href="/2021/11/22/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95HTML%E7%AF%87/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          前端面试HTML篇
-        
-      </div>
-    </a>
-  
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
+    
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2021/10/22/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95CSS-%E5%93%8D%E5%BA%94%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2021-10-22T11:33:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-22</time>
+</a>
         </div>
-        
-        
-        <div class="toc-container tooltip-left">
-            <i class="icon-font icon-category"></i>
-            <div class="tooltip tooltip-east">
-                <span class="tooltip-item">
-                </span>
-                <span class="tooltip-content">
-                    <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#KMP%E7%AE%97%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">KMP算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%A6%82%E8%BF%B0%EF%BC%9A"><span class="toc-number">1.0.1.</span> <span class="toc-text">1.概述：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E8%BF%87%E7%A8%8B%EF%BC%9A"><span class="toc-number">1.0.2.</span> <span class="toc-text">2.过程：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%89%8D%E7%BC%80%E8%A1%A8"><span class="toc-number">1.0.3.</span> <span class="toc-text">3.前缀表</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1%EF%BC%89%E5%85%88%E8%AF%B4%E4%B8%80%E4%B8%8B%E4%BB%80%E4%B9%88%E6%98%AF%E5%89%8D%E7%BC%80%E5%92%8C%E5%90%8E%E7%BC%80%EF%BC%9A"><span class="toc-number">1.0.3.0.1.</span> <span class="toc-text">1）先说一下什么是前缀和后缀：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2%EF%BC%89%E5%89%8D%E7%BC%80%E8%A1%A8%EF%BC%9A%E8%AE%B0%E5%BD%95%E5%BD%93%E5%89%8D%E7%B4%A2%E5%BC%95-i-%E4%B9%8B%E5%89%8D%EF%BC%88%E5%8C%85%E6%8B%AC-i-%EF%BC%89%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%EF%BC%8C%E6%9C%89%E5%A4%9A%E5%A4%A7%E9%95%BF%E5%BA%A6%E7%9A%84%E7%9B%B8%E5%90%8C%E5%89%8D%E5%90%8E%E7%BC%80%E3%80%82"><span class="toc-number">1.0.3.0.2.</span> <span class="toc-text">2）前缀表：记录当前索引 i 之前（包括 i ）的字符串中，有多大长度的相同前后缀。</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#3-%E5%89%8D%E7%BC%80%E8%A1%A8%E7%9A%84%E5%90%AB%E4%B9%89"><span class="toc-number">1.0.3.0.3.</span> <span class="toc-text">3)前缀表的含义</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E5%BE%97%E5%88%B0next%E6%95%B0%E7%BB%84"><span class="toc-number">1.0.4.</span> <span class="toc-text">4.得到next数组</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E4%BE%8B%E9%A2%98"><span class="toc-number">1.0.5.</span> <span class="toc-text">5.例题</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#leetcode459-%E9%87%8D%E5%A4%8D%E7%9A%84%E5%AD%97%E7%AC%A6%E5%AD%90%E4%B8%B2-https-leetcode-cn-com-problems-repeated-substring-pattern"><span class="toc-number">1.0.5.0.1.</span> <span class="toc-text">leetcode459 重复的字符子串 https:&#x2F;&#x2F;leetcode-cn.com&#x2F;problems&#x2F;repeated-substring-pattern&#x2F;</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#leetcode28-%E5%AE%9E%E7%8E%B0-strStr-%E5%87%BD%E6%95%B0-https-leetcode-cn-com-problems-implement-strstr"><span class="toc-number">1.0.5.0.2.</span> <span class="toc-text">leetcode28 实现 strStr() 函数 https:&#x2F;&#x2F;leetcode-cn.com&#x2F;problems&#x2F;implement-strstr</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
-                    </div>
-                </span>
-            </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2021/10/22/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95CSS-%E5%93%8D%E5%BA%94%E5%BC%8F/">前端面试CSS 响应式</a>
+    </h1>
+  
+
+        <div class="article-info info-on-right">
+          
+          
+
         </div>
-        
-    </div>
-</aside>
+        <div class="clearfix"></div>
+    </header>
+  </div>
+</article>
+  
+    
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2021/10/21/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95CSS-%E5%9B%BE%E6%96%87%E6%A0%B7%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2021-10-21T11:33:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-21</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2021/10/21/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95CSS-%E5%9B%BE%E6%96%87%E6%A0%B7%E5%BC%8F/">前端面试CSS 图文样式</a>
+    </h1>
+  
 
+        <div class="article-info info-on-right">
+          
+          
 
+        </div>
+        <div class="clearfix"></div>
+    </header>
+  </div>
+</article>
+  
+    
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2021/10/21/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95CSS-%E5%AE%9A%E4%BD%8D/" class="archive-article-date">
+  	<time datetime="2021-10-21T11:31:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-21</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2021/10/21/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95CSS-%E5%AE%9A%E4%BD%8D/">前端面试CSS 定位</a>
+    </h1>
+  
 
+        <div class="article-info info-on-right">
+          
+          
+
+        </div>
+        <div class="clearfix"></div>
+    </header>
+  </div>
+</article>
+  
+    
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2021/10/20/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95CSS-%E5%B8%83%E5%B1%80/" class="archive-article-date">
+  	<time datetime="2021-10-20T06:51:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-20</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2021/10/20/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95CSS-%E5%B8%83%E5%B1%80/">前端面试CSS 布局</a>
+    </h1>
+  
+
+        <div class="article-info info-on-right">
+          
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">盒模型 margin BFC 圣杯/双飞翼布局 flex布局</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+          
+
+        </div>
+        <div class="clearfix"></div>
+    </header>
+  </div>
+</article>
+  
+    
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2021/10/19/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95HTML%E7%AF%87/" class="archive-article-date">
+  	<time datetime="2021-10-19T11:24:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-19</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2021/10/19/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95HTML%E7%AF%87/">前端面试HTML篇</a>
+    </h1>
+  
+
+        <div class="article-info info-on-right">
+          
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">语义化 块级元素 内联元素</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+          
+
+        </div>
+        <div class="clearfix"></div>
+    </header>
+  </div>
+</article>
+  
+    
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2021/10/18/KMP%E7%AE%97%E6%B3%95/" class="archive-article-date">
+  	<time datetime="2021-10-18T06:51:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-18</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2021/10/18/KMP%E7%AE%97%E6%B3%95/">KMP算法</a>
+    </h1>
+  
+
+        <div class="article-info info-on-right">
+          
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">KMP算法</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+          
+
+        </div>
+        <div class="clearfix"></div>
+    </header>
+  </div>
+</article>
   
   
+    </div></section>
   
 
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -384,8 +413,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
-		isArchive: false,
+		isPost: false,
+		isArchive: true,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
@@ -454,7 +483,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">盒模型 margin BFC float布局</a>
+                <a href="javascript:void(0)" class="js-tag color1">KMP算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">盒模型 margin BFC 圣杯/双飞翼布局 flex布局</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">语义化 块级元素 内联元素</a>
               </li>
             
             <div class="clearfix"></div>
