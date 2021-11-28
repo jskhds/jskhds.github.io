@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Flex布局总结 | Hexo</title>
+  <title>前端面试CSS 图文样式 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.布局原理">
+  <meta name="description" content="1.line-height的继承问题">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Flex布局总结">
-<meta property="og:url" content="http://example.com/2021/10/19/Flex%E5%B8%83%E5%B1%80%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:title" content="前端面试CSS 图文样式">
+<meta property="og:url" content="http://example.com/2021/10/21/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95CSS-%E5%9B%BE%E6%96%87%E6%A0%B7%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1.布局原理">
+<meta property="og:description" content="1.line-height的继承问题">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-10-19T02:21:14.000Z">
-<meta property="article:modified_time" content="2021-11-25T08:57:29.894Z">
+<meta property="article:published_time" content="2021-10-21T11:33:00.000Z">
+<meta property="article:modified_time" content="2021-11-28T08:10:03.964Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="flex">
+<meta property="article:tag" content="line-height的继承问题">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -158,216 +158,37 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Flex布局总结" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-前端面试CSS-图文样式" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Flex布局总结
+      前端面试CSS 图文样式
     </h1>
   
 
         
-        <a href="/2021/10/19/Flex%E5%B8%83%E5%B1%80%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2021-10-19T02:21:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-19</time>
+        <a href="/2021/10/21/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95CSS-%E5%9B%BE%E6%96%87%E6%A0%B7%E5%BC%8F/" class="archive-article-date">
+  	<time datetime="2021-10-21T11:33:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-21</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="1-布局原理"><a href="#1-布局原理" class="headerlink" title="1.布局原理"></a>1.布局原理</h3><span id="more"></span>
+        <h3 id="1-line-height的继承问题"><a href="#1-line-height的继承问题" class="headerlink" title="1.line-height的继承问题"></a>1.line-height的继承问题</h3><span id="more"></span>
 
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">body&#123;</span><br><span class="line">	font-size: 20px;</span><br><span class="line">	line-height: 200%;</span><br><span class="line">&#125;</span><br><span class="line">p&#123;</span><br><span class="line">	font-size:16px;</span><br><span class="line">&#125;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">	&lt;p&gt;AAA&lt;/p&gt;</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Q: p 标签的行高是多少？</p>
+<p>A：40px </p>
+<p>分析：</p>
 <ul>
-<li><p>flexible Box 意思是弹性布局</p>
-</li>
-<li><p>通过给父元素添加flex属性，从而控制子盒子的位置和排列方式。任何元素（块级和行内块元素）都可以采用flex布局。采用flex布局以后，float，clear和vertical-align都会失效</p>
-</li>
-</ul>
-<h4 id="1-1container和item"><a href="#1-1container和item" class="headerlink" title="1.1container和item"></a>1.1container和item</h4><ul>
-<li>采用Flex布局的元素叫做container（容器），它的所有子元素自动称为容器成员，称为flex item （项目）</li>
-<li>item可以纵向排列也可以横行排列</li>
-</ul>
-<h3 id="2-父元素常见属性"><a href="#2-父元素常见属性" class="headerlink" title="2.父元素常见属性"></a>2.父元素常见属性</h3><table>
-<thead>
-<tr>
-<th>属性</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>flex-direction</td>
-<td>设置主轴方向</td>
-</tr>
-<tr>
-<td>justify-content</td>
-<td>设置主轴上子元素排列方式</td>
-</tr>
-<tr>
-<td>flex-wrap</td>
-<td>设置子元素是否换行</td>
-</tr>
-<tr>
-<td>align-content</td>
-<td>设置侧轴子元素的排列方式（多行）</td>
-</tr>
-<tr>
-<td>align-items</td>
-<td>设置侧轴子元素的排列方式（单行）</td>
-</tr>
-<tr>
-<td>flex-flow</td>
-<td>复合属性，相当于 flex-direction + flex-wrap</td>
-</tr>
-</tbody></table>
-<h4 id="2-1-flex-direction"><a href="#2-1-flex-direction" class="headerlink" title="2.1 flex-direction"></a>2.1 flex-direction</h4><ul>
-<li>元素是跟着主轴排列的，设置 x 为主轴，那么 y 就是侧轴，反之亦然；</li>
-<li>属性</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>属性值</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>row</td>
-<td>默认主轴为x轴，从左到右</td>
-</tr>
-<tr>
-<td>row-reverse</td>
-<td>从右到左，元素顺序也会跟着翻转</td>
-</tr>
-<tr>
-<td>column</td>
-<td>设置主轴为y轴，从上到下</td>
-</tr>
-<tr>
-<td>column-reverse</td>
-<td>从下到上，元素顺序也会跟着翻转</td>
-</tr>
-</tbody></table>
-<h4 id="2-2-justify-content"><a href="#2-2-justify-content" class="headerlink" title="2.2 justify-content"></a>2.2 justify-content</h4><ul>
-<li>设置主轴上子元素的排列方式，使用之前要确定好主轴方向</li>
-<li>属性</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>属性</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>flex-start</td>
-<td>默认值，从左到右/从上到下排列</td>
-</tr>
-<tr>
-<td>flex-end</td>
-<td>从尾部开始排列</td>
-</tr>
-<tr>
-<td>center</td>
-<td>在主轴居中对齐</td>
-</tr>
-<tr>
-<td>space-around</td>
-<td>平分剩余空间（eg：主轴是x轴，子元素margin-left和margin-right相同）</td>
-</tr>
-<tr>
-<td>space-between</td>
-<td>两边贴边，中间元素平分空间（重要）</td>
-</tr>
-</tbody></table>
-<h4 id="2-3-flex-wrap-设置子元素是否换行"><a href="#2-3-flex-wrap-设置子元素是否换行" class="headerlink" title="2.3 flex-wrap 设置子元素是否换行"></a>2.3 flex-wrap 设置子元素是否换行</h4><ul>
-<li>当子元素在父元素中空间不够时，flex布局默认不换行，等比例缩小子元素宽度之后排成一行</li>
-<li>no-wrap 不换行 /   wrap 不够另起一行</li>
-</ul>
-<h4 id="2-4-align-items-设置侧轴元素排列方式（单行）"><a href="#2-4-align-items-设置侧轴元素排列方式（单行）" class="headerlink" title="2.4  align-items 设置侧轴元素排列方式（单行）"></a>2.4  align-items 设置侧轴元素排列方式（单行）</h4><ul>
-<li>设置侧轴元素排列方式 和主轴搭配使用可以实现居正中效果</li>
-<li>属性  （默认侧轴是 y 轴）</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>属性</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>flex-start</td>
-<td>从上到下</td>
-</tr>
-<tr>
-<td>flex-end</td>
-<td>从下到上</td>
-</tr>
-<tr>
-<td>center</td>
-<td>垂直居中</td>
-</tr>
-<tr>
-<td>stretch</td>
-<td>拉伸（默认值）</td>
-</tr>
-</tbody></table>
-<h4 id="2-5-align-content-设置侧轴元素排列方式（多行）"><a href="#2-5-align-content-设置侧轴元素排列方式（多行）" class="headerlink" title="2.5 align-content 设置侧轴元素排列方式（多行）"></a>2.5 align-content 设置侧轴元素排列方式（多行）</h4><ul>
-<li>多行：子元素出现要换行的情况 （flex-wrap: wrap;）</li>
-<li>属性</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>属性</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>flex-start</td>
-<td>默认从侧轴头部开始排列</td>
-</tr>
-<tr>
-<td>flex-end</td>
-<td>从侧轴尾部开始排列</td>
-</tr>
-<tr>
-<td>center</td>
-<td>在侧轴中间显示</td>
-</tr>
-<tr>
-<td>space-around</td>
-<td>子项在侧轴平分剩余空间</td>
-</tr>
-<tr>
-<td>space-between</td>
-<td>两边贴边，中间元素平分空间</td>
-</tr>
-<tr>
-<td>stretch</td>
-<td>设置子项元素平分父元素高度</td>
-</tr>
-</tbody></table>
-<h4 id="2-6-flex-flow"><a href="#2-6-flex-flow" class="headerlink" title="2.6 flex-flow"></a>2.6 flex-flow</h4><ul>
-<li>eg：flex-wrap: column wrap</li>
-</ul>
-<h3 id="3-子元素常用属性"><a href="#3-子元素常用属性" class="headerlink" title="3.子元素常用属性"></a>3.子元素常用属性</h3><ul>
-<li>flex items占的份数</li>
-<li>align-self 控制子项自己在侧轴排列的方式</li>
-<li>order 属性定义子项的排列顺序（前后顺序）</li>
-</ul>
-<h4 id="3-1-flex-属性"><a href="#3-1-flex-属性" class="headerlink" title="3.1 flex 属性"></a>3.1 flex 属性</h4><ul>
-<li>分配剩余空间</li>
-<li>flex: number 默认是 0</li>
-</ul>
-<h4 id="3-2-align-self"><a href="#3-2-align-self" class="headerlink" title="3.2 align-self"></a>3.2 align-self</h4><ul>
-<li>允许单个item与其它 item 有不一样的对齐方式，覆盖align-items属性</li>
-</ul>
-<h4 id="3-3-order"><a href="#3-3-order" class="headerlink" title="3.3 order"></a>3.3 order</h4><ul>
-<li>定义item的排列顺序</li>
-<li>数值越小顺序越前</li>
+<li>具体数值，则直接继承</li>
+<li>写比例，直接继承  本身*比例</li>
+<li>写百分比，先算完再继承（考点）</li>
 </ul>
 
       
@@ -403,7 +224,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">flex</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">line-height的继承问题</a>
         		</li>
       		
 		</ul>
@@ -459,7 +280,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/10/19/Flex%E5%B8%83%E5%B1%80%E6%80%BB%E7%BB%93/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/10/21/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95CSS-%E5%9B%BE%E6%96%87%E6%A0%B7%E5%BC%8F/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -473,18 +294,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2021/10/19/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95HTML%E7%AF%87/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2021/10/22/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95CSS-%E5%93%8D%E5%BA%94%E5%BC%8F/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          前端面试HTML篇
+          前端面试CSS 响应式
         
       </div>
     </a>
   
   
-    <a href="/2021/10/18/KMP%E7%AE%97%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">KMP算法</div>
+    <a href="/2021/10/21/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95CSS-%E5%AE%9A%E4%BD%8D/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">前端面试CSS 定位</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -511,7 +332,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%B8%83%E5%B1%80%E5%8E%9F%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">1.布局原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1container%E5%92%8Citem"><span class="toc-number">1.1.</span> <span class="toc-text">1.1container和item</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%88%B6%E5%85%83%E7%B4%A0%E5%B8%B8%E8%A7%81%E5%B1%9E%E6%80%A7"><span class="toc-number">2.</span> <span class="toc-text">2.父元素常见属性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-flex-direction"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 flex-direction</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-justify-content"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 justify-content</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-flex-wrap-%E8%AE%BE%E7%BD%AE%E5%AD%90%E5%85%83%E7%B4%A0%E6%98%AF%E5%90%A6%E6%8D%A2%E8%A1%8C"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 flex-wrap 设置子元素是否换行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-align-items-%E8%AE%BE%E7%BD%AE%E4%BE%A7%E8%BD%B4%E5%85%83%E7%B4%A0%E6%8E%92%E5%88%97%E6%96%B9%E5%BC%8F%EF%BC%88%E5%8D%95%E8%A1%8C%EF%BC%89"><span class="toc-number">2.4.</span> <span class="toc-text">2.4  align-items 设置侧轴元素排列方式（单行）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-align-content-%E8%AE%BE%E7%BD%AE%E4%BE%A7%E8%BD%B4%E5%85%83%E7%B4%A0%E6%8E%92%E5%88%97%E6%96%B9%E5%BC%8F%EF%BC%88%E5%A4%9A%E8%A1%8C%EF%BC%89"><span class="toc-number">2.5.</span> <span class="toc-text">2.5 align-content 设置侧轴元素排列方式（多行）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-6-flex-flow"><span class="toc-number">2.6.</span> <span class="toc-text">2.6 flex-flow</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%AD%90%E5%85%83%E7%B4%A0%E5%B8%B8%E7%94%A8%E5%B1%9E%E6%80%A7"><span class="toc-number">3.</span> <span class="toc-text">3.子元素常用属性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-flex-%E5%B1%9E%E6%80%A7"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 flex 属性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-align-self"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 align-self</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-order"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 order</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-line-height%E7%9A%84%E7%BB%A7%E6%89%BF%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">1.line-height的继承问题</span></a></li></ol>
                     </div>
                 </span>
             </div>
