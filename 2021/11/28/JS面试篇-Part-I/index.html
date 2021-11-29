@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://example.com">
   <title>JS面试篇-Part I | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.值类型和引用类型以及区别1.1 定义 值类型，value直接存储在栈中，值的地址互不干扰  12345let a &#x3D; 100;let b &#x3D; a;a &#x3D; 200;console.log(a); &#x2F;&#x2F;200console.log(b); &#x2F;&#x2F;100   引用类型，元素指向地址，值存放在元素指向的地址中  1234let a &#x3D; &amp;#123; age: 20 &amp;#125;;let b &#x3D; a;b.">
+  <meta name="description" content="1.值类型和引用类型以及区别">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JS面试篇-Part I">
 <meta property="og:url" content="http://example.com/2021/11/28/JS%E9%9D%A2%E8%AF%95%E7%AF%87-Part-I/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1.值类型和引用类型以及区别1.1 定义 值类型，value直接存储在栈中，值的地址互不干扰  12345let a &#x3D; 100;let b &#x3D; a;a &#x3D; 200;console.log(a); &#x2F;&#x2F;200console.log(b); &#x2F;&#x2F;100   引用类型，元素指向地址，值存放在元素指向的地址中  1234let a &#x3D; &amp;#123; age: 20 &amp;#125;;let b &#x3D; a;b.">
+<meta property="og:description" content="1.值类型和引用类型以及区别">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-11-28T08:35:03.000Z">
-<meta property="article:modified_time" content="2021-11-29T11:44:23.375Z">
+<meta property="article:modified_time" content="2021-11-29T11:48:07.845Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="值类型 引用类型">
+<meta property="article:tag" content="值类型 引用类型 深拷贝 &#x3D;&#x3D;和&#x3D;&#x3D;&#x3D; truly和falsely变量">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -178,7 +178,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id=""><a href="#" class="headerlink" title=""></a></h4><h4 id="1-值类型和引用类型以及区别"><a href="#1-值类型和引用类型以及区别" class="headerlink" title="1.值类型和引用类型以及区别"></a>1.值类型和引用类型以及区别</h4><h5 id="1-1-定义"><a href="#1-1-定义" class="headerlink" title="1.1 定义"></a>1.1 定义</h5><ul>
+        <h4 id=""><a href="#" class="headerlink" title=""></a></h4><h4 id="1-值类型和引用类型以及区别"><a href="#1-值类型和引用类型以及区别" class="headerlink" title="1.值类型和引用类型以及区别"></a>1.值类型和引用类型以及区别</h4> <span id="more"></span>
+
+<h5 id="1-1-定义"><a href="#1-1-定义" class="headerlink" title="1.1 定义"></a>1.1 定义</h5><ul>
 <li>值类型，value直接存储在栈中，值的地址互不干扰</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let a = 100;</span><br><span class="line">let b = a;</span><br><span class="line">a = 200;</span><br><span class="line">console.log(a); //200</span><br><span class="line">console.log(b); //100</span><br></pre></td></tr></table></figure>
@@ -275,7 +277,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">值类型 引用类型</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">值类型 引用类型 深拷贝 ==和=== truly和falsely变量</a>
         		</li>
       		
 		</ul>
@@ -514,7 +516,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">值类型 引用类型</a>
+                <a href="javascript:void(0)" class="js-tag color1">值类型 引用类型 深拷贝 ==和=== truly和falsely变量</a>
               </li>
             
             <div class="clearfix"></div>
