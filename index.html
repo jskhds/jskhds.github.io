@@ -155,28 +155,90 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-前端面试CSS-CSS3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-JS面试篇-Part-I" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/10/22/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95CSS-CSS3/">前端面试CSS CSS3</a>
+      <a class="article-title" href="/2021/11/28/JS%E9%9D%A2%E8%AF%95%E7%AF%87-Part-I/">JS面试篇-Part I</a>
     </h1>
   
 
         
-        <a href="/2021/10/22/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95CSS-CSS3/" class="archive-article-date">
-  	<time datetime="2021-10-22T11:34:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-22</time>
+        <a href="/2021/11/28/JS%E9%9D%A2%E8%AF%95%E7%AF%87-Part-I/" class="archive-article-date">
+  	<time datetime="2021-11-28T08:35:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-11-28</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="1-动画"><a href="#1-动画" class="headerlink" title="1.动画"></a>1.动画</h3>
-        
+        <h4 id=""><a href="#" class="headerlink" title=""></a></h4><h4 id="1-值类型和引用类型以及区别"><a href="#1-值类型和引用类型以及区别" class="headerlink" title="1.值类型和引用类型以及区别"></a>1.值类型和引用类型以及区别</h4><h5 id="1-1-定义"><a href="#1-1-定义" class="headerlink" title="1.1 定义"></a>1.1 定义</h5><ul>
+<li>值类型，value直接存储在栈中，值的地址互不干扰</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let a = 100;</span><br><span class="line">let b = a;</span><br><span class="line">a = 200;</span><br><span class="line">console.log(a); //200</span><br><span class="line">console.log(b); //100</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>引用类型，元素指向地址，值存放在元素指向的地址中</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let a = &#123; age: 20 &#125;;</span><br><span class="line">let b = a;</span><br><span class="line">b.age = 21;</span><br><span class="line">console.log(a.age); //21 a 和 b 指向的地址都是一样的，所以改了 b 后 a 也会改</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>引用类型比值类型占用的内存要大得多，如果直接复制值，资源浪费大，并且复制时间长。</li>
+</ul>
+<h5 id="1-2-常见值类型"><a href="#1-2-常见值类型" class="headerlink" title="1.2 常见值类型"></a>1.2 常见值类型</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let a //undefined</span><br><span class="line">const a // 会报错,const 必须赋值</span><br><span class="line">const s = &#x27;abc&#x27;</span><br><span class="line">const n = 100</span><br><span class="line">const b = true</span><br><span class="line">const sym = Symbol(&#x27;s&#x27;)</span><br></pre></td></tr></table></figure>
+
+<h5 id="1-3常见引用类型"><a href="#1-3常见引用类型" class="headerlink" title="1.3常见引用类型"></a>1.3常见引用类型</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const obj = &#123; x: 100 &#125;</span><br><span class="line">const arr = [&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;]</span><br><span class="line">const n = null //特殊引用类型，指针指向空地址</span><br><span class="line">function fn() &#123;&#125; //特殊引用类型，不用于存储数据，所以不存在“深拷贝”，“浅拷贝”，也可以看做第三个类型</span><br></pre></td></tr></table></figure>
+
+<h5 id="1-4-值类型和引用类型例题"><a href="#1-4-值类型和引用类型例题" class="headerlink" title="1.4 值类型和引用类型例题"></a>1.4 值类型和引用类型例题</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const obj1 =&#123;</span><br><span class="line">    x:100,</span><br><span class="line">    y:200</span><br><span class="line">&#125; </span><br><span class="line">const obj2 = obj1</span><br><span class="line">let x1 = obj1.x</span><br><span class="line">x1 = 102 // 干扰项，x1 是值类型，直接赋值，它的改变不会影响其它的量</span><br><span class="line">obj2.x = 101</span><br><span class="line">console.log(obj1.x); // 101</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="1-5-typeof-可以判断的类型"><a href="#1-5-typeof-可以判断的类型" class="headerlink" title="1.5 typeof 可以判断的类型"></a>1.5 typeof 可以判断的类型</h5><ol>
+<li>识别所有值类型</li>
+<li>识别函数</li>
+<li>判断是否为引用类型（不再细分）</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">let a                	//typeof(a) undefined </span><br><span class="line">const s = &#x27;abc&#x27;      	//typeof(s) string</span><br><span class="line">const n = 100 			//typeof(n) number</span><br><span class="line">const b = true 			//typeof(b) boolean</span><br><span class="line">const sym = Symbol(&#x27;s&#x27;)  //typeof(sym) symbol</span><br><span class="line">typeof(console.log)		 //function</span><br><span class="line">// 其余引用类型 typeof 只能判断为 object</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-变量计算-类型转换"><a href="#2-变量计算-类型转换" class="headerlink" title="2.变量计算-类型转换"></a>2.变量计算-类型转换</h4><h5 id="2-1-字符串拼接"><a href="#2-1-字符串拼接" class="headerlink" title="2.1 字符串拼接"></a>2.1 字符串拼接</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const a = 100 + 10 //110</span><br><span class="line">const b = 100 + &#x27;10&#x27; //&#x27;10010&#x27;</span><br><span class="line">const c = true + &#x27;10&#x27; //true10</span><br><span class="line">// 强制类型转换</span><br><span class="line">const d = 100 + parseInt(&#x27;100&#x27;); //200</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-2-何时使用-何时使用"><a href="#2-2-何时使用-何时使用" class="headerlink" title="2.2 何时使用 == 何时使用 ==="></a>2.2 何时使用 == 何时使用 ===</h5><ul>
+<li>== 尽量转换 让二者相等</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 用 == 基本都是true，=== 才会返回false</span><br><span class="line">100 == &#x27;100&#x27; //true</span><br><span class="line">0 == &#x27;&#x27; //true</span><br><span class="line">0 == false //true</span><br><span class="line">false == &#x27;&#x27; //true</span><br><span class="line">null == undefined //true</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>除了 == null 以外，其他一律都用 ===</li>
+</ul>
+<h5 id="2-3-if语句和逻辑运算"><a href="#2-3-if语句和逻辑运算" class="headerlink" title="2.3 if语句和逻辑运算"></a>2.3 if语句和逻辑运算</h5><ul>
+<li>truly 和 falsely 变量</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// truly 变量</span><br><span class="line">!!a === true</span><br><span class="line">// falsely 变量</span><br><span class="line">!!b === false</span><br><span class="line"></span><br><span class="line">// 以下是 falsely 变量，其余都是 truly 变量</span><br><span class="line">!!0 === false</span><br><span class="line">!!NaN === false</span><br><span class="line">!!&#x27;&#x27; === false</span><br><span class="line">!!null === false</span><br><span class="line">!!undefined === false</span><br><span class="line">!!false === false</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在 if 语句中的应用（if判断 !! 之后是 truly 变量还是 falsely 变量） </li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// truly 变量</span><br><span class="line">    const a = true </span><br><span class="line">    if (a)&#123;</span><br><span class="line">    	...</span><br><span class="line">    &#125;</span><br><span class="line">    const b = 100</span><br><span class="line">    if(b)&#123;</span><br><span class="line">    	...</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// falsely 变量</span><br><span class="line">    const c = &#x27;&#x27;</span><br><span class="line">    if(c)&#123;</span><br><span class="line">    	...</span><br><span class="line">    &#125;</span><br><span class="line">    const d = null</span><br><span class="line">    if(d)&#123;</span><br><span class="line">    	...</span><br><span class="line">    &#125;</span><br><span class="line">    let e</span><br><span class="line">    if(e)&#123;</span><br><span class="line">   		 ...</span><br><span class="line">    &#125;</span><br><span class="line">    else&#123;</span><br><span class="line">         //会走到这一步</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>逻辑判断</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">console.log(10 &amp;&amp; 0) // 0</span><br><span class="line">console.log(&#x27;&#x27; || &#x27;abc&#x27;) // &#x27;abc&#x27;</span><br><span class="line">console.log(window.abc) //true</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-4-手写深拷贝"><a href="#2-4-手写深拷贝" class="headerlink" title="2.4 手写深拷贝"></a>2.4 手写深拷贝</h5><ul>
+<li>注意判断值类型和引用类型</li>
+<li>注意判断数组和对象</li>
+<li>递归</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">// 深拷贝部分</span><br><span class="line"> </span><br><span class="line">function deepClone(obj)&#123;</span><br><span class="line">    if(typeof(obj)!==&#x27;object&#x27; || typeof(obj) == null)&#123;</span><br><span class="line">        return obj;</span><br><span class="line">    &#125;</span><br><span class="line">    let res = obj instanceof Array?[]:&#123;&#125;;</span><br><span class="line">    for(let key in obj)&#123;</span><br><span class="line">        // 确保key不是原型链上的</span><br><span class="line">        if(obj.hasOwnProperty(key))&#123;</span><br><span class="line">            // 递归（重点） key要一层一层遍历，比如说 obj&#123; address:&#123;city: &#x27;Beijing&#x27;&#125;&#125;</span><br><span class="line">            res[key] = deepClone(obj[key])</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;   </span><br><span class="line">    return res;</span><br><span class="line">&#125;</span><br><span class="line">// test 部分</span><br><span class="line">let obj1 = &#123;</span><br><span class="line">    address:&#123;</span><br><span class="line">        city:&quot;Beijing&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let obj2 = deepClone(obj1);</span><br><span class="line">obj2.address.city = &quot;Shanghai&quot;;</span><br><span class="line">console.log(obj1.address.city);</span><br><span class="line">console.log(obj2.address.city);</span><br></pre></td></tr></table></figure>
+
+<p>Q：深拷贝的堆栈模型图？</p>
+
       
 
       
@@ -184,11 +246,22 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">值类型 引用类型</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2021/10/22/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95CSS-CSS3/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/11/28/JS%E9%9D%A2%E8%AF%95%E7%AF%87-Part-I/">展开全文 >></a>
         </p>
       
 
@@ -855,6 +928,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">line-height的继承问题</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">值类型 引用类型</a>
               </li>
             
             <div class="clearfix"></div>

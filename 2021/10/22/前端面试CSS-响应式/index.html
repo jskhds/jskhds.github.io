@@ -16,7 +16,7 @@
 <meta property="og:description" content="1.rem是什么">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-10-22T11:33:37.000Z">
-<meta property="article:modified_time" content="2021-11-28T08:10:28.200Z">
+<meta property="article:modified_time" content="2021-11-28T08:28:09.162Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="rem vw vh响应式">
 <meta name="twitter:card" content="summary">
@@ -189,7 +189,11 @@
 
 
 
-<h3 id="2-如何实现响应式"><a href="#2-如何实现响应式" class="headerlink" title="2.如何实现响应式"></a>2.如何实现响应式</h3><h5 id="2-1代码示例"><a href="#2-1代码示例" class="headerlink" title="2.1代码示例"></a>2.1代码示例</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">@media screen and (max-width: 414px) &#123;</span><br><span class="line">  html &#123;</span><br><span class="line">    font-size: 18px</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@media screen and (max-width: 375px) &#123;</span><br><span class="line">  html &#123;</span><br><span class="line">    font-size: 16px</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@media screen and (max-width: 320px) &#123;</span><br><span class="line">  html &#123;</span><br><span class="line">    font-size: 12px</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="2-如何实现响应式"><a href="#2-如何实现响应式" class="headerlink" title="2.如何实现响应式"></a>2.如何实现响应式</h3><ul>
+<li>media-query 根据不同的屏幕宽度设置根元素的font-size</li>
+<li>rem，基于根元素的相关单位</li>
+</ul>
+<h5 id="2-1代码示例"><a href="#2-1代码示例" class="headerlink" title="2.1代码示例"></a>2.1代码示例</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">@media screen and (max-width: 414px) &#123;</span><br><span class="line">  html &#123;</span><br><span class="line">    font-size: 18px</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@media screen and (max-width: 375px) &#123;</span><br><span class="line">  html &#123;</span><br><span class="line">    font-size: 16px</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@media screen and (max-width: 320px) &#123;</span><br><span class="line">  html &#123;</span><br><span class="line">    font-size: 12px</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h3 id="3-vw-vh"><a href="#3-vw-vh" class="headerlink" title="3.vw/vh"></a>3.vw/vh</h3><h5 id="3-1-rem的弊端"><a href="#3-1-rem的弊端" class="headerlink" title="3.1 rem的弊端"></a>3.1 rem的弊端</h5><p>rem具有“阶梯型”，标准卡得很死，范围不够动态。</p>
 <h5 id="3-2-网页视口尺寸（以height为例）"><a href="#3-2-网页视口尺寸（以height为例）" class="headerlink" title="3.2 网页视口尺寸（以height为例）"></a>3.2 网页视口尺寸（以height为例）</h5><ul>
@@ -306,11 +310,11 @@
   
 <nav id="article-nav">
   
-    <a href="/2021/10/22/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95CSS-CSS3/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2021/11/28/JS%E9%9D%A2%E8%AF%95%E7%AF%87-Part-I/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          前端面试CSS CSS3
+          JS面试篇-Part I
         
       </div>
     </a>
@@ -481,6 +485,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">line-height的继承问题</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">值类型 引用类型</a>
               </li>
             
             <div class="clearfix"></div>
