@@ -6,17 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>JS面试篇-Part7 | Hexo</title>
+  <title>JS面试篇-Part8 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="1. ajax">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JS面试篇-Part7">
+<meta property="og:title" content="JS面试篇-Part8">
 <meta property="og:url" content="http://example.com/2021/12/11/JS%E9%9D%A2%E8%AF%95%E7%AF%87-Part8/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="1. ajax">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-12-11T02:39:39.000Z">
-<meta property="article:modified_time" content="2021-12-11T15:06:32.343Z">
+<meta property="article:modified_time" content="2021-12-14T09:19:08.177Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="ajax 跨域 同源策略">
 <meta name="twitter:card" content="summary">
@@ -165,7 +165,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      JS面试篇-Part7
+      JS面试篇-Part8
     </h1>
   
 
@@ -297,85 +297,62 @@
 <li>未经 server 端允许就实现跨域，说明浏览器有漏洞</li>
 </ul>
 </li>
-<li><p>跨域的实现</p>
-<ul>
+<li><p> 跨域的实现</p>
+</li>
 <li><p>JSONP</p>
 <ul>
-<li><p>服务器可以任意动态拼接数据返回，只要符合 html /js 格式要求，并不一定是一个 html /js 文件</p>
-</li>
-<li><p>```<br>// 原理：利用 script 实现跨域，服务端动态拼接数据返回</p>
-<p>一段文字</p>
-    <script>
-        // callback 要挂在 window 上才可以全局调用
-        window.callback = function(data){
-            console.log(data);
-        }
-    </script>
-    // 下面的端口和我们本身的html端口不一样，所以用 script 访问
-    <script src="http://localhost:8002/jsonp.js"></script>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - CORS 服务器设置 http header</span><br><span class="line"></span><br><span class="line">##### 1.2 问题</span><br><span class="line"></span><br><span class="line">- 手写一个ajax</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-// 手写 ajax
-function ajax(url){
-const p = new Promise((resolve,reject)=>{
-  const xhr = new XMLHttpRequest()
-  xhr.open('GET',url,true) 
-  xhr.onreadystatechange = function(){
-      if(xhr.readyState === 4 ){
-          if(xhr.status === 200){
-              resolve(
-                  JSON.parse(xhr.responseText)
-              )
-          }
-          else if(xhr.status === 404){
-              reject(new Error('404 not found'))
-          }
-      }
-  }
-  xhr.send(null)
-})
-return p
-}</li>
+<li>服务器可以任意动态拼接数据返回，只要符合 html /js 格式要求，并不一定是一个 html /js 文件</li>
 </ul>
 </li>
 </ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 原理：利用 script 实现跨域，服务端动态拼接数据返回</span><br><span class="line">&lt;p&gt;一段文字&lt;/p&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        // callback 要挂在 window 上才可以全局调用</span><br><span class="line">        window.callback = function(data)&#123;</span><br><span class="line">            console.log(data);</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">    // 下面的端口和我们本身的html端口不一样，所以用 script 访问</span><br><span class="line">    &lt;script src=&quot;http://localhost:8002/jsonp.js&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>CORS 服务器设置 http header</li>
+</ul>
+<h5 id="1-2-问题"><a href="#1-2-问题" class="headerlink" title="1.2 问题"></a>1.2 问题</h5><ul>
+<li>手写一个ajax</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">// 手写 ajax</span><br><span class="line">function ajax(url)&#123;</span><br><span class="line">    const p = new Promise((resolve,reject)=&gt;&#123;</span><br><span class="line">        const xhr = new XMLHttpRequest()</span><br><span class="line">        xhr.open(&#x27;GET&#x27;,url,true) </span><br><span class="line">        xhr.onreadystatechange = function()&#123;</span><br><span class="line">            if(xhr.readyState === 4 )&#123;</span><br><span class="line">                if(xhr.status === 200)&#123;</span><br><span class="line">                    resolve(</span><br><span class="line">                        JSON.parse(xhr.responseText)</span><br><span class="line">                    )</span><br><span class="line">                &#125;</span><br><span class="line">                else if(xhr.status === 404)&#123;</span><br><span class="line">                    reject(new Error(&#x27;404 not found&#x27;))</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        xhr.send(null)</span><br><span class="line">    &#125;)</span><br><span class="line">    return p</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const url = &#x27;/data/test.json&#x27; // 正确的 url 和错误的 url</span><br><span class="line">ajax(url).then(res=&gt;&#123;</span><br><span class="line">    console.log(res);</span><br><span class="line">&#125;).catch(err=&gt;&#123;</span><br><span class="line">    console.error(err)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>跨域的实现方式<ul>
+<li>JSONP（理解原理）</li>
+<li>CORS 纯服务端</li>
+</ul>
 </li>
 </ul>
-<p>const url = ‘/data/test.json’ // 正确的 url 和错误的 url<br>ajax(url).then(res=&gt;{<br>    console.log(res);<br>}).catch(err=&gt;{<br>    console.error(err)<br>})</p>
-<pre><code>
-
-
-- 跨域的实现方式
-  - JSONP（理解原理）
-  - CORS 纯服务端
-
-##### 1.3 常用插件
-
-- jquery
-- fetch
-- axios
-
-#### 2.存储
-
-##### 2.1 知识点
-
-- cookie
-  - 实际上用于 浏览器 和 server 之间通讯，但可以被借用到存储中
-  - 前端可以用 document.cookie = &#39;&#39; 添加， 修改，获得，只要不删除存储的内容就一直在
-  - 缺点：最大存 4kb；http请求时需要发送到服务端，增加请求数据量；只能用 document.cookie 来修改，不好用
-- localStorge 和 sessionStorage
-  - HTML 专门为存储设计，最大可存 5M
-  - API 简易可用 setItem getItem
-  - 不会随着 http 发送出去
-  - 区别：localStorage 数据会永久存储，除非代码手动删除；sessionStorage 数据存在于当前会话，浏览器关闭就清空
-  - localStorage 使用的比较多
-
-#### 2.2 问题 
-
-- cookie localStorage sessionStorage 的区别
-  - 存储大小
-  - API易用性
-  - 是否随http发送
-</code></pre>
+<h5 id="1-3-常用插件"><a href="#1-3-常用插件" class="headerlink" title="1.3 常用插件"></a>1.3 常用插件</h5><ul>
+<li>jquery</li>
+<li>fetch</li>
+<li>axios</li>
+</ul>
+<h4 id="2-存储"><a href="#2-存储" class="headerlink" title="2.存储"></a>2.存储</h4><h5 id="2-1-知识点"><a href="#2-1-知识点" class="headerlink" title="2.1 知识点"></a>2.1 知识点</h5><ul>
+<li>cookie<ul>
+<li>实际上用于 浏览器 和 server 之间通讯，但可以被借用到存储中</li>
+<li>前端可以用 document.cookie = ‘’ 添加， 修改，获得，只要不删除存储的内容就一直在</li>
+<li>缺点：最大存 4kb；http请求时需要发送到服务端，增加请求数据量；只能用 document.cookie 来修改，不好用</li>
+</ul>
+</li>
+<li>localStorge 和 sessionStorage<ul>
+<li>HTML 专门为存储设计，最大可存 5M</li>
+<li>API 简易可用 setItem getItem</li>
+<li>不会随着 http 发送出去</li>
+<li>区别：localStorage 数据会永久存储，除非代码手动删除；sessionStorage 数据存在于当前会话，浏览器关闭就清空</li>
+<li>localStorage 使用的比较多</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-2-问题"><a href="#2-2-问题" class="headerlink" title="2.2 问题"></a>2.2 问题</h4><ul>
+<li>cookie localStorage sessionStorage 的区别<ul>
+<li>存储大小</li>
+<li>API易用性</li>
+<li>是否随http发送</li>
+</ul>
+</li>
+</ul>
 
       
 
@@ -518,7 +495,7 @@ return p
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-ajax"><span class="toc-number">1.</span> <span class="toc-text">1. ajax</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-1-%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 知识点</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-ajax"><span class="toc-number">1.</span> <span class="toc-text">1. ajax</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-1-%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 知识点</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-2-%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 问题</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#1-3-%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 常用插件</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%AD%98%E5%82%A8"><span class="toc-number">2.</span> <span class="toc-text">2.存储</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-1-%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 知识点</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-%E9%97%AE%E9%A2%98"><span class="toc-number">3.</span> <span class="toc-text">2.2 问题</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -631,7 +608,55 @@ return p
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">原型 原型链 class继承 instanceof</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">作用域 闭包 this 手写bind</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">值类型 引用类型 深拷贝 ==和=== truly和falsely变量</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">同步 异步</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">EventLoop Promise async await for...of</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">微任务 宏任务 eventloop和dom渲染 手写promise</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JS Web API</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">http</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">ajax 跨域 同源策略</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">java读取文件</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">KMP算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">rem vw vh响应式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">line-height的继承问题</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -644,54 +669,6 @@ return p
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">语义化 块级元素 内联元素</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">rem vw vh响应式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">line-height的继承问题</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">值类型 引用类型 深拷贝 ==和=== truly和falsely变量</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">原型 原型链 class继承 instanceof</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">作用域 闭包 this 手写bind</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">同步 异步</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">java读取文件</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">微任务 宏任务 eventloop和dom渲染 手写promise</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">EventLoop Promise async await for...of</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">JS Web API</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">ajax 跨域 同源策略</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">http</a>
               </li>
              
               <li class="article-tag-list-item">
