@@ -6,14 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives: 2021 | Hexo</title>
+  <title>手写Promise | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/archives/2021/index.html">
+  <meta name="description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697989910010110210">
+<meta property="og:type" content="article">
+<meta property="og:title" content="手写Promise">
+<meta property="og:url" content="http://example.com/2021/12/12/%E6%89%8B%E5%86%99Promise/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697989910010110210">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-12-12T02:32:43.000Z">
+<meta property="article:modified_time" content="2021-12-12T05:15:09.727Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="手写Promise">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -153,74 +158,57 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-手写Promise" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/12/12/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" class="archive-article-date">
-  	<time datetime="2021-12-12T07:27:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-12-12</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/12/12/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/">开发环境</a>
+    <h1 class="article-title" itemprop="name">
+      手写Promise
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">开发环境 调试</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/12/12/%E6%89%8B%E5%86%99Promise/" class="archive-article-date">
+        
+        <a href="/2021/12/12/%E6%89%8B%E5%86%99Promise/" class="archive-article-date">
   	<time datetime="2021-12-12T02:32:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-12-12</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/12/12/%E6%89%8B%E5%86%99Promise/">手写Promise</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br></pre></td><td class="code"><pre><span class="line">class myPromise  &#123;</span><br><span class="line">   </span><br><span class="line">    state = &#x27;pending&#x27; // promise 本身有三个状态，所以我们定义一个状态变量 pending fulfilled rejected</span><br><span class="line">    value = undefined // 成功后的值</span><br><span class="line">    reason = undefined // 失败后的原因</span><br><span class="line"></span><br><span class="line">    resolveCallbacks = [] // pending 状态下存储成功的回调</span><br><span class="line">    rejectCallbacks = [] // pending 状态下存储失败的回调</span><br><span class="line">    // 本身的promise传入一个函数执行，有两个参数 一个 resolve 一个reject </span><br><span class="line">    constructor(fn)&#123;</span><br><span class="line">        // fn 里面有两个函数， 这两个函数又分别有自己的参数，一个声明为 value 一个声明为 reason</span><br><span class="line">        const resolveHandler = (value)=&gt;&#123;</span><br><span class="line">            // 执行函数之前，要先判断并且限定状态</span><br><span class="line">            if(this.state === &#x27;pending&#x27;)&#123;</span><br><span class="line">                this.state = &#x27;fulfilled&#x27;</span><br><span class="line">                // 把 value 存储起来</span><br><span class="line">                this.value = value </span><br><span class="line">                // 在成功的状态下，就执行成功的回调，但是回调函数不止一个，所以要遍历执行 把 value 传进来</span><br><span class="line">                this.resolveCallbacks.forEach(fn =&gt; fn(this.value))</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        const rejectHandler = (reason)=&gt;&#123;</span><br><span class="line">            if(this.state === &#x27;pending&#x27;)&#123;</span><br><span class="line">                this.state = &#x27;rejected&#x27;</span><br><span class="line">                // 把reason 存储起来</span><br><span class="line">                this.reason = reason</span><br><span class="line">                this.rejectCallbacks.forEach(fn =&gt; fn(this.reason))</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        // 为了函数稳定性，在try catch里面执行传进来的函数，因为这个函数是用户定义的，不一定完全正确</span><br><span class="line">        try&#123;</span><br><span class="line">             // 成功就执行这个函数 有问题 在catch里面执行  rejectHandler(err)函数</span><br><span class="line">        fn( resolveHandler,rejectHandler)</span><br><span class="line">        &#125;catch(err)&#123;</span><br><span class="line">            rejectHandler(err)</span><br><span class="line">        &#125;</span><br><span class="line">       </span><br><span class="line">    &#125;</span><br><span class="line">    // promise 有两个方法 then 和 catch</span><br><span class="line">    // then 里面有两个参数 fn1 fn2 pending状态不执行,把它们存储起来； resolveed状态执行fn1； rejected状态执行 fn2</span><br><span class="line">    then(fn1,fn2)&#123;</span><br><span class="line">        // 因为传入 then 的时候，第一个参数可能是 null 所以需要判断一下类型，以便决定是否执行</span><br><span class="line">        fn1 = typeof fn1 === &#x27;function&#x27;? fn1 :(v) =&gt; v // 如果是函数，就是自己，不是的话，传入什么就是什么 类似于 p.then(v=&gt;v)</span><br><span class="line">        fn2 = typeof fn1 === &#x27;function&#x27;? fn2 :(err) =&gt; err </span><br><span class="line">        // 接下来需要判断状态  </span><br><span class="line">        // pending 存储 fn1 fn2 ，也就是添加到回调列表里面</span><br><span class="line">        if(this.state === &#x27;pending&#x27;)&#123;</span><br><span class="line">            const p = new myPromise((resolve,reject)=&gt;&#123;</span><br><span class="line">                // 在这里我们只是把函数push进来了，并没有开始遍历执行，当它开始执行的时候，说明状态已经变了，value也就存在</span><br><span class="line">                this.resolveCallbacks.push(()=&gt;&#123;</span><br><span class="line">                    try&#123;</span><br><span class="line">                        const newValue = fn1(this.value)</span><br><span class="line">                        resolve(newValue)</span><br><span class="line">                    &#125;catch(err)&#123;</span><br><span class="line">                        reject(err)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;)</span><br><span class="line"></span><br><span class="line">                this.rejectCallbacks.push(()=&gt;&#123;</span><br><span class="line">                    try&#123;</span><br><span class="line">                        const newReason = fn2(this.reason)</span><br><span class="line">                        reject(newReason)</span><br><span class="line">                    &#125;catch(err)&#123;</span><br><span class="line">                        reject(err)</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;)</span><br><span class="line">            return p</span><br><span class="line">        &#125;</span><br><span class="line">        // fulfilled 执行 fn1</span><br><span class="line">        if(this.state === &#x27;fulfilled&#x27;)&#123;</span><br><span class="line">            // 不管是什么状态 then 返回的都是一个新的 promise eg p1.then((data)=&gt;&#123;return data + 1&#125;)</span><br><span class="line">            const p1 = new myPromise((resolve,reject)=&gt;&#123;</span><br><span class="line">                // 为了不出问题，还是用 try catch</span><br><span class="line">                try&#123;</span><br><span class="line">                  const newValue =   fn1(this.value) // v 是 fn1 用了当前promise的参数执行后的值，要返回给新的promise（实现链式调用）</span><br><span class="line">                  resolve(newValue)// 把返回的 newValue 给 resolve 再执行</span><br><span class="line">                &#125;catch(err)&#123;</span><br><span class="line">                    reject(err)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">            return p1</span><br><span class="line">        &#125;</span><br><span class="line">        // rejected 执行 fn2</span><br><span class="line">        if(this.state === &#x27;rejected&#x27;)&#123;</span><br><span class="line">            const p2 = new myPromise((resolve,reject)=&gt;&#123;</span><br><span class="line">                try&#123;</span><br><span class="line">                    const newReason = fn2(this.reason)</span><br><span class="line">                    reject(newReason) // 和 fulfilled的状态一样，只不过是传给 reject 再继续执行</span><br><span class="line">                &#125;catch(err)&#123;</span><br><span class="line">                    reject(err)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">            return p2</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    // 其实 catch 是 then 的语法糖 因为 then里面已经定义了失败的回调了,所以 catch 相当于执行 then 的第二个函数</span><br><span class="line">    catch(fn)&#123;</span><br><span class="line">        return this.then(null,fn)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//  以上 constructor then 和 catch 是 myProise 是 class 的实例方法，写在里面</span><br><span class="line">// 剩下的是 promise 的全局静态api 要写在外面</span><br><span class="line">// resolve 和 reject 其实就是返回一个新的promise，同步的简写形式使用起来比较方便</span><br><span class="line">myPromise.resolve = function(value)&#123;</span><br><span class="line">    return new  myPromise((resolve,reject)=&gt;resolve(value))</span><br><span class="line">&#125;</span><br><span class="line">myPromise.reject = function(reason)&#123;</span><br><span class="line">    return  new myPromise((resolve,reject)=&gt;reject(reason))</span><br><span class="line">&#125;</span><br><span class="line">// all 传入 promise 数组，等待所有都 fulfilled 之后，返回新 promise</span><br><span class="line">myPromise.all = function(promiseList = [])&#123;</span><br><span class="line">    const p1 = new myPromise((resolve,reject)=&gt;&#123;</span><br><span class="line">        const result = [] // 存储 promiseList 所有的结果</span><br><span class="line">        const length = promiseList.length</span><br><span class="line">        let resolveCount = 0</span><br><span class="line">        // 在 forEach 里面不能用forEach((p,index)=&gt;&#123;&#125;)的index来判断是否都执行完，因为 forEach 很快，index瞬间就加满了，但是 then里面的函数不一定执行完了（尤其是有异步函数的情况）</span><br><span class="line">        promiseList.forEach(p=&gt;&#123;</span><br><span class="line">            p.then(data=&gt;&#123;</span><br><span class="line">                result.push(data)</span><br><span class="line">                // resolveCount 只能在then里面加，也就是then执行了才能加</span><br><span class="line">                resolveCount++</span><br><span class="line">                if(resolveCount === length)&#123;</span><br><span class="line">                    resolve(result)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;).catch(err=&gt;&#123;</span><br><span class="line">                reject(err)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">    return p1 </span><br><span class="line">&#125;</span><br><span class="line">// race 只要有一个 fulfilled，就返回 promise</span><br><span class="line">myPromise.race = function(promiseList = [])&#123;</span><br><span class="line">        let resolved = false</span><br><span class="line">        const p1 = new myPromise((resolve,reject)=&gt;&#123;</span><br><span class="line">            promiseList.forEach(p=&gt;&#123;</span><br><span class="line">                p.then((data)=&gt;&#123;</span><br><span class="line">                    if(!resolved)&#123;</span><br><span class="line">                        resolve(data)</span><br><span class="line">                        resolved = true</span><br><span class="line">                    &#125;</span><br><span class="line">                    </span><br><span class="line">                &#125;).catch((err)=&gt;&#123;</span><br><span class="line">                    reject(err)</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">        return p1 </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"> const p1 = new myPromise((resolve,reject)=&gt;&#123;</span><br><span class="line">     resolve(100)</span><br><span class="line">    </span><br><span class="line"> &#125;)</span><br><span class="line"> const p2 = p1.then(data1=&gt;&#123;</span><br><span class="line">     return data1 + 1</span><br><span class="line"> &#125;)</span><br><span class="line"> const p3 = p2.then(data2=&gt;&#123;</span><br><span class="line">     return data2 + 1</span><br><span class="line"> &#125;)</span><br><span class="line">//  const p4 = myPromise.all([p1,p2,p3]) </span><br><span class="line">//  console.log(p4); // 直接打是打不出来的，因为p4只是一个结果，不会等待p1的异步</span><br><span class="line">//  p4.then(result =&gt;&#123;</span><br><span class="line">//      console.log(result); // 这里 p4 调用了then，就会等待前面的都执行完，所以异步的结果会出来</span><br><span class="line">//  &#125;)</span><br><span class="line"> const p5 = myPromise.race([p1,p2,p3])</span><br><span class="line"> p5.then(result =&gt;&#123;</span><br><span class="line">     console.log(result);</span><br><span class="line"> &#125;)</span><br></pre></td></tr></table></figure>
 
-        <div class="article-info info-on-right">
-          
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -232,315 +220,127 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/12/12/%E6%89%8B%E5%86%99Promise/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/12/11/JS%E9%9D%A2%E8%AF%95%E7%AF%87-Part9/" class="archive-article-date">
-  	<time datetime="2021-12-11T10:52:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-12-11</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2021/12/12/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          开发环境
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/12/11/JS%E9%9D%A2%E8%AF%95%E7%AF%87-Part9/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JS面试篇-Part9</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/12/11/JS%E9%9D%A2%E8%AF%95%E7%AF%87-Part9/">JS面试篇-Part9</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">http</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    目录，不存在的…
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/12/11/JS%E9%9D%A2%E8%AF%95%E7%AF%87-Part8/" class="archive-article-date">
-  	<time datetime="2021-12-11T02:39:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-12-11</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/12/11/JS%E9%9D%A2%E8%AF%95%E7%AF%87-Part8/">JS面试篇-Part7</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">ajax 跨域 同源策略</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/12/10/JS%E9%9D%A2%E8%AF%95%E7%AF%87-Part7/" class="archive-article-date">
-  	<time datetime="2021-12-10T01:17:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-12-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/12/10/JS%E9%9D%A2%E8%AF%95%E7%AF%87-Part7/">JS面试篇-Part7</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">JS Web API</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/12/09/JS%E9%9D%A2%E8%AF%95%E7%AF%87-Part6/" class="archive-article-date">
-  	<time datetime="2021-12-09T06:33:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-12-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/12/09/JS%E9%9D%A2%E8%AF%95%E7%AF%87-Part6/">JS面试篇-Part6</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">微任务 宏任务 eventloop和dom渲染 手写promise</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/12/04/JS%E9%9D%A2%E8%AF%95%E7%AF%87-Part5/" class="archive-article-date">
-  	<time datetime="2021-12-04T12:21:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-12-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/12/04/JS%E9%9D%A2%E8%AF%95%E7%AF%87-Part5/">JS面试篇-Part5</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">EventLoop Promise async await for...of</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/12/04/JS%E9%9D%A2%E8%AF%95%E7%AF%87-Part4/" class="archive-article-date">
-  	<time datetime="2021-12-04T09:28:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-12-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/12/04/JS%E9%9D%A2%E8%AF%95%E7%AF%87-Part4/">JS面试篇-Part4</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">同步 异步</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/12/03/java%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6%E7%9A%84%E5%85%AD%E7%A7%8D%E6%96%B9%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2021-12-03T07:58:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-12-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/12/03/java%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6%E7%9A%84%E5%85%AD%E7%A7%8D%E6%96%B9%E5%BC%8F/">java读取文件的六种方式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">java读取文件</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/12/02/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E7%BC%96%E8%BE%91%E8%B7%9D%E7%A6%BB%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="archive-article-date">
-  	<time datetime="2021-12-02T10:03:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-12-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/12/02/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E7%BC%96%E8%BE%91%E8%B7%9D%E7%A6%BB%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">动态规划编辑距离学习笔记</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/2021/page/2/">2</a><a class="page-number" href="/archives/2021/page/3/">3</a><a class="extend next" rel="next" href="/archives/2021/page/2/">Next &amp;raquo;</a>
-    </nav>
   
 
 
@@ -564,8 +364,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
