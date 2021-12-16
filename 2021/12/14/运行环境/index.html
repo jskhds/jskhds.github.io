@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="1.运行环境运行环境即浏览器（server端有nodejs），下载网页代码时渲染出页面，期间执行js。为了用户体验，我们要保证代码在浏览器中运行时稳定且高效。 2.网页加载过程2.1加载资源的形式和过程1）资源的形式：html 代码；媒体文件，如图片视频等；js，css文件 2）过程：  DNS解析：域名→ IP地址 浏览器根据 IP 地址向服务器发起 http 请求（实际上还涉及到操作系统 三次">
+<meta property="og:type" content="article">
+<meta property="og:title" content="运行环境">
+<meta property="og:url" content="http://example.com/2021/12/14/%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1.运行环境运行环境即浏览器（server端有nodejs），下载网页代码时渲染出页面，期间执行js。为了用户体验，我们要保证代码在浏览器中运行时稳定且高效。 2.网页加载过程2.1加载资源的形式和过程1）资源的形式：html 代码；媒体文件，如图片视频等；js，css文件 2）过程：  DNS解析：域名→ IP地址 浏览器根据 IP 地址向服务器发起 http 请求（实际上还涉及到操作系统 三次">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-12-14T11:14:44.000Z">
+<meta property="article:modified_time" content="2021-12-14T15:54:50.297Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="网页加载">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/12/14/%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>运行环境 | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/14/%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          运行环境
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-12-14 19:14:44 / Modified: 23:54:50" itemprop="dateCreated datePublished" datetime="2021-12-14T19:14:44+08:00">2021-12-14</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="1-运行环境"><a href="#1-运行环境" class="headerlink" title="1.运行环境"></a>1.运行环境</h4><p>运行环境即浏览器（server端有nodejs），下载网页代码时渲染出页面，期间执行js。为了用户体验，我们要保证代码在浏览器中运行时稳定且高效。</p>
+<h4 id="2-网页加载过程"><a href="#2-网页加载过程" class="headerlink" title="2.网页加载过程"></a>2.网页加载过程</h4><h5 id="2-1加载资源的形式和过程"><a href="#2-1加载资源的形式和过程" class="headerlink" title="2.1加载资源的形式和过程"></a>2.1加载资源的形式和过程</h5><p>1）资源的形式：html 代码；媒体文件，如图片视频等；js，css文件</p>
+<p>2）过程：</p>
+<ul>
+<li>DNS解析：域名→ IP地址</li>
+<li>浏览器根据 IP 地址向服务器发起 http 请求（实际上还涉及到操作系统 三次握手什么的）</li>
+<li>服务器处理 http 请求，并返回给浏览器 （返回的形式要看请求的是什么）</li>
+</ul>
+<h5 id="2-2渲染页面的过程"><a href="#2-2渲染页面的过程" class="headerlink" title="2.2渲染页面的过程"></a>2.2渲染页面的过程</h5><ul>
+<li>根据 HTML 代码生成 DOM Tree</li>
+<li>根据 CSS 代码生成 CSSOM</li>
+<li>将 DOM Tree 和 CSSOM 整合形成 Render Tree</li>
+<li>浏览器根据 Render Tree 渲染页面</li>
+<li>遇到 <script> 则暂停渲染，优先加载并执行 JS 代码，完成再继续。因为 script 里面可能有改变 DOM 树的代码</li>
+</ul>
+<h5 id="2-3-问题"><a href="#2-3-问题" class="headerlink" title="2.3 问题"></a>2.3 问题</h5><p>1）为什么 css 要放到 head标签里呢？</p>
+<p>在 DOM 树生成以前就可以加载完 CSS，最后按照 CSS 的规则统一渲染，不用重复</p>
+<p>2）为什么要把 js 放到 body 最后呢？</p>
+<p>和 1）的解释差不多，如果不放在最后很有可能出现页面渲染到一半停住的情况</p>
+<p>3）window.onload 和 DOMContentLoaded 的区别</p>
+<ul>
+<li>window.onload</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">window.addEventListener(&#x27;load&#x27;,function()&#123;</span><br><span class="line">	// 页面的资源全部加载完才会执行，包括图片 视频等</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>DOMContentLoaded </li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">document.addEventListener(&#x27;DOMContentLoaded&#x27;,function()&#123;</span><br><span class="line">	// DOM 渲染完即可执行，此时图片、视频可能还没有加载完，比较快一点</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>4）从输入 url 到显示出整个页面的过程</p>
+<p>加载资源→渲染页面</p>
+<h4 id="3-性能优化"><a href="#3-性能优化" class="headerlink" title="3.性能优化"></a>3.性能优化</h4><h5 id="3-1-1-原则"><a href="#3-1-1-原则" class="headerlink" title="3.1.1 原则"></a>3.1.1 原则</h5><ul>
+<li>多使用内存、缓存或其它方法</li>
+<li>减少 CPU 计算量，减少网络加载耗时</li>
+<li>实际上是空间换时间</li>
+</ul>
+<h5 id="3-2-具体优化"><a href="#3-2-具体优化" class="headerlink" title="3.2 具体优化"></a>3.2 具体优化</h5><h6 id="3-2-1-优化的方向"><a href="#3-2-1-优化的方向" class="headerlink" title="3.2.1 优化的方向"></a>3.2.1 优化的方向</h6><p>1）加载更快</p>
+<ul>
+<li>减少压缩体积：压缩代码</li>
+<li>减少访问次数：合并代码（http请求耗时相对长，一次 9kb 比 三次3kb 要快很多）、SSR 服务器端渲染、缓存</li>
+<li>使用更快的网络：CDN</li>
+</ul>
+<p>2）渲染更快</p>
+<ul>
+<li>CSS 在 head，JS 在 body 下面</li>
+<li>今早开始执行 JS，用 DOMContentLoaded 加载</li>
+<li>懒加载</li>
+<li>对 DOM 查询进行缓存</li>
+<li>频繁 DOM 操作，合并到一起插入 DOM 结构</li>
+<li>节流throttle 防抖debounce</li>
+</ul>
+<h6 id="3-2-2-一些具体实现"><a href="#3-2-2-一些具体实现" class="headerlink" title="3.2.2 一些具体实现"></a>3.2.2 一些具体实现</h6><p>1） 缓存</p>
+<ul>
+<li>静态资源加 hash 后缀，根据文件内容计算 hash</li>
+<li>文件内容不变，那么 hash 不变，那么 url 不变</li>
+<li>url 和文件不变，则会自动触发 http 缓存机制，返回 304</li>
+</ul>
+<p>2）SSR</p>
+<ul>
+<li>服务端渲染：将网页和数据一起加载，一起渲染</li>
+<li>非SSR（前后端分离）：先加载网页，再加载数据，在渲染数据</li>
+</ul>
+<p>3）懒加载</p>
+<ul>
+<li><p>需要的时候才加载，不需要就不加载</p>
+</li>
+<li><p>比如说图片，先把图片地址赋值成一张预览图，等用户浏览到这张图片时，再把真正的地址加载出来</p>
+</li>
+</ul>
+<p>4）缓存 DOM 查询</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 不缓存 DOM 查询结果</span><br><span class="line">for(let i = 0;i&lt;document.getElementsByTagName(&#x27;p&#x27;).length;i++)&#123;</span><br><span class="line">	// 每次循环都会计算length，频繁进行DOM查询</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 缓存 DOM 查询结果</span><br><span class="line">let len = document.getElementsByTagName(&#x27;p&#x27;)</span><br><span class="line">for(let i = 0;i&lt;len; i++)&#123;</span><br><span class="line">	// 缓存length 只会查询一次DOM</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>5）多个 DOM 操作一起插入到 DOM 结构</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">const list = document.getElementById(&#x27;list&#x27;)</span><br><span class="line">// 创建一个文档片段 此时还没有插入到 DOM 结构中</span><br><span class="line">const frag = document.createElement(&#x27;fragment&#x27;)</span><br><span class="line">for(let i = 0;i&lt;10;i++)&#123;</span><br><span class="line">	const li = document.createElement(&#x27;li&#x27;)</span><br><span class="line">	li.innerHTML  = `List item $&#123;i&#125;`</span><br><span class="line">    // 先把 li 插入到 文档片段中</span><br><span class="line">	frag.appendChild(li)</span><br><span class="line">&#125;</span><br><span class="line">// 最后一次性插入到 DOM 结构中</span><br><span class="line">list.appendChild(frag)</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="4-安全"><a href="#4-安全" class="headerlink" title="4.安全"></a>4.安全</h4><h5 id="4-1-1-XSS跨站请求-攻击"><a href="#4-1-1-XSS跨站请求-攻击" class="headerlink" title="4.1.1 XSS跨站请求 攻击"></a>4.1.1 XSS跨站请求 攻击</h5><p>1）举例</p>
+<p>2）防御</p>
+<p>把  &lt;、/&gt;分别变成 &amp;lt；和 &amp;gt；这样会直接显示出来而不执行</p>
+<h5 id="4-1-2-XSRF跨站请求-伪造"><a href="#4-1-2-XSRF跨站请求-伪造" class="headerlink" title="4.1.2 XSRF跨站请求 伪造"></a>4.1.2 XSRF跨站请求 伪造</h5><p>1）举例</p>
+<p>2）防御</p>
+<ul>
+<li>使用post接口</li>
+<li>增加验证</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BD%91%E9%A1%B5%E5%8A%A0%E8%BD%BD/" rel="tag"># 网页加载</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/14/linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" rel="prev" title="linux常用命令">
+      <i class="fa fa-chevron-left"></i> linux常用命令
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/12/14/%E6%89%8B%E5%86%99%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81/" rel="next" title="手写防抖和节流">
+      手写防抖和节流 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83"><span class="nav-number">1.</span> <span class="nav-text">1.运行环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E7%BD%91%E9%A1%B5%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">2.网页加载过程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1%E5%8A%A0%E8%BD%BD%E8%B5%84%E6%BA%90%E7%9A%84%E5%BD%A2%E5%BC%8F%E5%92%8C%E8%BF%87%E7%A8%8B"><span class="nav-number">2.1.</span> <span class="nav-text">2.1加载资源的形式和过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2%E6%B8%B2%E6%9F%93%E9%A1%B5%E9%9D%A2%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="nav-number">2.2.</span> <span class="nav-text">2.2渲染页面的过程</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

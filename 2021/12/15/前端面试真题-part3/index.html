@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="1.part11）函数声明和函数表达式的区别  函数声明 function fn(){…} 函数表达式 const fn &#x3D; function() {…} 函数声明会在代码执行前预加载，但是函数表达式不会  123456789101112131415&#x2F;&#x2F; 函数声明 代码执行前函数已经初始化好了，所以不会报错const res &#x3D; sum(10,20) console.log(res)functio">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端面试真题-part3">
+<meta property="og:url" content="http://example.com/2021/12/15/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E7%9C%9F%E9%A2%98-part3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1.part11）函数声明和函数表达式的区别  函数声明 function fn(){…} 函数表达式 const fn &#x3D; function() {…} 函数声明会在代码执行前预加载，但是函数表达式不会  123456789101112131415&#x2F;&#x2F; 函数声明 代码执行前函数已经初始化好了，所以不会报错const res &#x3D; sum(10,20) console.log(res)functio">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-12-15T11:13:57.000Z">
+<meta property="article:modified_time" content="2021-12-15T12:36:07.721Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/12/15/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E7%9C%9F%E9%A2%98-part3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>前端面试真题-part3 | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/15/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E7%9C%9F%E9%A2%98-part3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          前端面试真题-part3
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-12-15 19:13:57 / Modified: 20:36:07" itemprop="dateCreated datePublished" datetime="2021-12-15T19:13:57+08:00">2021-12-15</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="1-part1"><a href="#1-part1" class="headerlink" title="1.part1"></a>1.part1</h4><p>1）函数声明和函数表达式的区别</p>
+<ul>
+<li>函数声明 function fn(){…}</li>
+<li>函数表达式 const fn = function() {…}</li>
+<li>函数声明会在代码执行前预加载，但是函数表达式不会</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// 函数声明 代码执行前函数已经初始化好了，所以不会报错</span><br><span class="line">const res = sum(10,20) </span><br><span class="line">console.log(res)</span><br><span class="line">function sum(x, y)&#123;</span><br><span class="line">	return x +y</span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">// 函数表达式，用 let const 声明，不会提升所以函数就不会提前初始化，会报错</span><br><span class="line">// 用 var 定义，则 sum 已经变量提升，执行的时候 sum 是 undefined，代码会报错 sum  is not a function</span><br><span class="line">const res = min(10,20)</span><br><span class="line">console.log(res)</span><br><span class="line">const min =&gt; (a,b)&#123;</span><br><span class="line">	return a - b</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>2）new Obeject() 和 Object.create() 的区别</p>
+<ul>
+<li>new Object() 和 {} 是等同的，所以它们的原型都是 Object.prototype</li>
+<li>Object.create(null) 没有原型（）里的是要传给其的参数</li>
+<li>Object.create({…}) 可以指定原型</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">const obj1 = &#123;</span><br><span class="line">    a: 10,</span><br><span class="line">    b: 20,</span><br><span class="line">    sum()&#123;</span><br><span class="line">        return this.a + this.b</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const obj2 = new Object(obj1) // obj1 === obj2</span><br><span class="line">const obj3 = Object.create(null) // 没有属性 没有原型</span><br><span class="line">const obj4 = new Object(null)  // 没有属性 但是有原型</span><br><span class="line">const obj5 = Object.create(obj1) // 此时 obj5 的隐式原型是 obj1 也就是 Object，所以 obj5 的属性是空的，但是可以读取原型上的属性和方法</span><br><span class="line">const flag = (obj1 === obj5) // false</span><br><span class="line">const flag1 = (obj5.__proto__ === obj1)  // true</span><br></pre></td></tr></table></figure>
+
+<p>3）关于 this 的场景题</p>
+<p>原则：函数里面 this 的值在执行的时候才知道，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">const User = &#123;</span><br><span class="line">    count: 1,</span><br><span class="line">    getCount: function()&#123;</span><br><span class="line">        return this.count</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">const a = &#123;</span><br><span class="line">    count: 2</span><br><span class="line">&#125;</span><br><span class="line">console.log(User.getCount()); // 1 ，this 就是 User， this.count 就是 User.count</span><br><span class="line">const func = User.getCount</span><br><span class="line">// 如果把 User的 getCount 作为单独的函数执行，那么this 就相当于 window了</span><br><span class="line">console.log(func()); // undefined  </span><br><span class="line">console.log(func.call(a)); // 执行的时候 this 指向 a 就有 count 了</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="2-part2"><a href="#2-part2" class="headerlink" title="2.part2"></a>2.part2</h4><p>1）关于作用域和自由变量的场景题-1</p>
+<p>一是全局变量，二是 setTimeout 是异步函数</p>
+<p>对于全局变量，由于setTimeout 是异步函数，循环是同步，所以要等同步函数执行完，但是这样全局变量已经加到 4 了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">let i</span><br><span class="line">for(i = 1; i&lt;=3; i++)&#123;</span><br><span class="line">	setTimeout(()=&gt;&#123;</span><br><span class="line">		console.log(i)</span><br><span class="line">	&#125;,0)</span><br><span class="line">&#125;</span><br><span class="line">// 4 4 4</span><br><span class="line"></span><br><span class="line">for(let i = 1;i&lt;=3;i++)&#123;</span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">        console.log(i);</span><br><span class="line">    &#125;, 0);</span><br><span class="line">&#125;</span><br><span class="line">// 1 2 3</span><br><span class="line"></span><br><span class="line">let j </span><br><span class="line">for(j = 1;j&lt;=3;j++)&#123;</span><br><span class="line">	console.log(j)</span><br><span class="line">&#125;</span><br><span class="line">console.log(j)</span><br><span class="line">// 1 2 3 4 对于同步函数 一次循环从上往下执行 所以即使是全局变量 也是一个挨一个打印</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2）关于作用域和自由变量的场景题-2</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">let a = 100</span><br><span class="line">function test()&#123;</span><br><span class="line">	alert(a)</span><br><span class="line">	a = 10</span><br><span class="line">	alert(a)</span><br><span class="line">&#125;</span><br><span class="line">test()</span><br><span class="line">alert(a)</span><br><span class="line">// 100 10 10</span><br></pre></td></tr></table></figure>
+
+<p>3）判断字符串以字母开头，后面字母数字下划线，长度 6-30</p>
+<p>原则：利用正则表达式（一般来说面试的题比较简单，日常工作还是需要查的）</p>
+<p>解释：/ $/ 正则表达式的开头结尾（可选，看是要全部满足还是满足开头或者结尾）；^ 表示字符串开始；[ ] 里的内容表示选择规则，也就是 a-zA-Z的字母保留 \w 表示 匹配字母数字下划线，{5,29} 表示长度 是 &gt;= 5 &lt;=29 (因为前面 \w 已经占了一个长度) </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const reg = /^[a-zA-Z]\w&#123;5,29&#125;$/</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//基础的正则表达式</span><br><span class="line">// 邮政编码</span><br><span class="line">/\d&#123;6&#125;/</span><br><span class="line">// 英文小写字母</span><br><span class="line">/^[a-z]+$/</span><br><span class="line">// 英文字母</span><br><span class="line">/^[a-zA-Z]+$/</span><br><span class="line">// 日期格式</span><br><span class="line">/^\d&#123;4&#125;-\d&#123;1,2&#125;-\d&#123;1,2&#125;$/</span><br><span class="line">// 简单的IP地址</span><br><span class="line">/\d+\.\d+\.\d+/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>常见正则表达式 <a target="_blank" rel="noopener" href="https://deerchao.cn/tutorials/regex/regex.htm">https://deerchao.cn/tutorials/regex/regex.htm</a>   <a target="_blank" rel="noopener" href="https://www.runoob.com/regexp/regexp-tutorial.html">https://www.runoob.com/regexp/regexp-tutorial.html</a></p>
+<h4 id="3-part3"><a href="#3-part3" class="headerlink" title="3.part3"></a>3.part3</h4><p>1）手写字符串 trim（把开头和结尾的空格删掉） 方法，保证浏览器兼容性</p>
+<p>原则：用 正则表达式 来解决，同时也有原型和this</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">if(!String.prototype.trim)&#123;</span><br><span class="line">	String.prototype.trim = function()&#123;</span><br><span class="line">    return this.replace(/^\s+/,&#x27;&#x27;).replace(/\s+$/,&#x27;&#x27;)</span><br><span class="line">&#125;&#125;</span><br><span class="line">// replace(/^\s+/,&#x27;&#x27;)选中开头是多个（+号的作用）空格的字符串，把多个空格用 &#x27;&#x27; 代替</span><br><span class="line">// replace(/\s+$/,&#x27;&#x27;)选中结尾是多个（+号的作用）空格的字符串，把多个空格用 &#x27;&#x27; 代替</span><br><span class="line">// 因为 trim 是 ES5 的，可能有的不支持，所以先判断 String 的原型上有没有 trim 方法，没有就添加</span><br><span class="line">// this 通过 字符串.prototype 执行，this 就是这个字符串</span><br></pre></td></tr></table></figure>
+
+<p>2）如何获取多个数组中的最大值</p>
+<p>solution 1</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Math.max()</span><br><span class="line">Math.min()</span><br></pre></td></tr></table></figure>
+
+<p>solution 2 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function findMax  ()&#123;</span><br><span class="line">    const nums = Array.prototype.slice.call(arguments)</span><br><span class="line">    // 不知道为什么用箭头函数的话 nums 就会执行不出来 很奇怪</span><br><span class="line">    let max = nums[0]</span><br><span class="line">    console.log(nums);</span><br><span class="line">    nums.forEach(i =&gt; &#123;</span><br><span class="line">        if(max &lt;= i )</span><br><span class="line">        max = i</span><br><span class="line">    &#125;);</span><br><span class="line">    return max</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3）如何用 JS 实现继承</p>
+<ul>
+<li>class 继承（更加推荐）</li>
+<li>prototype 继承（不推荐）</li>
+</ul>
+<p>​            </p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/15/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E7%9C%9F%E9%A2%98-part2/" rel="prev" title="前端面试真题-part2">
+      <i class="fa fa-chevron-left"></i> 前端面试真题-part2
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/12/15/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E7%9C%9F%E9%A2%98-part4/" rel="next" title="前端面试真题-part4">
+      前端面试真题-part4 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-part1"><span class="nav-number">1.</span> <span class="nav-text">1.part1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-part2"><span class="nav-number">2.</span> <span class="nav-text">2.part2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-part3"><span class="nav-number">3.</span> <span class="nav-text">3.part3</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
