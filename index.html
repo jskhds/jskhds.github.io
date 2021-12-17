@@ -152,6 +152,82 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/17/JS%E7%9A%84%E4%B8%80%E4%BA%9B%E7%AE%80%E5%8D%95%E6%89%8B%E5%86%99%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="D-Moon">
+      <meta itemprop="description" content="划船要不要用桨呢？这是一个问题">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="D-Moon's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/17/JS%E7%9A%84%E4%B8%80%E4%BA%9B%E7%AE%80%E5%8D%95%E6%89%8B%E5%86%99%E9%A2%98/" class="post-title-link" itemprop="url">JS的一些简单手写题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-12-17 20:39:56 / 修改时间：23:03:04" itemprop="dateCreated datePublished" datetime="2021-12-17T20:39:56+08:00">2021-12-17</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>为了方便查找，我把 JS 的一些简单手写题做了一个汇总。 这些题目比较小，但是细节多，需要时时复习</p>
+<h5 id="1-手写深拷贝"><a href="#1-手写深拷贝" class="headerlink" title="1.手写深拷贝"></a>1.手写深拷贝</h5><p>在JavaScript中，数组和对象都是引用类型，直接复制的是地址，所以需要深度拷贝以便修改不影响原来的数组或对象。主要运用到递归</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepClone</span>(<span class="params">obj</span>)</span>&#123;</span><br><span class="line">	<span class="comment">// 先判断结果应该是 数组 还是 对象</span></span><br><span class="line">    <span class="keyword">let</span> res =  obj <span class="keyword">instanceof</span> <span class="built_in">Array</span>? []:&#123;&#125;</span><br><span class="line">    <span class="comment">// 递归终止条件</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span>(obj)!==<span class="string">&#x27;object&#x27;</span> || obj == <span class="literal">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> obj</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> key <span class="keyword">in</span> obj)&#123;</span><br><span class="line">        <span class="comment">// hasOwnProperty 返回一个布尔值，表示自身属性中是否具有指定的键，用在这里是为了多层的情况考虑</span></span><br><span class="line">        <span class="keyword">if</span>(obj.hasOwnProperty(key))&#123;</span><br><span class="line">            res[key] = deepClone(obj[key])</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> obj1 = &#123;</span><br><span class="line">    <span class="attr">address</span>:&#123;</span><br><span class="line">        <span class="attr">city</span>: &#123;</span><br><span class="line">            <span class="attr">name</span>:<span class="string">&quot;beijing&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// hasOwnProperty 介绍</span></span><br><span class="line"><span class="built_in">console</span>.log(obj1.hasOwnProperty(<span class="string">&#x27;address&#x27;</span>));</span><br><span class="line"><span class="comment">// expected output: true</span></span><br><span class="line"><span class="built_in">console</span>.log(obj1.address.city.hasOwnProperty(<span class="string">&#x27;name&#x27;</span>));</span><br><span class="line"><span class="comment">// expected output: true</span></span><br><span class="line"><span class="built_in">console</span>.log(obj1.address.city.hasOwnProperty(<span class="string">&#x27;code&#x27;</span>));</span><br><span class="line"><span class="comment">// expected output: false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// test</span></span><br><span class="line"><span class="keyword">let</span> obj2 = deepClone(obj1);</span><br><span class="line">obj2.address.city.name = <span class="string">&quot;Shanghai&quot;</span>;</span><br><span class="line"><span class="built_in">console</span>.log(obj1.address.city.name);</span><br><span class="line"><span class="built_in">console</span>.log(obj2.address.city.name);</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-手写深度比较-（简单版）"><a href="#2-手写深度比较-（简单版）" class="headerlink" title="2.手写深度比较 （简单版）"></a>2.手写深度比较 （简单版）</h5><p>网上深度比较有很多的代码，简单的也有，复杂的也有，但是复杂的考虑得太全面了，考虑到我当前水平，还是简洁一点的比较适合我</p>
+<p>我对这段代码主要是两个问题：</p>
+<p>一是网上很多在判断的地方有一段代码： 判断是否传入同一个对象</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(obj1 === obj2)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p> 一开始我本地跑了好几次也没有用上过这段，所以就删掉了。</p>
+<p>后来我想了想才发现，因为我们在写代码的时候，要从用户的角度出发，也就是我们不知道用户到底会传什么进来，有可能两个参数传递是一个对象，所以这段代码就是为了应对这种情况，不需要再浪费时间遍历递归去比较，还是很有必要的</p>
+<p>还有一段是：判断任意一个不为引用类型的时候是否相等，大家都用的 || </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!isObject(obj1)&amp;&amp;!isObject(obj2))&#123;       </span><br><span class="line">        <span class="keyword">return</span> obj1 === obj2</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这我也觉得很奇怪，如果一个是对象一个不是，那不是全部都是 false 吗？ 后来我换成 &amp;&amp; 试了一下，发现也是正确的，只是走的路径不一样。所以这里 || 或者 &amp;&amp; 应该都是正确的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 另写一个函数 判断是否为 不为空的对象或数组</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isObject</span>(<span class="params">obj</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">typeof</span> obj === <span class="string">&#x27;object&#x27;</span> &amp;&amp; obj !== <span class="literal">null</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 递归函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isEqual</span>(<span class="params">obj1,obj2</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// 递归终止条件</span></span><br><span class="line">    <span class="keyword">if</span>(!isObject(obj1)||!isObject(obj2))&#123;      </span><br><span class="line">        <span class="keyword">return</span> obj1 === obj2</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(obj1 === obj2)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">    <span class="comment">//  获取所有属性</span></span><br><span class="line">    <span class="keyword">const</span> obj1Keys = <span class="built_in">Object</span>.keys(obj1)</span><br><span class="line">    <span class="keyword">const</span> obj2Keys = <span class="built_in">Object</span>.keys(obj2)</span><br><span class="line">    <span class="keyword">if</span>(obj1Keys.length !== obj2Keys.length)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 遍历递归比较</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> key <span class="keyword">in</span> obj1)&#123;</span><br><span class="line">        <span class="keyword">const</span> res = isEqual(obj1[key],obj2[key])</span><br><span class="line">        <span class="keyword">if</span>(!res)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>3.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/15/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E7%9C%9F%E9%A2%98-part5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -471,7 +547,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-17 20:06:17" itemprop="dateModified" datetime="2021-12-17T20:06:17+08:00">2021-12-17</time>
+                <time title="修改时间：2021-12-17 21:07:17" itemprop="dateModified" datetime="2021-12-17T21:07:17+08:00">2021-12-17</time>
               </span>
 
           
@@ -796,78 +872,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/11/JS%E9%9D%A2%E8%AF%95%E7%AF%87-Part9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="D-Moon">
-      <meta itemprop="description" content="划船要不要用桨呢？这是一个问题">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="D-Moon's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/11/JS%E9%9D%A2%E8%AF%95%E7%AF%87-Part9/" class="post-title-link" itemprop="url">JS面试篇-Part9</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-11 18:52:57" itemprop="dateCreated datePublished" datetime="2021-12-11T18:52:57+08:00">2021-12-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-12 15:17:28" itemprop="dateModified" datetime="2021-12-12T15:17:28+08:00">2021-12-12</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="1-http常见的状态码"><a href="#1-http常见的状态码" class="headerlink" title="1.http常见的状态码"></a>1.http常见的状态码</h4>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/11/JS%E9%9D%A2%E8%AF%95%E7%AF%87-Part9/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -937,12 +941,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
