@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Vue 的组件使用以及生命周期">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue基础02">
+<meta property="og:url" content="http://example.com/2021/12/21/Vue%E5%9F%BA%E7%A1%8002/index.html">
+<meta property="og:site_name" content="D-Moon&#39;s Blog">
+<meta property="og:description" content="Vue 的组件使用以及生命周期">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cn.vuejs.org/images/lifecycle.png">
+<meta property="og:image" content="c:/Users/Jiali/AppData/Roaming/Typora/typora-user-images/image-20211222141202540.png">
+<meta property="og:image" content="c:/Users/Jiali/AppData/Roaming/Typora/typora-user-images/image-20211222141256473.png">
+<meta property="og:image" content="c:/Users/Jiali/AppData/Roaming/Typora/typora-user-images/image-20211222141412151.png">
+<meta property="article:published_time" content="2021-12-21T11:32:35.000Z">
+<meta property="article:modified_time" content="2021-12-26T08:33:21.781Z">
+<meta property="article:author" content="D-Moon">
+<meta property="article:tag" content="Vue组件 生命周期">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cn.vuejs.org/images/lifecycle.png">
+
+<link rel="canonical" href="http://example.com/2021/12/21/Vue%E5%9F%BA%E7%A1%8002/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Vue基础02 | D-Moon's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">D-Moon's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/21/Vue%E5%9F%BA%E7%A1%8002/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="D-Moon">
+      <meta itemprop="description" content="划船要不要用桨呢？这是一个问题">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="D-Moon's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Vue基础02
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-21 19:32:35" itemprop="dateCreated datePublished" datetime="2021-12-21T19:32:35+08:00">2021-12-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-26 16:33:21" itemprop="dateModified" datetime="2021-12-26T16:33:21+08:00">2021-12-26</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Vue 的组件使用以及生命周期</p>
+<span id="more"></span>
+
+<h4 id="1-组件使用"><a href="#1-组件使用" class="headerlink" title="1.组件使用"></a>1.组件使用</h4><h5 id="1-1-props-和-emit"><a href="#1-1-props-和-emit" class="headerlink" title="1.1 props 和 $emit"></a>1.1 props 和 $emit</h5><h5 id="1-2-组件间通讯-自定义事件"><a href="#1-2-组件间通讯-自定义事件" class="headerlink" title="1.2 组件间通讯-自定义事件"></a>1.2 组件间通讯-自定义事件</h5><ul>
+<li><p>父子之间：父到子，传递数据；子到父，触发事件</p>
+</li>
+<li><p>兄弟之间用自定义事件通讯</p>
+</li>
+<li><p>Vuex</p>
+</li>
+</ul>
+<h5 id="1-3-组件生命周期（要自己画出来）"><a href="#1-3-组件生命周期（要自己画出来）" class="headerlink" title="1.3 组件生命周期（要自己画出来）"></a>1.3 组件生命周期（要自己画出来）</h5><img src="https://cn.vuejs.org/images/lifecycle.png" alt="img" style="zoom: 33%;" />
+
+<ul>
+<li>挂载阶段</li>
+</ul>
+<p>到 mounted  问：created 和 mounted 有什么区别？</p>
+<ul>
+<li>更新阶段</li>
+</ul>
+<p>到 updated</p>
+<ul>
+<li>销毁阶段</li>
+</ul>
+<p>最后两个</p>
+<h5 id="1-4-带有父子组件的生命周期"><a href="#1-4-带有父子组件的生命周期" class="headerlink" title="1.4 带有父子组件的生命周期"></a>1.4 带有父子组件的生命周期</h5><p>1.加载渲染过程<br> 父beforeCreate-&gt;父created-&gt;父beforeMount-&gt;子beforeCreate-&gt;子created-&gt;子beforeMount- &gt;子mounted-&gt;父mounted</p>
+<p>2.子组件更新过程<br>父beforeUpdate-&gt;子beforeUpdate-&gt;子updated-&gt;父updated</p>
+<p>3.父组件更新过程<br>父beforeUpdate-&gt;父updated</p>
+<p>4.销毁过程<br>父beforeDestroy-&gt;子beforeDestroy-&gt;子destroyed-&gt;父destroyed</p>
+<p>示例</p>
+<p><img src="C:\Users\Jiali\AppData\Roaming\Typora\typora-user-images\image-20211222141202540.png" alt="image-20211222141202540"></p>
+<p>打印结果</p>
+<p><img src="C:\Users\Jiali\AppData\Roaming\Typora\typora-user-images\image-20211222141256473.png" alt="image-20211222141256473"></p>
+<p><img src="C:\Users\Jiali\AppData\Roaming\Typora\typora-user-images\image-20211222141412151.png" alt="image-20211222141412151"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Vue%E7%BB%84%E4%BB%B6-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" rel="tag"># Vue组件 生命周期</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/20/JS%E8%AF%AD%E6%B3%95%E5%A4%87%E5%BF%98/" rel="prev" title="JS语法备忘">
+      <i class="fa fa-chevron-left"></i> JS语法备忘
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/12/22/Vue%E5%9F%BA%E7%A1%8003/" rel="next" title="Vue基础03">
+      Vue基础03 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E7%BB%84%E4%BB%B6%E4%BD%BF%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">1.组件使用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-props-%E5%92%8C-emit"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 props 和 $emit</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-%E7%BB%84%E4%BB%B6%E9%97%B4%E9%80%9A%E8%AE%AF-%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BA%8B%E4%BB%B6"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 组件间通讯-自定义事件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-3-%E7%BB%84%E4%BB%B6%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%EF%BC%88%E8%A6%81%E8%87%AA%E5%B7%B1%E7%94%BB%E5%87%BA%E6%9D%A5%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 组件生命周期（要自己画出来）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-4-%E5%B8%A6%E6%9C%89%E7%88%B6%E5%AD%90%E7%BB%84%E4%BB%B6%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 带有父子组件的生命周期</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">D-Moon</p>
+  <div class="site-description" itemprop="description">划船要不要用桨呢？这是一个问题</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">D-Moon</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

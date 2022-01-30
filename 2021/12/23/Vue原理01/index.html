@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Vue原理从大方向上有三点：响应式、模板编译、Vdom，这一节主要内容为 响应式 和 Vdom">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue原理01">
+<meta property="og:url" content="http://example.com/2021/12/23/Vue%E5%8E%9F%E7%90%8601/index.html">
+<meta property="og:site_name" content="D-Moon&#39;s Blog">
+<meta property="og:description" content="Vue原理从大方向上有三点：响应式、模板编译、Vdom，这一节主要内容为 响应式 和 Vdom">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190218151740267.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxNzYxNTkx,size_16,color_FFFFFF,t_70">
+<meta property="article:published_time" content="2021-12-23T07:14:03.000Z">
+<meta property="article:modified_time" content="2021-12-26T05:42:04.435Z">
+<meta property="article:author" content="D-Moon">
+<meta property="article:tag" content="组件化 响应式 vdom diff 模板编译 渲染过程 前端路由">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190218151740267.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxNzYxNTkx,size_16,color_FFFFFF,t_70">
+
+<link rel="canonical" href="http://example.com/2021/12/23/Vue%E5%8E%9F%E7%90%8601/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Vue原理01 | D-Moon's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">D-Moon's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/23/Vue%E5%8E%9F%E7%90%8601/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="D-Moon">
+      <meta itemprop="description" content="划船要不要用桨呢？这是一个问题">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="D-Moon's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Vue原理01
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-23 15:14:03" itemprop="dateCreated datePublished" datetime="2021-12-23T15:14:03+08:00">2021-12-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-26 13:42:04" itemprop="dateModified" datetime="2021-12-26T13:42:04+08:00">2021-12-26</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Vue原理从大方向上有三点：响应式、模板编译、Vdom，这一节主要内容为 响应式 和 Vdom</p>
+<span id="more"></span>
+
+<h4 id="1-组件化基础（MVVM模型）"><a href="#1-组件化基础（MVVM模型）" class="headerlink" title="1.组件化基础（MVVM模型）"></a>1.组件化基础（MVVM模型）</h4><ul>
+<li>数据驱动视图（MVVM 和 setState）</li>
+</ul>
+<p>组件化在很久以前就已经有了，比如说 web 1.0 php 之类的，但是当时需要频繁操作 DOM，所以 jquery 比较流行（因为操作 DOM 很多）。传统组件只是静态渲染，更新还要依赖于操作 DOM。但是在 Vue 或者 React 中，只要修改数据就可以了，也就是更多的关注业务逻辑，可以实现很复杂的页面功能</p>
+<ul>
+<li>Vue MVVM 模型图（画出来）Model-View-ViewModel</li>
+</ul>
+<img src="https://img-blog.csdnimg.cn/20190218151740267.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxNzYxNTkx,size_16,color_FFFFFF,t_70" alt="vue中MVVM的体现" style="zoom:50%;" />
+
+<ul>
+<li>示例</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">p</span> @<span class="attr">click</span>=<span class="string">&quot;changeName&quot;</span>&gt;</span>&#123;&#123;name&#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">data</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span>&#123;</span><br><span class="line">             <span class="attr">name</span>: <span class="string">&quot;zhangsan&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">methods</span>: &#123;</span><br><span class="line">        	<span class="function"><span class="title">changeName</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                <span class="built_in">this</span>.name = <span class="string">&quot;lisi&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>html 里面的 DOM 就是 View， data 就是 Model，@click 和 methods 就是 ViewModel。ViewModel 不好单独说是什么，但是总体上它就是 View 和 Model 之间的桥梁，model 修改了之后就可以修改 view </p>
+<h4 id="2-Vue-响应式（很重要）"><a href="#2-Vue-响应式（很重要）" class="headerlink" title="2.Vue 响应式（很重要）"></a>2.Vue 响应式（很重要）</h4><p>组件 data 的数据一旦变化，立刻触发视图的更新，实现数据驱动视图的第一步，Vue 原理的第一题</p>
+<h5 id="2-1-核心-API-Object-defineProperty"><a href="#2-1-核心-API-Object-defineProperty" class="headerlink" title="2.1 核心 API - Object.defineProperty"></a>2.1 核心 API - Object.defineProperty</h5><p>深度监听</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 触发更新视图</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">updateView</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;视图更新&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">defineReactive</span>(<span class="params">target, key, value</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// 深度监听</span></span><br><span class="line">    observer(value)</span><br><span class="line">    <span class="comment">// 核心 API </span></span><br><span class="line">    <span class="built_in">Object</span>.defineProperty(target, key ,&#123;</span><br><span class="line">        <span class="function"><span class="title">get</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> value</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="function"><span class="title">set</span>(<span class="params">newValue</span>)</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(newValue !== value)&#123;</span><br><span class="line">                observer(value)  <span class="comment">// 设置新值的时候，也需要监听，比如说我们 不写 data.age.num = 18 而是 data.age = &#123;num: 21&#125;,如果不设置那么就不能把 num 作为 key 传进来</span></span><br><span class="line">                <span class="comment">// 设置新值</span></span><br><span class="line">                <span class="comment">// value 一直在闭包中</span></span><br><span class="line">                value = newValue</span><br><span class="line">                updateView()</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 监听对象属性</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">observer</span>(<span class="params">target</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// 只监听 对象或数组</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> target !== <span class="string">&#x27;object&#x27;</span> || target == <span class="literal">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> target</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 重新定义各个属性</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> key <span class="keyword">in</span> target)&#123;</span><br><span class="line">        defineReactive(target, key, target[key])</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 准备数据</span></span><br><span class="line"><span class="keyword">const</span> data = &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;zhangsan&#x27;</span>,</span><br><span class="line">    <span class="attr">age</span>: <span class="number">20</span>,</span><br><span class="line">    <span class="attr">info</span>:&#123;</span><br><span class="line">        <span class="attr">address</span>:&#123;</span><br><span class="line">            <span class="attr">city</span>: <span class="string">&#x27;beijing&#x27;</span>  <span class="comment">// 需要深度监听</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 监听数据</span></span><br><span class="line">observer(data)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 测试</span></span><br><span class="line">data.name = <span class="string">&#x27;lisi&#x27;</span></span><br><span class="line">data.age = <span class="number">18</span></span><br><span class="line">data.info.address.city = <span class="string">&#x27;shanghai&#x27;</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;age&#x27;</span>,data.age);</span><br><span class="line"><span class="built_in">console</span>.log(data.info.address.city);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="2-2-Object-defineProperty-的一些缺点（3-0-启用-Proxy）"><a href="#2-2-Object-defineProperty-的一些缺点（3-0-启用-Proxy）" class="headerlink" title="2.2 Object.defineProperty 的一些缺点（3.0 启用 Proxy）"></a>2.2 Object.defineProperty 的一些缺点（3.0 启用 Proxy）</h5><ul>
+<li>不管原数组/对象有多深，都需要一次性递归到底，计算量很大</li>
+<li>无法监听新增属性/删除属性（Vue.set Vue.deletex）</li>
+<li>不能原生监听数组，需要特殊处理</li>
+</ul>
+<p>如果要监听数组，全局定义</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 监听数组时，我们需要在外面单独声明一个原型，以免污染全局的原型链</span></span><br><span class="line"><span class="keyword">const</span> oldArrayProperty = <span class="built_in">Array</span>.prototype</span><br><span class="line"><span class="comment">// Object.create 创建新对象，原型指向 oldArrayProperty，再扩展新的方法，不会影响原型</span></span><br><span class="line"><span class="comment">// 比如说我们定义 function push()&#123;console.log(&#x27;push&#x27;)&#125; 和 arrProto.__proto__.push(4) </span></span><br><span class="line"><span class="comment">// 前者调用自定义函数，后者是原型链上的属性，二者不矛盾</span></span><br><span class="line"><span class="keyword">const</span> arrProto = <span class="built_in">Object</span>.create(oldArrayProperty);</span><br><span class="line"></span><br><span class="line">[<span class="string">&#x27;push&#x27;</span>, <span class="string">&#x27;splice&#x27;</span>, <span class="string">&#x27;pop&#x27;</span>, <span class="string">&#x27;shift&#x27;</span>, <span class="string">&#x27;unshift&#x27;</span>].forEach(<span class="function"><span class="params">methodeName</span> =&gt;</span>&#123;</span><br><span class="line">    arrProto[methodeName] = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        updateView()</span><br><span class="line">        oldArrayProperty[methodeName].call(<span class="built_in">this</span>,...arguments)</span><br><span class="line">        <span class="comment">// 相当于 Array.prototype.push.call(this, ...arguments)</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>同时要在修改 observer 函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">observer</span>(<span class="params">target</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> target !== <span class="string">&#x27;object&#x27;</span> || target === <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> target</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 不可以把原型定义在函数里面，不然会污染全局的 Array 原型</span></span><br><span class="line">    <span class="comment">// Array.prototype.push = function () &#123;</span></span><br><span class="line">    <span class="comment">//     updateView()</span></span><br><span class="line">    <span class="comment">//     ...</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line">	<span class="comment">// 判断是不是数组 如果是 添加 __proto__</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(target)) &#123;</span><br><span class="line">        target.__proto__ = arrProto</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> target) &#123;</span><br><span class="line">        defineReactive(target, key, target[key])</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-虚拟DOM（virtual-dom）和-diff（很重要）"><a href="#3-虚拟DOM（virtual-dom）和-diff（很重要）" class="headerlink" title="3.虚拟DOM（virtual dom）和 diff（很重要）"></a>3.虚拟DOM（virtual dom）和 diff（很重要）</h4><p>vdom 是实现 vue 和 react 的重要基石，diff 算法是 vdom 中最核心最关键的部分。我们都知道 DOM 操作很耗时，之前我们用 jquery 手动调整 DOM 操作，而 Vue 和 React 是数据驱动视图，技术复杂度下来了但是业务复杂度上去了，所以如何有效控制 DOM 操作仍然是一个重要课题。</p>
+<h5 id="3-1-解决方案-vdom"><a href="#3-1-解决方案-vdom" class="headerlink" title="3.1 解决方案-vdom"></a>3.1 解决方案-vdom</h5><p>复杂度上来了，想减少计算次数是不大可能的，但是我们可以把计算转移给 JS 来算，因为 JS 执行速度很快。进一步的，我们可以用 JS 来模拟 DOM 结构，<strong>计算出最小的变更来操作 DOM</strong>，这就叫 VDom。其中 diff 算法是最核心最关键的部分。</p>
+<ul>
+<li>示例：用 VNode 来模拟下面这个片段</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div1&quot;</span> <span class="attr">class</span>=<span class="string">&quot;container&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>vdom<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">style</span>=<span class="string">&quot;font-size: 20px;&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span>a<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>虚拟dom（示例，不一定都是这样写的，<strong>但是要写得出来这个结构</strong>）</p>
+<p>有 tag props children </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">            <span class="attr">tag</span>: <span class="string">&#x27;div&#x27;</span>,</span><br><span class="line">            <span class="attr">props</span>: &#123;</span><br><span class="line">                <span class="attr">className</span>: <span class="string">&#x27;container&#x27;</span>,</span><br><span class="line">                <span class="attr">id</span>: <span class="string">&#x27;div1&#x27;</span></span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="attr">children</span>: [</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="attr">tag</span>: <span class="string">&#x27;p&#x27;</span>,</span><br><span class="line">                    <span class="attr">children</span>: <span class="string">&#x27;vdom&#x27;</span></span><br><span class="line">                &#125;,</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="attr">tag</span>: <span class="string">&#x27;ul&#x27;</span>,</span><br><span class="line">                    <span class="attr">props</span>: &#123;<span class="attr">style</span>: <span class="string">&#x27;font-size: 20px&#x27;</span>&#125;,</span><br><span class="line">                    <span class="attr">children</span>: [</span><br><span class="line">                        &#123;</span><br><span class="line">                            <span class="attr">tag</span>: <span class="string">&#x27;li&#x27;</span>,</span><br><span class="line">                            <span class="attr">children</span>: <span class="string">&#x27;a&#x27;</span></span><br><span class="line">                        &#125;</span><br><span class="line">                       <span class="comment">// ...</span></span><br><span class="line">                    ]</span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line"></span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>通过 snabbdom 来学习 vdom</li>
+</ul>
+<p> 重点：h 函数（产生 vnode）、vnode 数据结构、patch 函数（两个参数都是node 或者 渲染和 node）</p>
+<p>patch函数的重点： <strong>patch(elem, vnode)</strong>  and <strong>patch(vnode, newVnode)</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  init,</span><br><span class="line">  classModule,</span><br><span class="line">  propsModule,</span><br><span class="line">  styleModule,</span><br><span class="line">  eventListenersModule,</span><br><span class="line">  h,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">&quot;snabbdom&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> patch = init([</span><br><span class="line">  <span class="comment">// Init patch function with chosen modules</span></span><br><span class="line">  classModule, <span class="comment">// makes it easy to toggle classes</span></span><br><span class="line">  propsModule, <span class="comment">// for setting properties on DOM elements</span></span><br><span class="line">  styleModule, <span class="comment">// handles styling on elements with support for animations</span></span><br><span class="line">  eventListenersModule, <span class="comment">// attaches event listeners</span></span><br><span class="line">]);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> container = <span class="built_in">document</span>.getElementById(<span class="string">&quot;container&quot;</span>);</span><br><span class="line"><span class="comment">// vnode </span></span><br><span class="line"><span class="keyword">const</span> vnode = h(<span class="string">&quot;div#container.two.classes&quot;</span>, &#123; <span class="attr">on</span>: &#123; <span class="attr">click</span>: someFn &#125; &#125;, [</span><br><span class="line">  h(<span class="string">&quot;span&quot;</span>, &#123; <span class="attr">style</span>: &#123; <span class="attr">fontWeight</span>: <span class="string">&quot;bold&quot;</span> &#125; &#125;, <span class="string">&quot;This is bold&quot;</span>),</span><br><span class="line">  <span class="string">&quot; and this is just normal text&quot;</span>,</span><br><span class="line">  h(<span class="string">&quot;a&quot;</span>, &#123; <span class="attr">props</span>: &#123; <span class="attr">href</span>: <span class="string">&quot;/foo&quot;</span> &#125; &#125;, <span class="string">&quot;I&#x27;ll take you places!&quot;</span>),</span><br><span class="line">]);</span><br><span class="line"><span class="comment">// Patch into empty DOM element – this modifies the DOM as a side effect</span></span><br><span class="line">patch(container, vnode);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> newVnode = h(</span><br><span class="line">  <span class="string">&quot;div#container.two.classes&quot;</span>,</span><br><span class="line">  &#123; <span class="attr">on</span>: &#123; <span class="attr">click</span>: anotherEventHandler &#125; &#125;,</span><br><span class="line">  [</span><br><span class="line">    h(</span><br><span class="line">      <span class="string">&quot;span&quot;</span>,</span><br><span class="line">      &#123; <span class="attr">style</span>: &#123; <span class="attr">fontWeight</span>: <span class="string">&quot;normal&quot;</span>, <span class="attr">fontStyle</span>: <span class="string">&quot;italic&quot;</span> &#125; &#125;,</span><br><span class="line">      <span class="string">&quot;This is now italic type&quot;</span></span><br><span class="line">    ),</span><br><span class="line">    <span class="string">&quot; and this is still just normal text&quot;</span>,</span><br><span class="line">    h(<span class="string">&quot;a&quot;</span>, &#123; <span class="attr">props</span>: &#123; <span class="attr">href</span>: <span class="string">&quot;/bar&quot;</span> &#125; &#125;, <span class="string">&quot;I&#x27;ll take you places!&quot;</span>),</span><br><span class="line">  ]</span><br><span class="line">);</span><br><span class="line"><span class="comment">// 把 vnode 渲染到 container 上</span></span><br><span class="line">patch(container, vnode);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 更新数据</span></span><br><span class="line"><span class="keyword">const</span> newVnode = h(</span><br><span class="line">  <span class="string">&quot;div#container.two.classes&quot;</span>,</span><br><span class="line">  &#123; <span class="attr">on</span>: &#123; <span class="attr">click</span>: anotherEventHandler &#125; &#125;,</span><br><span class="line">  [</span><br><span class="line">    h(</span><br><span class="line">      <span class="string">&quot;span&quot;</span>,</span><br><span class="line">      &#123; <span class="attr">style</span>: &#123; <span class="attr">fontWeight</span>: <span class="string">&quot;normal&quot;</span>, <span class="attr">fontStyle</span>: <span class="string">&quot;italic&quot;</span> &#125; &#125;,</span><br><span class="line">      <span class="string">&quot;This is now italic type&quot;</span></span><br><span class="line">    ),</span><br><span class="line">    <span class="string">&quot; and this is still just normal text&quot;</span>,</span><br><span class="line">    h(<span class="string">&quot;a&quot;</span>, &#123; <span class="attr">props</span>: &#123; <span class="attr">href</span>: <span class="string">&quot;/bar&quot;</span> &#125; &#125;, <span class="string">&quot;I&#x27;ll take you places!&quot;</span>),</span><br><span class="line">  ]</span><br><span class="line">);</span><br><span class="line"><span class="comment">// 更新已有的内容</span></span><br><span class="line">patch(vnode, newVnode); <span class="comment">// Snabbdom efficiently updates the old view to the new state</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="3-2-diff算法"><a href="#3-2-diff算法" class="headerlink" title="3.2 diff算法"></a>3.2 diff算法</h5><p>vnode 可以计算出 DOM 最小的改变，这归功于 diff 算法，diff 算法能在日常使用 Vue React 中体现出来，比如说 v-for 中为什么要带 key 才行。当然，diff 算法也是一个比较广泛的概念，比如 linux diff， git diff 等等，两个 JS 对象之间也可以用 diff， 两颗树之间也可以做 diff，也就是 vdom diff。</p>
+<p>diff 算法之前复杂度有 O(n^3) 这么多，后来经过优化达到了 O(n) 次方，主要是三点：</p>
+<p>一：只比较同一层级，不跨级比较；</p>
+<p>二：tag 不相同之间删掉重建，不再深度比较；</p>
+<p>三：tag 和 key 二者相同时，则认为是相同节点，不再比较</p>
+<h5 id="3-3-snabbdom-源码解读"><a href="#3-3-snabbdom-源码解读" class="headerlink" title="3.3 snabbdom 源码解读"></a>3.3 snabbdom 源码解读</h5><p>其实不难，但是要花点心思</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6984049109267120136">https://juejin.cn/post/6984049109267120136</a></p>
+<ul>
+<li>patchVnode</li>
+<li>addVnodes removeVnos</li>
+<li>updateChildren函数( key 的重要性)</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BB%84%E4%BB%B6%E5%8C%96-%E5%93%8D%E5%BA%94%E5%BC%8F-vdom-diff-%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91-%E6%B8%B2%E6%9F%93%E8%BF%87%E7%A8%8B-%E5%89%8D%E7%AB%AF%E8%B7%AF%E7%94%B1/" rel="tag"># 组件化 响应式 vdom diff 模板编译 渲染过程 前端路由</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/22/Vue%E5%9F%BA%E7%A1%8003/" rel="prev" title="Vue基础03">
+      <i class="fa fa-chevron-left"></i> Vue基础03
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/12/25/Vue%E5%8E%9F%E7%90%8602/" rel="next" title="Vue原理02">
+      Vue原理02 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E7%BB%84%E4%BB%B6%E5%8C%96%E5%9F%BA%E7%A1%80%EF%BC%88MVVM%E6%A8%A1%E5%9E%8B%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">1.组件化基础（MVVM模型）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Vue-%E5%93%8D%E5%BA%94%E5%BC%8F%EF%BC%88%E5%BE%88%E9%87%8D%E8%A6%81%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">2.Vue 响应式（很重要）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-%E6%A0%B8%E5%BF%83-API-Object-defineProperty"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 核心 API - Object.defineProperty</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-Object-defineProperty-%E7%9A%84%E4%B8%80%E4%BA%9B%E7%BC%BA%E7%82%B9%EF%BC%883-0-%E5%90%AF%E7%94%A8-Proxy%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 Object.defineProperty 的一些缺点（3.0 启用 Proxy）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E8%99%9A%E6%8B%9FDOM%EF%BC%88virtual-dom%EF%BC%89%E5%92%8C-diff%EF%BC%88%E5%BE%88%E9%87%8D%E8%A6%81%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">3.虚拟DOM（virtual dom）和 diff（很重要）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88-vdom"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 解决方案-vdom</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-diff%E7%AE%97%E6%B3%95"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 diff算法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-snabbdom-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 snabbdom 源码解读</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">D-Moon</p>
+  <div class="site-description" itemprop="description">划船要不要用桨呢？这是一个问题</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">D-Moon</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
