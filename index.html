@@ -175,10 +175,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-02-27 18:32:11 / 修改时间：18:55:27" itemprop="dateCreated datePublished" datetime="2022-02-27T18:32:11+08:00">2022-02-27</time>
+              <time title="创建时间：2022-02-27 18:32:11" itemprop="dateCreated datePublished" datetime="2022-02-27T18:32:11+08:00">2022-02-27</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-02-28 01:12:27" itemprop="dateModified" datetime="2022-02-28T01:12:27+08:00">2022-02-28</time>
+              </span>
 
           
 
@@ -191,33 +197,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h5 id="1-babel基本配置"><a href="#1-babel基本配置" class="headerlink" title="1.babel基本配置"></a>1.babel基本配置</h5><p>安装</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;devDependencies&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;@babel/cli&quot;</span> ,</span><br><span class="line">    <span class="string">&quot;@babel/core&quot;</span> ,</span><br><span class="line">    <span class="string">&quot;@babel/plugin-transform-runtime&quot;</span> ,</span><br><span class="line">    <span class="string">&quot;@babel/preset-env&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">&quot;dependencies&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;@babel/polyfill&quot;</span>,</span><br><span class="line">    <span class="string">&quot;@babel/runtime&quot;</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<p>预设 和 plugins （按需）</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;presets&quot;</span>: [</span><br><span class="line">        [</span><br><span class="line">            <span class="string">&quot;@babel/preset-env&quot;</span>,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="string">&quot;useBuiltIns&quot;</span>: <span class="string">&quot;usage&quot;</span>,</span><br><span class="line">                <span class="string">&quot;corejs&quot;</span>: <span class="number">3</span></span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    ],</span><br><span class="line">    <span class="string">&quot;plugins&quot;</span>: [</span><br><span class="line">        [</span><br><span class="line">            <span class="string">&quot;@babel/plugin-transform-runtime&quot;</span>,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="string">&quot;absoluteRuntime&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">                <span class="string">&quot;corejs&quot;</span>: <span class="number">3</span>,</span><br><span class="line">                <span class="string">&quot;helpers&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">                <span class="string">&quot;regenerator&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">                <span class="string">&quot;useESModules&quot;</span>: <span class="literal">false</span></span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="2-babel-polyfill"><a href="#2-babel-polyfill" class="headerlink" title="2.babel-polyfill"></a>2.babel-polyfill</h5><ul>
-<li><p>为了解决浏览器的兼容问题，</p>
-<p>在 babel 7.4 以后不用 babel-polyfill，而是采用以下两个polyfill 集合：core-js 和 regenerator(支持 generator 函数)</p>
-</li>
-<li><p>按需引用 babel-polyfill</p>
-</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;presets&quot;</span>: [</span><br><span class="line">        [</span><br><span class="line">            <span class="string">&quot;@babel/preset-env&quot;</span>,</span><br><span class="line">            &#123;</span><br><span class="line">			<span class="comment">// 加入下面这两个之后就行了，不用再在文件中 import &#x27;@babel/polyfill&#x27;.</span></span><br><span class="line">             <span class="comment">// 编译之后就会自动 require需要的模块</span></span><br><span class="line">                <span class="string">&quot;useBuiltIns&quot;</span>: <span class="string">&quot;usage&quot;</span>,</span><br><span class="line">                <span class="string">&quot;corejs&quot;</span>: <span class="number">3</span></span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    ],</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>全局污染</li>
-</ul>
-<p>比如说 promise，babel-polyfill 的方式是重新再 window 上定义一个 promise</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.promise = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;...&#125;</span><br></pre></td></tr></table></figure>
-
-<p>如果说我们在使用的时候（类似开发第三方库这种），自己重写了 window.pormise，那么就会导致冲突</p>
-<h5 id="3-babel-runtime"><a href="#3-babel-runtime" class="headerlink" title="3.babel-runtime"></a>3.babel-runtime</h5><p>babel-polyfill 的改进，配置 plugins 下</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">            <span class="string">&quot;@babel/plugin-transform-runtime&quot;</span>,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="string">&quot;absoluteRuntime&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">                <span class="string">&quot;corejs&quot;</span>: <span class="number">3</span>,</span><br><span class="line">                <span class="string">&quot;helpers&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">                <span class="string">&quot;regenerator&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">                <span class="string">&quot;useESModules&quot;</span>: <span class="literal">false</span></span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br></pre></td></tr></table></figure>
-
-<p>比如说 promise， babel-runtime 会重新定义为 _promise = xxx，不会污染全局环境 </p>
-
+          <p>babel基本配置和  babel-polyfill babel-runtime 简介</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/02/27/babel-polyfill-%E5%92%8C-babel-runtime/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
