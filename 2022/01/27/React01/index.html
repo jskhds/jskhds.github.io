@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2022/01/27/images/react-lifecycle.png">
 <meta property="article:published_time" content="2022-01-27T06:36:30.000Z">
-<meta property="article:modified_time" content="2022-01-30T14:31:32.949Z">
+<meta property="article:modified_time" content="2022-02-05T09:11:26.938Z">
 <meta property="article:author" content="D-Moon">
 <meta property="article:tag" content="React 基本使用">
 <meta name="twitter:card" content="summary">
@@ -188,7 +188,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-30 22:31:32" itemprop="dateModified" datetime="2022-01-30T22:31:32+08:00">2022-01-30</time>
+                <time title="修改时间：2022-02-05 17:11:26" itemprop="dateModified" datetime="2022-02-05T17:11:26+08:00">2022-02-05</time>
               </span>
 
           
@@ -205,6 +205,23 @@
         <p>JSX 基本使用、父子组件通信、生命周期、setState</p>
 <span id="more"></span>
 
+<h4 id="0-React设计理念"><a href="#0-React设计理念" class="headerlink" title="0.React设计理念"></a>0.React设计理念</h4><ol>
+<li>单向数据流<ul>
+<li>数据与界面绑定</li>
+<li>单向渲染</li>
+<li>类似函数，同样的输入，同样的输出</li>
+</ul>
+</li>
+<li>虚拟 <code>DOM</code><ul>
+<li>在 <code>JS</code>  和真实的 <code>DOM</code> 间添加了虚拟 <code>DOM</code> 层，如果真实的 <code>UI</code> 需要更新，对比两个 <code>UI</code> 最小的差距进行重新渲染</li>
+</ul>
+</li>
+<li>组件化<ul>
+<li>保持交互一致性和视觉风格统一</li>
+<li>便于复用和相互协作</li>
+</ul>
+</li>
+</ol>
 <h4 id="1-JSX-基本使用"><a href="#1-JSX-基本使用" class="headerlink" title="1.JSX 基本使用"></a>1.JSX 基本使用</h4><ul>
 <li>变量、表达式</li>
 <li>class style</li>
@@ -219,7 +236,8 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import PropTypes from &#x27;prop-types&#x27;</span><br><span class="line">// 类型检查</span><br><span class="line">Input.propTypes = &#123;</span><br><span class="line">    submitTitle: PropTypes.func.isRequired</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h5 id="5-3状态提升"><a href="#5-3状态提升" class="headerlink" title="5.3状态提升"></a>5.3状态提升</h5><p>比如说两个子组件 List 组件和 Input 组件都需要一个 list 列表数据，前者只负责渲染，后者只负责修改，那么 list 列表数据就可以放在父组件中，由父组件来统一调配，这称做状态提升</p>
-<h4 id="6-setState-important"><a href="#6-setState-important" class="headerlink" title="6.setState (important)"></a>6.setState (important)</h4><h5 id="6-1-不可变值"><a href="#6-1-不可变值" class="headerlink" title="6.1 不可变值"></a>6.1 不可变值</h5><p>要在 setState 里面修改数据，在修改状态时千万不能改变原来的状态state。shouldMountUpdate生命周期中会将要改变的值与之前的值做个比较来确定是否改变视图，以这种方式来优化性能</p>
+<h4 id="6-setState-important"><a href="#6-setState-important" class="headerlink" title="6.setState (important)"></a>6.setState (important)</h4><p>异步更新，同步执行</p>
+<h5 id="6-1-不可变值"><a href="#6-1-不可变值" class="headerlink" title="6.1 不可变值"></a>6.1 不可变值</h5><p>要在 setState 里面修改数据，在修改状态时千万不能改变原来的状态state。shouldMountUpdate生命周期中会将要改变的值与之前的值做个比较来确定是否改变视图，以这种方式来优化性能</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">// 1. state 在 constructor 里面定义</span><br><span class="line">constructor(props) &#123;</span><br><span class="line">        super(props)</span><br><span class="line"></span><br><span class="line">        // 第一，state 要在构造函数中定义</span><br><span class="line">        this.state = &#123;</span><br><span class="line">            count: 0,</span><br><span class="line">            list: [1,2,3,4,5],</span><br><span class="line">            obj1: &#123;a: 100&#125;,</span><br><span class="line">            obj2: &#123;x: 100&#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line">// 2. 第二，不要直接修改 state ，使用不可变值</span><br><span class="line">// this.state.count++ 是错误的</span><br><span class="line">this.setState(&#123;</span><br><span class="line">    	count: this.state.count + 1, // SCU</span><br><span class="line">    	list: this.state.list.concat(6), // 不能用 push pop splice 等会改变原数组的 api </span><br><span class="line">    	obj: Object.assign(&#123;&#125;, this.state.obj1, &#123;b: 200&#125;),</span><br><span class="line">    	obj1: &#123;...this.state.obj1, y: 200&#125;</span><br><span class="line">		</span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h5 id="6-2-可能是异步更新"><a href="#6-2-可能是异步更新" class="headerlink" title="6.2 可能是异步更新"></a>6.2 可能是异步更新</h5><p>① setState 异步的情况</p>
@@ -245,7 +263,12 @@
 
 
 
-<h4 id="7-React-生命周期"><a href="#7-React-生命周期" class="headerlink" title="7.React 生命周期"></a>7.React 生命周期</h4><p>单组件生命周期（父子组件生命周期和 Vue 一样）</p>
+<h4 id="7-React-生命周期"><a href="#7-React-生命周期" class="headerlink" title="7.React 生命周期"></a>7.React 生命周期</h4><ul>
+<li>Mounting: 创建虚拟 DOM ， 渲染 UI</li>
+<li>Updating：更新虚拟 DOM， 重新渲染 UI</li>
+<li>Unmounting：删除虚拟 DOM，移除 UI</li>
+</ul>
+<p>单组件生命周期（父子组件生命周期和 Vue 一样）</p>
 <p><img src="../images/react-lifecycle.png" alt="react-lifecycle"></p>
 
     </div>
@@ -330,7 +353,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-JSX-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">1.JSX 基本使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD"><span class="nav-number">2.</span> <span class="nav-text">2.条件判断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E4%BA%8B%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">3.事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E8%A1%A8%E5%8D%95"><span class="nav-number">4.</span> <span class="nav-text">4.表单</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E7%88%B6%E5%AD%90%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1"><span class="nav-number">5.</span> <span class="nav-text">5.父子组件通信</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#5-1-%E7%88%B6%E7%BB%84%E4%BB%B6%E5%90%91%E5%AD%90%E7%BB%84%E4%BB%B6%E4%BC%A0%E9%80%92%E6%95%B0%E6%8D%AE"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 父组件向子组件传递数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-2-%E7%88%B6%E7%BB%84%E4%BB%B6%E5%90%91%E5%AD%90%E7%BB%84%E4%BB%B6%E4%BC%A0%E9%80%92%E5%87%BD%E6%95%B0"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 父组件向子组件传递函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-3%E7%8A%B6%E6%80%81%E6%8F%90%E5%8D%87"><span class="nav-number">5.3.</span> <span class="nav-text">5.3状态提升</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-setState-important"><span class="nav-number">6.</span> <span class="nav-text">6.setState (important)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#6-1-%E4%B8%8D%E5%8F%AF%E5%8F%98%E5%80%BC"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 不可变值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-2-%E5%8F%AF%E8%83%BD%E6%98%AF%E5%BC%82%E6%AD%A5%E6%9B%B4%E6%96%B0"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 可能是异步更新</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-3-%E5%8F%AF%E8%83%BD%E4%BC%9A%E8%A2%AB%E5%90%88%E5%B9%B6"><span class="nav-number">6.3.</span> <span class="nav-text">6.3 可能会被合并</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-React-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">7.</span> <span class="nav-text">7.React 生命周期</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#0-React%E8%AE%BE%E8%AE%A1%E7%90%86%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">0.React设计理念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-JSX-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">1.JSX 基本使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD"><span class="nav-number">3.</span> <span class="nav-text">2.条件判断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E4%BA%8B%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">3.事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E8%A1%A8%E5%8D%95"><span class="nav-number">5.</span> <span class="nav-text">4.表单</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E7%88%B6%E5%AD%90%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1"><span class="nav-number">6.</span> <span class="nav-text">5.父子组件通信</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#5-1-%E7%88%B6%E7%BB%84%E4%BB%B6%E5%90%91%E5%AD%90%E7%BB%84%E4%BB%B6%E4%BC%A0%E9%80%92%E6%95%B0%E6%8D%AE"><span class="nav-number">6.1.</span> <span class="nav-text">5.1 父组件向子组件传递数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-2-%E7%88%B6%E7%BB%84%E4%BB%B6%E5%90%91%E5%AD%90%E7%BB%84%E4%BB%B6%E4%BC%A0%E9%80%92%E5%87%BD%E6%95%B0"><span class="nav-number">6.2.</span> <span class="nav-text">5.2 父组件向子组件传递函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-3%E7%8A%B6%E6%80%81%E6%8F%90%E5%8D%87"><span class="nav-number">6.3.</span> <span class="nav-text">5.3状态提升</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-setState-important"><span class="nav-number">7.</span> <span class="nav-text">6.setState (important)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#6-1-%E4%B8%8D%E5%8F%AF%E5%8F%98%E5%80%BC"><span class="nav-number">7.1.</span> <span class="nav-text">6.1 不可变值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-2-%E5%8F%AF%E8%83%BD%E6%98%AF%E5%BC%82%E6%AD%A5%E6%9B%B4%E6%96%B0"><span class="nav-number">7.2.</span> <span class="nav-text">6.2 可能是异步更新</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-3-%E5%8F%AF%E8%83%BD%E4%BC%9A%E8%A2%AB%E5%90%88%E5%B9%B6"><span class="nav-number">7.3.</span> <span class="nav-text">6.3 可能会被合并</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-React-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">8.</span> <span class="nav-text">7.React 生命周期</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -344,12 +367,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-count">48</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-count">41</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>

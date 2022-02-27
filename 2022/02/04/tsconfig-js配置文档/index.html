@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="tsconfig 配置，转载">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tsconfig.js配置文档">
+<meta property="og:url" content="http://example.com/2022/02/04/tsconfig-js%E9%85%8D%E7%BD%AE%E6%96%87%E6%A1%A3/index.html">
+<meta property="og:site_name" content="D-Moon&#39;s Blog">
+<meta property="og:description" content="tsconfig 配置，转载">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-02-04T07:52:36.000Z">
+<meta property="article:modified_time" content="2022-02-27T17:08:56.216Z">
+<meta property="article:author" content="D-Moon">
+<meta property="article:tag" content="tsconfig.json编译器配置文档">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/02/04/tsconfig-js%E9%85%8D%E7%BD%AE%E6%96%87%E6%A1%A3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>tsconfig.js配置文档 | D-Moon's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">D-Moon's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/02/04/tsconfig-js%E9%85%8D%E7%BD%AE%E6%96%87%E6%A1%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="D-Moon">
+      <meta itemprop="description" content="划船要不要用桨呢？这是一个问题">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="D-Moon's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          tsconfig.js配置文档
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-02-04 15:52:36" itemprop="dateCreated datePublished" datetime="2022-02-04T15:52:36+08:00">2022-02-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-02-28 01:08:56" itemprop="dateModified" datetime="2022-02-28T01:08:56+08:00">2022-02-28</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>tsconfig 配置，转载</p>
+<span id="more"></span>
+
+<p>一般来说，项目的TS编译器配置全部存储在项目根目录下的<code>tsconfig.json</code>文件中。</p>
+<p>编译器启动时，首先会读取<code>tsconfig.json</code>，以获取有关如何编译项目的说明（例如，要编译哪些源文件，在哪里存储输出等）。 不过，如果编译器配置文档保存在其他特殊位置，我们也可以通过使用<code>-p</code>选项告诉编译器配置文档的具体位置：</p>
+<h2 id="1-“target”-“es5”"><a href="#1-“target”-“es5”" class="headerlink" title="1. “target”: “es5”"></a>1. “target”: “es5”</h2><pre><code>这个属性定义了你编译后的目标javascript版本，一般来说，我们需要让他编译为es5，这样就可以被主流浏览器解读了。当然，你说我的react代码不是给浏览器看的，比如说，你使用的是react-native做作手机app，那么这里的选项可以选择es6。除了es5和es6，我们还有很多其他常见的选项，ES5, ES6/ES2015, ES2016, ES2017, ES2018, ES2019, ES2020, ESNext，等等等等
+</code></pre>
+<h2 id="2-“lib”-“dom”-“dom-iterable”-“esnext”"><a href="#2-“lib”-“dom”-“dom-iterable”-“esnext”" class="headerlink" title="2. “lib”: [“dom”, “dom.iterable”, “esnext”]"></a>2. “lib”: [“dom”, “dom.iterable”, “esnext”]</h2><pre><code>这个属性列出了编译期间需要被包括进来的库文件，通过这些库文件，告诉typescript编译器可以使用哪些功能。比如说，我们这里有一个dom的库文件，这个文件会告诉编译器dom api的接口，所以当我们在ts代码中使用dom的时候，比如说执行“document.getElementById(&quot;root&quot;)”这句话的时候，编译器就会知道该如何进行检查。如果我们不设置这个选项，那么编译器也有自己默认的库文件列表，一般来说是[&quot;dom&quot;, &quot;es6&quot;,&quot;DOM.Iterable&quot;]等等
+</code></pre>
+<h2 id="3-“allowJs”-true"><a href="#3-“allowJs”-true" class="headerlink" title="3. “allowJs”: true"></a>3. “allowJs”: true</h2><pre><code>允许混合编译JavaScript文件
+</code></pre>
+<h2 id="4-“esModuleInterop”-true"><a href="#4-“esModuleInterop”-true" class="headerlink" title="4. “esModuleInterop”: true"></a>4. “esModuleInterop”: true</h2><pre><code>这个选项允许我们使用commonjs的方式import默认文件。比如说，在没有开启这个选项时，我们需要这样写才能引用react:
+</code></pre>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> React <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<pre><code>但是当我们开启了这个选项以后，import方式就与普通的JavaScript没有区别了，可以写为:
+</code></pre>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<pre><code>这样处理项目引入会更自然。
+</code></pre>
+<h2 id="5-“module”-“esnext”"><a href="#5-“module”-“esnext”" class="headerlink" title="5. “module”: “esnext”"></a>5. “module”: “esnext”</h2><pre><code>这里配置的是我们代码的模块系统，比较常见的有Node.js的CommonJS系统，ES6标准的esnext系统，以及requirejs的AMD系统。我们这里使用的是ES6标准的esnext系统，不过如果把这里换成CommonJS也是可以的。
+</code></pre>
+<h2 id="6-“moduleResolution”-“node”"><a href="#6-“moduleResolution”-“node”" class="headerlink" title="6. “moduleResolution”: “node”"></a>6. “moduleResolution”: “node”</h2><pre><code>这个选项决定了我们编译器的工作方式，也决定了我们各个文件之间调用、import的工作流程。这里曾经有两个选项，&quot;node&quot; and &quot;classic&quot;，但是&quot;classic&quot;这个选项在2019年12月就已经废弃了。
+</code></pre>
+<h2 id="7-“isolatedModules”-“node”"><a href="#7-“isolatedModules”-“node”" class="headerlink" title="7. “isolatedModules”: “node”"></a>7. “isolatedModules”: “node”</h2><pre><code>开启这个选项以后，编译器会将每个文件作为单独的模块来使用。
+</code></pre>
+<h2 id="8。-“noEmit”-true"><a href="#8。-“noEmit”-true" class="headerlink" title="8。 “noEmit”: true,"></a>8。 “noEmit”: true,</h2><pre><code>开启这个选项表示当发生错误的时候，编译器不会生成 JavaScript 代码。
+</code></pre>
+<h2 id="9-“jsx”-“react”"><a href="#9-“jsx”-“react”" class="headerlink" title="9. “jsx”: “react”,"></a>9. “jsx”: “react”,</h2><pre><code>显而易见，这个选项允许编译器支持编译react代码
+</code></pre>
+<h2 id="10-“include”-“src-”"><a href="#10-“include”-“src-”" class="headerlink" title="10. “include”: [“src/**/*”]"></a>10. “include”: [“src/**/*”]</h2><pre><code>使用此选项列出我们需要编译的文件， “文件路径”选项需要文件的相对或绝对路径，例如：
+
+&quot;**&quot; - 任意子目录
+
+&quot;*&quot; - 任意文件名
+
+&quot;?&quot; - 只要字符跟随“?”，这个字符就会被视为可忽略字符 (e.g., &quot;src/*.tsx?&quot;则同时指代&quot;src/*.tsx&quot;与&quot;src/*.ts&quot;)
+</code></pre>
+<h2 id="11-“files”-“-file1-ts”-“-file2-d-ts”-…"><a href="#11-“files”-“-file1-ts”-“-file2-d-ts”-…" class="headerlink" title="11. “files”: [“./file1.ts”, “./file2.d.ts”, …]"></a>11. “files”: [“./file1.ts”, “./file2.d.ts”, …]</h2><pre><code>使用此选项列出编译器应始终包含在编译中的文件。无论是否使用“exclude”选项，都将会编译使用此选项内包括的所有文件。
+</code></pre>
+<h2 id="12-“exclude”-“node-modules”-“-test-ts”"><a href="#12-“exclude”-“node-modules”-“-test-ts”" class="headerlink" title="12. “exclude”: [“node_modules”, “**//.test.ts”]"></a>12. “exclude”: [“node_modules”, “**/<em>/</em>.test.ts”]</h2><pre><code>此选项将会列出从编译中排除的文件。它与“include”选项采取相同的模式，我们以使用此选项来过滤使用“include”选项指定的文件。 但是, “exclude”选项不会影响“files”选项。
+
+
+
+通常，我们会排除node_modules、测试文件、和编译输出目录。
+
+
+
+如果省略此选项，编译器将使用“outDir”选项指定的文件夹。     
+
+
+
+如果没有同时指定“files”和“include”这两个选项，则编译器将编译根目录和任何子目录中的所有TS文件，但不包括使用“exclude”选项指定的文件。
+</code></pre>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/tsconfig-json%E7%BC%96%E8%AF%91%E5%99%A8%E9%85%8D%E7%BD%AE%E6%96%87%E6%A1%A3/" rel="tag"># tsconfig.json编译器配置文档</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/02/03/React-Hooks/" rel="prev" title="React-Hooks">
+      <i class="fa fa-chevron-left"></i> React-Hooks
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/02/07/RESTful%E6%A6%82%E8%A7%88/" rel="next" title="RESTful概览">
+      RESTful概览 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E2%80%9Ctarget%E2%80%9D-%E2%80%9Ces5%E2%80%9D"><span class="nav-number">1.</span> <span class="nav-text">1. “target”: “es5”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E2%80%9Clib%E2%80%9D-%E2%80%9Cdom%E2%80%9D-%E2%80%9Cdom-iterable%E2%80%9D-%E2%80%9Cesnext%E2%80%9D"><span class="nav-number">2.</span> <span class="nav-text">2. “lib”: [“dom”, “dom.iterable”, “esnext”]</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E2%80%9CallowJs%E2%80%9D-true"><span class="nav-number">3.</span> <span class="nav-text">3. “allowJs”: true</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E2%80%9CesModuleInterop%E2%80%9D-true"><span class="nav-number">4.</span> <span class="nav-text">4. “esModuleInterop”: true</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E2%80%9Cmodule%E2%80%9D-%E2%80%9Cesnext%E2%80%9D"><span class="nav-number">5.</span> <span class="nav-text">5. “module”: “esnext”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E2%80%9CmoduleResolution%E2%80%9D-%E2%80%9Cnode%E2%80%9D"><span class="nav-number">6.</span> <span class="nav-text">6. “moduleResolution”: “node”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E2%80%9CisolatedModules%E2%80%9D-%E2%80%9Cnode%E2%80%9D"><span class="nav-number">7.</span> <span class="nav-text">7. “isolatedModules”: “node”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8%E3%80%82-%E2%80%9CnoEmit%E2%80%9D-true"><span class="nav-number">8.</span> <span class="nav-text">8。 “noEmit”: true,</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-%E2%80%9Cjsx%E2%80%9D-%E2%80%9Creact%E2%80%9D"><span class="nav-number">9.</span> <span class="nav-text">9. “jsx”: “react”,</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-%E2%80%9Cinclude%E2%80%9D-%E2%80%9Csrc-%E2%80%9D"><span class="nav-number">10.</span> <span class="nav-text">10. “include”: [“src&#x2F;**&#x2F;*”]</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-%E2%80%9Cfiles%E2%80%9D-%E2%80%9C-file1-ts%E2%80%9D-%E2%80%9C-file2-d-ts%E2%80%9D-%E2%80%A6"><span class="nav-number">11.</span> <span class="nav-text">11. “files”: [“.&#x2F;file1.ts”, “.&#x2F;file2.d.ts”, …]</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-%E2%80%9Cexclude%E2%80%9D-%E2%80%9Cnode-modules%E2%80%9D-%E2%80%9C-test-ts%E2%80%9D"><span class="nav-number">12.</span> <span class="nav-text">12. “exclude”: [“node_modules”, “**&#x2F;&#x2F;.test.ts”]</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">D-Moon</p>
+  <div class="site-description" itemprop="description">划船要不要用桨呢？这是一个问题</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">D-Moon</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

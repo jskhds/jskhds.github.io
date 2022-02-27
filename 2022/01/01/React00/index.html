@@ -28,7 +28,7 @@
 <meta property="og:description" content="React概览">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-01-01T06:17:39.000Z">
-<meta property="article:modified_time" content="2022-01-30T14:30:47.139Z">
+<meta property="article:modified_time" content="2022-02-07T17:42:45.104Z">
 <meta property="article:author" content="D-Moon">
 <meta name="twitter:card" content="summary">
 
@@ -185,7 +185,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-30 22:30:47" itemprop="dateModified" datetime="2022-01-30T22:30:47+08:00">2022-01-30</time>
+                <time title="修改时间：2022-02-08 01:42:45" itemprop="dateModified" datetime="2022-02-08T01:42:45+08:00">2022-02-08</time>
               </span>
 
           
@@ -207,15 +207,114 @@
 <li>高级特性</li>
 <li>Redux 和 React-router 使用</li>
 </ul>
-<h4 id="2-一些面试题"><a href="#2-一些面试题" class="headerlink" title="2.一些面试题"></a>2.一些面试题</h4><ul>
-<li>React 组件如何通讯</li>
-<li>JSX 本质是什么 （Vue 的模板编译本质）</li>
-<li>sCU 的用途</li>
-<li>redux 单项数据流</li>
-<li>setState 是同步还是异步</li>
+<h4 id="2-一些面试题"><a href="#2-一些面试题" class="headerlink" title="2.一些面试题"></a>2.一些面试题</h4><h5 id="2-1React-组件如何通讯"><a href="#2-1React-组件如何通讯" class="headerlink" title="2.1React 组件如何通讯"></a>2.1<code>React</code> 组件如何通讯</h5><ul>
+<li>父子组件 <code>props</code></li>
+<li>自定义事件</li>
+<li><code>Redux</code> 和 <code>Context</code></li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">class Root extends Component&#123;</span><br><span class="line">  constructor(props)&#123;</span><br><span class="line">    super(props)</span><br><span class="line">    this.state = &#123;count: 0&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  componentDidMount()&#123;</span><br><span class="line">    this.setState(&#123;count: this.state.count + 1&#125;)</span><br><span class="line">    console.log(this.state.count);  // 0</span><br><span class="line">    this.setState(&#123;count: this.state.count + 1&#125;)</span><br><span class="line">    console.log(this.state.count); // 0</span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">      this.setState(&#123;count: this.state.count + 1&#125;)</span><br><span class="line">      console.log(this.state.count); // 2</span><br><span class="line">    &#125;, 0);</span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">      this.setState(&#123;count: this.state.count + 1&#125;)</span><br><span class="line">      console.log(this.state.count); //3</span><br><span class="line">    &#125;, 0);</span><br><span class="line">    </span><br><span class="line">  &#125;</span><br><span class="line">  render()&#123;</span><br><span class="line">    return &lt;h1&gt;&#123;this.state.count&#125;&lt;/h1&gt;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="2-2JSX-本质是什么"><a href="#2-2JSX-本质是什么" class="headerlink" title="2.2JSX 本质是什么"></a>2.2<code>JSX</code> 本质是什么</h5><ul>
+<li><code>createElement</code></li>
+<li>执行返回 <code>Vnode</code></li>
+</ul>
+<h5 id="2-3-Context-是什么，如何应用"><a href="#2-3-Context-是什么，如何应用" class="headerlink" title="2.3 Context 是什么，如何应用"></a>2.3 Context 是什么，如何应用</h5><ul>
+<li>父组件，向其下所有子孙组件传递信息</li>
+<li>如一些简单的公共信息：主题色、语言等</li>
+<li>复杂的公共信息：<code>Redux</code></li>
+</ul>
+<h5 id="2-4-SCU-的用途"><a href="#2-4-SCU-的用途" class="headerlink" title="2.4 SCU 的用途"></a>2.4 <code>SCU</code> 的用途</h5><ul>
+<li>性能优化（看实际情况）</li>
+<li>配合不可变值一起使用，否则会出错</li>
+</ul>
+<h5 id="2-5redux-单项数据流"><a href="#2-5redux-单项数据流" class="headerlink" title="2.5redux 单项数据流"></a>2.5<code>redux</code> 单项数据流</h5><p>比较常考，<code>React02</code> 的 <code>9.6</code> 图</p>
+<ul>
+<li><code>setState</code> 是同步还是异步</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">class Root extends Component&#123;</span><br><span class="line">  constructor(props)&#123;</span><br><span class="line">    super(props)</span><br><span class="line">    this.state = &#123;count: 0&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  componentDidMount()&#123;</span><br><span class="line">    // 两个异步的合并了</span><br><span class="line">    this.setState(&#123;count: this.state.count + 1&#125;)</span><br><span class="line">    console.log(this.state.count);  // 0</span><br><span class="line">    this.setState(&#123;count: this.state.count + 1&#125;)</span><br><span class="line">    console.log(this.state.count); // 0</span><br><span class="line">    // setTimeout 里面的是同步</span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">      this.setState(&#123;count: this.state.count + 1&#125;)</span><br><span class="line">      console.log(this.state.count); // 2</span><br><span class="line">    &#125;, 0);</span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">      this.setState(&#123;count: this.state.count + 1&#125;)</span><br><span class="line">      console.log(this.state.count); //3</span><br><span class="line">    &#125;, 0);   </span><br><span class="line">  &#125;  </span><br><span class="line">  render()&#123;</span><br><span class="line">    return &lt;h1&gt;&#123;this.state.count&#125;&lt;/h1&gt;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h5 id="2-6-什么是纯函数"><a href="#2-6-什么是纯函数" class="headerlink" title="2.6 什么是纯函数"></a>2.6 什么是纯函数</h5><ul>
+<li>返回一个新值，没有副作用</li>
+<li>重点：不可变值</li>
+<li>比如说： arr1 = arr.slice()</li>
+</ul>
+<h5 id="2-7-React-组件生命周期"><a href="#2-7-React-组件生命周期" class="headerlink" title="2.7 React 组件生命周期"></a>2.7 React 组件生命周期</h5><ul>
+<li>单组件生命周期</li>
+<li>父子组件生命周期</li>
+<li>注意 <code>SCU</code> 的位置</li>
+</ul>
+<h5 id="2-7-React-发起-ajax-应该在哪个生命周期"><a href="#2-7-React-发起-ajax-应该在哪个生命周期" class="headerlink" title="2.7 React 发起 ajax 应该在哪个生命周期"></a>2.7 React 发起 ajax 应该在哪个生命周期</h5><ul>
+<li>同 <code>Vue</code>，在 <code>DOM</code> 渲染完成以后</li>
+<li><code>componentDidMount</code></li>
+</ul>
+<h5 id="2-8-渲染列表为何使用-key"><a href="#2-8-渲染列表为何使用-key" class="headerlink" title="2.8 渲染列表为何使用 key"></a>2.8 渲染列表为何使用 key</h5><ul>
+<li>同 <code>Vue</code>。 必须使用 <code>key</code>, 并且 <code>key</code> 不能是 <code>Index</code> 和 <code>Random</code></li>
+<li><code>diff算法</code> 中通过 <code>tag</code> 和 <code>key</code> 来判断是否是 <code>sameNode</code></li>
+<li>减少渲染次数，提升渲染性能</li>
+</ul>
+<h5 id="2-7-函数组件和-class-组件的区别"><a href="#2-7-函数组件和-class-组件的区别" class="headerlink" title="2.7 函数组件和 class 组件的区别"></a>2.7 函数组件和 class 组件的区别</h5><ul>
+<li>纯函数，输入 <code>props</code>, 输出 <code>JSX</code></li>
+<li>没有实例，没有生命周期，没有 <code>state</code></li>
+<li>不能扩展其它方法</li>
+</ul>
+<h5 id="2-8-什么是受控组件"><a href="#2-8-什么是受控组件" class="headerlink" title="2.8 什么是受控组件"></a>2.8 什么是受控组件</h5><ul>
+<li>表单的值，受 <code>state</code> 控制</li>
+<li>需要自行监听 <code>onChange</code> 更新 <code>state</code></li>
+<li>对比非受控组件</li>
+</ul>
+<h5 id="2-9-何时使用异步组件"><a href="#2-9-何时使用异步组件" class="headerlink" title="2.9 何时使用异步组件"></a>2.9 何时使用异步组件</h5><ul>
+<li>同 <code>Vue</code></li>
+<li>加载大组件</li>
+<li>路由懒加载</li>
+</ul>
+<h5 id="2-10-多个组件有公共逻辑，如何抽离"><a href="#2-10-多个组件有公共逻辑，如何抽离" class="headerlink" title="2.10 多个组件有公共逻辑，如何抽离"></a>2.10 多个组件有公共逻辑，如何抽离</h5><ul>
+<li>高阶组件 <code>HOC</code></li>
+<li><code>Render</code> <code>Props</code></li>
+</ul>
+<h5 id="2-11-redux-如何进行异步请求"><a href="#2-11-redux-如何进行异步请求" class="headerlink" title="2.11 redux 如何进行异步请求"></a>2.11 redux 如何进行异步请求</h5><ul>
+<li><p>使用异步 <code>action</code></p>
+</li>
+<li><p><code>redux-thunk</code></p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// redux-thunk 可以返回函数，处理异步请求</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="2-12-react-router-如何配置懒加载"><a href="#2-12-react-router-如何配置懒加载" class="headerlink" title="2.12 react-router 如何配置懒加载"></a>2.12 react-router 如何配置懒加载</h5><ul>
+<li><code>lazy</code></li>
+</ul>
+<h5 id="2-13-PureComponent-有何区别"><a href="#2-13-PureComponent-有何区别" class="headerlink" title="2.13 PureComponent 有何区别"></a>2.13 PureComponent 有何区别</h5><ul>
+<li>实现了浅比的 <code>SCU</code></li>
+<li>优化性能</li>
+<li><strong>结合不可变值使用</strong></li>
+</ul>
+<h5 id="2-14-React-事件和-DOM-事件的区别"><a href="#2-14-React-事件和-DOM-事件的区别" class="headerlink" title="2.14  React 事件和 DOM 事件的区别"></a>2.14  React 事件和 DOM 事件的区别</h5><ul>
+<li>所有事件挂载在 <code>root</code> 上(16挂载在 <code>document</code> 上)</li>
+<li><code>event</code> 不是原生的，是 <code>SyntheticEvent</code> 合成事件对象</li>
+<li><code>dispatchEvent</code></li>
+</ul>
+<h5 id="2-15-React-性能优化"><a href="#2-15-React-性能优化" class="headerlink" title="2.15 React 性能优化"></a>2.15 React 性能优化</h5><ul>
+<li>渲染列表用 <code>key</code></li>
+<li>自定义事件、<code>DOM</code> 事件及时销毁</li>
+<li>合理使用异步组件</li>
+<li>减少函数 <code>bind this</code> 的次数</li>
+<li>合理使用 <code>SCU PureComponent memo</code></li>
+<li>合理使用 <code>Immutable.js</code></li>
+<li><code>webpack</code> 层面的优化</li>
+<li>前端通用的性能优化，如图片懒加载</li>
+<li>使用 <code>SSR</code></li>
+</ul>
+<h5 id="2-16-React-和-Vue-的区别"><a href="#2-16-React-和-Vue-的区别" class="headerlink" title="2.16 React 和 Vue 的区别"></a>2.16 React 和 Vue 的区别</h5><p>相同：</p>
+<ul>
+<li>都支持组件化</li>
+<li>都是数据驱动视图</li>
+<li>都是用 <code>vdom</code> 来操作 <code>DOM</code></li>
+</ul>
+<p>不同：</p>
+<ul>
+<li><code>React</code> 使用 <code>JSX</code> 拥抱 <code>JS</code>，<code>Vue</code> 使用模板拥抱 <code>html</code></li>
+<li><code>React</code> 函数式编程，<code>Vue</code> 声明式编程</li>
+<li><code>React</code> 更多需要自己写，<code>Vue</code> 有很多内置指令等</li>
+</ul>
 
     </div>
 
@@ -296,7 +395,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E8%B7%AF%E7%BA%BF"><span class="nav-number">1.</span> <span class="nav-text">1.路线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">2.一些面试题</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E8%B7%AF%E7%BA%BF"><span class="nav-number">1.</span> <span class="nav-text">1.路线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">2.一些面试题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1React-%E7%BB%84%E4%BB%B6%E5%A6%82%E4%BD%95%E9%80%9A%E8%AE%AF"><span class="nav-number">2.1.</span> <span class="nav-text">2.1React 组件如何通讯</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2JSX-%E6%9C%AC%E8%B4%A8%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">2.2.</span> <span class="nav-text">2.2JSX 本质是什么</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-Context-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%8C%E5%A6%82%E4%BD%95%E5%BA%94%E7%94%A8"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 Context 是什么，如何应用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-4-SCU-%E7%9A%84%E7%94%A8%E9%80%94"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 SCU 的用途</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-5redux-%E5%8D%95%E9%A1%B9%E6%95%B0%E6%8D%AE%E6%B5%81"><span class="nav-number">2.5.</span> <span class="nav-text">2.5redux 单项数据流</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-6-%E4%BB%80%E4%B9%88%E6%98%AF%E7%BA%AF%E5%87%BD%E6%95%B0"><span class="nav-number">2.6.</span> <span class="nav-text">2.6 什么是纯函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-7-React-%E7%BB%84%E4%BB%B6%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">2.7.</span> <span class="nav-text">2.7 React 组件生命周期</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-7-React-%E5%8F%91%E8%B5%B7-ajax-%E5%BA%94%E8%AF%A5%E5%9C%A8%E5%93%AA%E4%B8%AA%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">2.8.</span> <span class="nav-text">2.7 React 发起 ajax 应该在哪个生命周期</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-8-%E6%B8%B2%E6%9F%93%E5%88%97%E8%A1%A8%E4%B8%BA%E4%BD%95%E4%BD%BF%E7%94%A8-key"><span class="nav-number">2.9.</span> <span class="nav-text">2.8 渲染列表为何使用 key</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-7-%E5%87%BD%E6%95%B0%E7%BB%84%E4%BB%B6%E5%92%8C-class-%E7%BB%84%E4%BB%B6%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">2.10.</span> <span class="nav-text">2.7 函数组件和 class 组件的区别</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-8-%E4%BB%80%E4%B9%88%E6%98%AF%E5%8F%97%E6%8E%A7%E7%BB%84%E4%BB%B6"><span class="nav-number">2.11.</span> <span class="nav-text">2.8 什么是受控组件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-9-%E4%BD%95%E6%97%B6%E4%BD%BF%E7%94%A8%E5%BC%82%E6%AD%A5%E7%BB%84%E4%BB%B6"><span class="nav-number">2.12.</span> <span class="nav-text">2.9 何时使用异步组件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-10-%E5%A4%9A%E4%B8%AA%E7%BB%84%E4%BB%B6%E6%9C%89%E5%85%AC%E5%85%B1%E9%80%BB%E8%BE%91%EF%BC%8C%E5%A6%82%E4%BD%95%E6%8A%BD%E7%A6%BB"><span class="nav-number">2.13.</span> <span class="nav-text">2.10 多个组件有公共逻辑，如何抽离</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-11-redux-%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82"><span class="nav-number">2.14.</span> <span class="nav-text">2.11 redux 如何进行异步请求</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-12-react-router-%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%E6%87%92%E5%8A%A0%E8%BD%BD"><span class="nav-number">2.15.</span> <span class="nav-text">2.12 react-router 如何配置懒加载</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-13-PureComponent-%E6%9C%89%E4%BD%95%E5%8C%BA%E5%88%AB"><span class="nav-number">2.16.</span> <span class="nav-text">2.13 PureComponent 有何区别</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-14-React-%E4%BA%8B%E4%BB%B6%E5%92%8C-DOM-%E4%BA%8B%E4%BB%B6%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">2.17.</span> <span class="nav-text">2.14  React 事件和 DOM 事件的区别</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-15-React-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="nav-number">2.18.</span> <span class="nav-text">2.15 React 性能优化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-16-React-%E5%92%8C-Vue-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">2.19.</span> <span class="nav-text">2.16 React 和 Vue 的区别</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -310,12 +409,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-count">48</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-count">41</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
