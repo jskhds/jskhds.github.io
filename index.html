@@ -152,6 +152,191 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/02/%E9%80%8F%E8%A7%86HTTP%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="D-Moon">
+      <meta itemprop="description" content="划船要不要用桨呢？这是一个问题">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="D-Moon's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/02/%E9%80%8F%E8%A7%86HTTP%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/" class="post-title-link" itemprop="url">透视HTTP学习笔记01</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-03-02 22:24:21" itemprop="dateCreated datePublished" datetime="2022-03-02T22:24:21+08:00">2022-03-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-03 20:52:19" itemprop="dateModified" datetime="2022-03-03T20:52:19+08:00">2022-03-03</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="0-HTTP-是什么，HTTP-不是什么？"><a href="#0-HTTP-是什么，HTTP-不是什么？" class="headerlink" title="0.HTTP 是什么，HTTP 不是什么？"></a>0.HTTP 是什么，HTTP 不是什么？</h4><h4 id="1-PART1"><a href="#1-PART1" class="headerlink" title="1.PART1"></a>1.PART1</h4><h5 id="1-浏览器-服务器-CDN-爬虫"><a href="#1-浏览器-服务器-CDN-爬虫" class="headerlink" title="1.浏览器/服务器/CDN/爬虫"></a>1.浏览器/服务器/CDN/爬虫</h5><p>浏览器：协议的请求方，其角色被称为 User Agent，意思是作为访问者的代理发起 HTTP 请求。aka 客户端</p>
+<p>服务器：协议的应答方，HTTP 响应请求的主体，分为硬件和软件。</p>
+<p><code>当我们谈到“Web 服务器”时有两个层面的含义：硬件和软件。 硬件含义就是物理形式或“云”形式的机器，在大多数情况下它可能不是一台服务器，而是利用反向代理、负载均衡等技术组成的庞大集群。但从外界看来，它仍然表现为一台机器，但这个形象是“虚拟的”。 软件含义的 Web 服务器可能我们更为关心，它就是提供 Web 服务的应用程序，通常会运行在硬件含义的服务器上。它利用强大的硬件能力响应海量的客户端 HTTP 请求，处理磁盘上的网页、图片等静态文件，或者把请求转发给后面的 Tomcat、Node.js 等业务应用，返回动态的信息。</code></p>
+<p>CDN：缩短浏览器到服务器的距离，它全程内容分发网络，应用了HTTP协议里的缓存和代理技术，代替源站响应客户端的请求。</p>
+<p>爬虫：</p>
+<h5 id="2-HTML-WebService-WAF"><a href="#2-HTML-WebService-WAF" class="headerlink" title="2.HTML/WebService/WAF"></a>2.HTML/WebService/WAF</h5><p>WebService 是一种应用服务开发规范，由 W3C 定义。（规定应用如何开发服务的规范？）通常使用 WSDL 定义服务接口，用 HTTP 协议传输 XML 或者 SOAP 信息。在 WebService 架构里，服务端和客户端可以用不同的编程语言。</p>
+<h4 id="2-与HTTP相关的协议"><a href="#2-与HTTP相关的协议" class="headerlink" title="2.与HTTP相关的协议"></a>2.与HTTP相关的协议</h4><h5 id="2-1TCP-IP"><a href="#2-1TCP-IP" class="headerlink" title="2.1TCP/IP"></a>2.1TCP/IP</h5><p>一系列通信协议的同称，最重要的是 TCP 和 IP，还有 UDP、ICMP、ARP。</p>
+<p><strong>IP</strong>：主要解决寻址和路由的问题，以及两点减传送数据包。使用 IP 地址来定位计算机，分为 V4 版 （四个点分割地址，2 的 32 次方）和 V6版（8 个冒号分割地址，2 的 128 次方）</p>
+<p><strong>TCP</strong>：传输控制协议，位于 IP 协议之上。基于IP协议提供<strong>可靠的，字节流</strong>的通信。可靠意味着保证数据不丢失，字节流表示保证数据完整，所以在 TCP 两端可以如同操作文件一样访问传输的数据，就像是在一个密闭的管道里流动的字节。</p>
+<p><strong>HTTP 与 TCP/IP</strong>:HTTP 不关心传输细节，像寻址路由数据完整性等，这些都交给下层处理。所以 HTTP 就运行在 TCP/IP 协议上。</p>
+<h5 id="2-2DNS"><a href="#2-2DNS" class="headerlink" title="2.2DNS"></a>2.2DNS</h5><ul>
+<li>DNS 是一个域名系统，域名又称为主机名。域名和IP地址是一组映射，但是域名比IP地址好记忆得多。不过 TCP/IP 使用的是 IP 地址，所以仍然需要 DNS 来解析域名为IP地址。HTTP 协议中并没有明确必须使用 DNS，但是现在大多数 WEB 服务器都使用了 DNS。</li>
+<li>DNS 解析域名的过程</li>
+</ul>
+<p>DNS 是一个树状的分布式查询系统：比如说 <a target="_blank" rel="noopener" href="http://www.baidu.com/">www.baidu.com</a> 从上往下为 根域名服务器返回顶级域名的IP地址(com 的 ip 地址)，顶级域名服务器(返回 baidu.com 的 ip 地址)，权威域名服务器(返回主机域名 <a target="_blank" rel="noopener" href="http://www.baidu.com/">www.baidu.com</a> 的IP地址)</p>
+<p>外层有多级缓存来实现负载均衡。像如上过程，如果每次都这么查找，对DNS 服务器的负载要求很大，所以需要缓存系统。我们按照顺序如果在缓存系统里找到了域名对应的ip地址，就不用再走这么一趟了。从小到大的缓存方：各个大公司、网络运营商的 DNS服务器=&gt; 操作系统=&gt;主机映射文件(hosts 文件，Windows 下是 C:\Windows\System32\drivers\etc)。</p>
+<p>所以解析域名的过程大致是这样：浏览器=&gt;操作系统=&gt;hosts文件=&gt;非权威DNS服务器=&gt;根域名服务器=&gt;顶级域名服务器权威DNS服务器。</p>
+<h5 id="2-3URI-URL"><a href="#2-3URI-URL" class="headerlink" title="2.3URI/URL"></a>2.3URI/URL</h5><p>URI 和 URL 基本无差别。URI 是统一资源定位符，唯一标记互联网上的资源，常用表现形式是 URL，URL 实际上是 URI 的子集。</p>
+<p>URI 分为三部分：协议，主机名，路径</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://nginx.org/en/download.html</span><br></pre></td></tr></table></figure>
+
+<p>协议：http</p>
+<p>主机名：nginx.org</p>
+<p>路径：主机下的 “en/download.html”</p>
+<h5 id="2-4HTTPS"><a href="#2-4HTTPS" class="headerlink" title="2.4HTTPS"></a>2.4HTTPS</h5><p>HTTPS 相当于加密了的 HTTP。它基于 SSL/TLS  上，而 SSL/TLS 又基于 TCP/IP。所以 HTTPS 相当于 TCP/IP + SSL/TLS + HTTP.</p>
+<p>SSL 和 TLS 其实都是一个东西，是负责加密通信的安全协议，使用了对称加密，非对称加密，摘要算法，数字前面。数字证书等密码学先进的研究成果。</p>
+<h5 id="2-5代理"><a href="#2-5代理" class="headerlink" title="2.5代理"></a>2.5代理</h5><p>是 HTTP 协议中请求方和应答方之间的一个环节，做为中转站，既可以转发客户端的请求，也可以转发服务器的应答。常见的有<strong>四种</strong>：</p>
+<p><strong>匿名代理</strong>：完全“隐匿”了被代理的机器，外界看到的只是代理服务器；<br><strong>透明代理：</strong>顾名思义，它在传输过程中是“透明开放”的，外界既知道代理，也知道客户端；<br><strong>正向代理</strong>：靠近客户端，代表客户端向服务器发送请求；<br><strong>反向代理</strong>：靠近服务器端，代表服务器响应客户端的请求；</p>
+<p>代理可以完成很多事情：负载均衡，内容缓存，安全防护，数据处理。</p>
+<p><strong>负载均衡</strong>：把访问请求均匀分散到多台机器，实现访问集群化；<br><strong>内容缓存</strong>：暂存上下行的数据，减轻后端的压力；<br><strong>安全防护</strong>：隐匿 IP, 使用 WAF 等工具抵御网络攻击，保护被代理的机器；<br><strong>数据处理</strong>：提供压缩、加密等额外的功能。</p>
+<h5 id="2-6问题"><a href="#2-6问题" class="headerlink" title="2.6问题"></a>2.6问题</h5><ul>
+<li>DNS 和 URL：DNS 解析到主机名，变成 IP 地址后，IP地址再进行寻址和路由。</li>
+<li>代理的类型区分：a 和 b 交流，通过 c 转达，是正向代理。b 知道 a 透明，b 不知道 a 匿名。b 又通过 c 或者其它的谁回复，此时b 或者其它谁就是反向代理。</li>
+</ul>
+<h4 id="3-TCP-IP-分层"><a href="#3-TCP-IP-分层" class="headerlink" title="3.TCP/IP 分层"></a>3.TCP/IP 分层</h4><p>从下到上分为四层：链接层，网络层，传输层，应用层。</p>
+<p>只要关心的是具体应用内容，就是应用层，比如 CDN DNS</p>
+<p><code>第一层叫“链接层”（link layer），负责在以太网、WiFi 这样的底层网络上发送原始数据包，工作在网卡这个层次，使用 MAC 地址来标记网络上的设备，所以有时候也叫 MAC 层。 第二层叫“网际层”或者“网络互连层”（internet layer），IP 协议就处在这一层。因为 IP 协议定义了“IP 地址”的概念，所以就可以在“链接层”的基础上，用 IP 地址取代 MAC 地址，把许许多多的局域网、广域网连接成一个虚拟的巨大网络，在这个网络里找设备时只要把 IP 地址再“翻译”成 MAC 地址就可以了。 第三层叫“传输层”（transport layer），这个层次协议的职责是保证数据在 IP 地址标记的两点之间“可靠”地传输，是 TCP 协议工作的层次，另外还有它的一个“小伙伴”UDP。 TCP 是一个有状态的协议，需要先与对方建立连接然后才能发送数据，而且保证数据不丢失不重复。而 UDP 则比较简单，它无状态，不用事先建立连接就可以任意发送数据，但不保证数据一定会发到对方。两个协议的另一个重要区别在于数据的形式。TCP 的数据是连续的“字节流”，有先后顺序，而 UDP 则是分散的小数据包，是顺序发，乱序收。 协议栈的第四层叫“应用层”（application layer），由于下面的三层把基础打得非常好，所以在这一层就“百花齐放”了，有各种面向具体应用的协议。例如 Telnet、SSH、FTP、SMTP 等等，当然还有我们的 HTTP。 MAC 层的传输单位是帧（frame），IP 层的传输单位是包（packet），TCP 层的传输单位是段（segment），HTTP 的传输单位则是消息或报文（message）。但这些名词并没有什么本质的区分，可以统称为数据包。</code></p>
+<h4 id="4-OSI网络分层"><a href="#4-OSI网络分层" class="headerlink" title="4.OSI网络分层"></a>4.OSI网络分层</h4><p>分为七层，物理层(第一层)，数据链路层，网络层，传输层，会话层，表示层，应用层(第七层)</p>
+<p>与 TCP/IP 的映射关系，第一层没有，第二三四层分别对应，第五六七对应 应用层</p>
+<p>二层转发：OSI 中数据链路层设备(交换机)通过 MAC 地址来决定转发到哪个端口</p>
+<p>三层路由：OSI 中网络层设备(路由器)通过 IP 地址来决定路由到哪个网络</p>
+<p><code> 所谓的“四层负载均衡”就是指工作在传输层上，基于 TCP/IP 协议的特性，例如 IP 地址、端口号等实现对后端服务器的负载均衡。   所谓的“七层负载均衡”就是指工作在应用层上，看到的是 HTTP 协议，解析 HTTP 报文里的 URI、主机名、资源类型等数据，再用适当的策略转发给后端服务器。</code></p>
+<h4 id="5-TCP-IP-四层模型的传输过程"><a href="#5-TCP-IP-四层模型的传输过程" class="headerlink" title="5.TCP/IP 四层模型的传输过程"></a>5.TCP/IP 四层模型的传输过程</h4><p>传递：从上往下。HTTP 给数据套上 HTTP 专用附加数据，到传输层加 TCP 头，到网络层加 IP头，到链路层加 MAC头。</p>
+<p>接受：从下往上。数据从链路层过来，去除 MAC 层，IP 层加的东西，去除 TCP 加的东西，去除 HTTP 加的东西，拿到数据。</p>
+<p>下层的传输过程对于上层来说是透明的，所以就 HTTP 层来看，下层只是一个可靠的传输链路。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/01/%E6%89%8B%E5%86%99call-apply-bind/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="D-Moon">
+      <meta itemprop="description" content="划船要不要用桨呢？这是一个问题">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="D-Moon's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/01/%E6%89%8B%E5%86%99call-apply-bind/" class="post-title-link" itemprop="url">手写call/apply/bind</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-03-01 12:41:19 / 修改时间：13:06:03" itemprop="dateCreated datePublished" datetime="2022-03-01T12:41:19+08:00">2022-03-01</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="1-手写call"><a href="#1-手写call" class="headerlink" title="1.手写call"></a>1.手写call</h4><h5 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.myCall = <span class="function"><span class="keyword">function</span>(<span class="params">thisArg, ...args</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(thisArg);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line">fn.myCall(<span class="string">&#x27;obj&#x27;</span>,<span class="string">&#x27;arg1&#x27;</span>,<span class="string">&#x27;arg2&#x27;</span>);  <span class="comment">// fn obj</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">myCall 函数的目标就是把 fn 运行时的 this 指向 obj</span></span><br><span class="line"><span class="comment">换句话说，就是让 fn 成为 obj 这个对象的方法</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="简化版思路"><a href="#简化版思路" class="headerlink" title="简化版思路"></a>简化版思路</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 简化版 体现思路</span></span><br><span class="line"><span class="built_in">Function</span>.prototype.myCall = <span class="function"><span class="keyword">function</span>(<span class="params">thisArg, ...args</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// 1.给 thisArg 添加方法 也就是调用 myCall 的函数本身</span></span><br><span class="line">    thisArg.func = <span class="built_in">this</span>;</span><br><span class="line">    <span class="keyword">let</span> result = thisArg.func(...args);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="简化版的不足"><a href="#简化版的不足" class="headerlink" title="简化版的不足"></a>简化版的不足</h5><p>会出现覆盖问题：如果说我们对传入的 obj 添加的方法都叫 func，那么如果多个函数都调用了这个myCall ，就会存在覆盖的可能</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn1</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>.x)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn2</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>.y)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">    <span class="attr">x</span>:<span class="string">&#x27;x&#x27;</span>,</span><br><span class="line">    <span class="attr">y</span>:<span class="string">&#x27;y&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line">fn1.myCall(obj)  <span class="comment">// x</span></span><br><span class="line">fn2.myCall(obj)  <span class="comment">// y</span></span><br><span class="line"><span class="built_in">console</span>.log(obj);  <span class="comment">// &#123; x: &#x27;x&#x27;, y: &#x27;y&#x27;, func: [Function: fn2] &#125; 本来应该既有 fn1 也有 fn2， 现在只有 fn2</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="完善版"><a href="#完善版" class="headerlink" title="完善版"></a>完善版</h5><p>加入 Symbol() 构造独一无二的属性名 ，注意 Symbol 不能 new</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//完善版</span></span><br><span class="line"><span class="built_in">Function</span>.prototype.myCall = <span class="function"><span class="keyword">function</span> (<span class="params">thisArg, ...args</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 如果 thisArg 是 undefined 或者 null 那么就替换为 全局对象</span></span><br><span class="line">    thisArg = thisArg || <span class="built_in">global</span></span><br><span class="line">    <span class="comment">// ES6引入了一种新的原始数据类型Symbol，表示独一无二的值，最大的用法是用来定义对象的唯一属性名。</span></span><br><span class="line">    <span class="keyword">const</span> prop = <span class="built_in">Symbol</span>();</span><br><span class="line">    thisArg[prop] = <span class="built_in">this</span>;</span><br><span class="line">    <span class="keyword">let</span> result = thisArg[prop](...args);</span><br><span class="line">    <span class="comment">// delete 操作符用于删除对象的某个属性, 此操作为了不更改原来的 obj </span></span><br><span class="line">    <span class="keyword">delete</span> thisArg[prop];</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn1</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>.x)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn2</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>.y)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">    <span class="attr">x</span>:<span class="string">&#x27;x&#x27;</span>,</span><br><span class="line">    <span class="attr">y</span>:<span class="string">&#x27;y&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line">fn1.myCall(obj)  <span class="comment">// x</span></span><br><span class="line">fn2.myCall(obj)  <span class="comment">// y</span></span><br><span class="line"><span class="built_in">console</span>.log(obj); <span class="comment">// 如果没有 delete 操作的话，obj 此时就有 fn1 fn2 两个函数</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-手写apply"><a href="#2-手写apply" class="headerlink" title="2.手写apply"></a>2.手写apply</h4><p>apply 和 call 的实现思路是一样的，只是传参形式不同。call 用参数列表传参，apply 用数组传参</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.myApply = <span class="function"><span class="keyword">function</span>(<span class="params">thisArg, args</span>)</span>&#123;</span><br><span class="line">    args = args||[];</span><br><span class="line">    thisArg = thisArg||<span class="built_in">global</span>;</span><br><span class="line">    <span class="keyword">const</span> prop =  <span class="built_in">Symbol</span>();</span><br><span class="line">    thisArg[prop] = <span class="built_in">this</span>;</span><br><span class="line">    <span class="keyword">const</span> res = thisArg[prop](...args);</span><br><span class="line">    <span class="keyword">delete</span> thisArg[prop];</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">    <span class="attr">x</span>:<span class="string">&#x27;x&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">x,y,z</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>.x)</span><br><span class="line">    <span class="built_in">console</span>.log(x + y + z)</span><br><span class="line">&#125;</span><br><span class="line">fn.myApply(obj,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-手写-bind"><a href="#3-手写-bind" class="headerlink" title="3.手写 bind"></a>3.手写 bind</h4><p>bind 返回的是一个永久改变了 this 指向的函数，我们可以在 call 或者 apply 中任选一个来改变this 指向</p>
+<h5 id="版本一"><a href="#版本一" class="headerlink" title="版本一"></a>版本一</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.myBind = <span class="function"><span class="keyword">function</span>(<span class="params">thisArg, ...args</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> self = <span class="built_in">this</span></span><br><span class="line">  <span class="comment">// 返回绑定函数</span></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 包装了原函数对象</span></span><br><span class="line">    <span class="keyword">return</span> self.apply(thisArg, args)</span><br><span class="line">    <span class="comment">// or  return self.call(thisArg,...args)</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="版本二"><a href="#版本二" class="headerlink" title="版本二"></a>版本二</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.myBind = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 把参数处理放到里面来</span></span><br><span class="line">    <span class="keyword">const</span> args = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>)</span><br><span class="line">    <span class="keyword">const</span> targetT = args.shift()</span><br><span class="line">    <span class="keyword">const</span> self = <span class="built_in">this</span></span><br><span class="line">     <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">         <span class="keyword">return</span> self.apply(targetT,args)</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/02/27/babel-polyfill-%E5%92%8C-babel-runtime/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -718,150 +903,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/30/React-Redux/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="D-Moon">
-      <meta itemprop="description" content="划船要不要用桨呢？这是一个问题">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="D-Moon's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/01/30/React-Redux/" class="post-title-link" itemprop="url">React-Redux</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-01-30 22:36:35" itemprop="dateCreated datePublished" datetime="2022-01-30T22:36:35+08:00">2022-01-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-31 16:48:00" itemprop="dateModified" datetime="2022-01-31T16:48:00+08:00">2022-01-31</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>React 小书笔记</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/01/30/React-Redux/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/27/React02/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="D-Moon">
-      <meta itemprop="description" content="划船要不要用桨呢？这是一个问题">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="D-Moon's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/01/27/React02/" class="post-title-link" itemprop="url">React02</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-01-27 23:02:29" itemprop="dateCreated datePublished" datetime="2022-01-27T23:02:29+08:00">2022-01-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-02-08 01:58:23" itemprop="dateModified" datetime="2022-02-08T01:58:23+08:00">2022-02-08</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>函数组件、非受控组件、异步组件</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/01/27/React02/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -931,7 +972,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">50</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
