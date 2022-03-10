@@ -27,13 +27,13 @@
 <meta property="og:site_name" content="D-Moon&#39;s Blog">
 <meta property="og:description" content="1.概述：KMP算法主要用在字符串匹配上，需要一个前缀表和一个next数组">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/images/KMP%E7%B2%BE%E8%AE%B21.gif">
+<meta property="og:image" content="d:/program/blog/source/images/KMP精讲1.gif">
 <meta property="article:published_time" content="2021-10-18T06:51:13.000Z">
-<meta property="article:modified_time" content="2021-12-16T09:31:43.935Z">
+<meta property="article:modified_time" content="2022-03-10T23:25:05.315Z">
 <meta property="article:author" content="D-Moon">
 <meta property="article:tag" content="KMP算法">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/images/KMP%E7%B2%BE%E8%AE%B21.gif">
+<meta name="twitter:image" content="d:/program/blog/source/images/KMP精讲1.gif">
 
 <link rel="canonical" href="http://example.com/2021/10/18/KMP%E7%AE%97%E6%B3%95/">
 
@@ -188,7 +188,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-16 17:31:43" itemprop="dateModified" datetime="2021-12-16T17:31:43+08:00">2021-12-16</time>
+                <time title="修改时间：2022-03-11 07:25:05" itemprop="dateModified" datetime="2022-03-11T07:25:05+08:00">2022-03-11</time>
               </span>
 
           
@@ -209,7 +209,7 @@
 <p>1）如果暴力匹配，那么在 f 匹配不上时，就需要从头开始匹配，效率很低</p>
 <p>2）如果是KMP算法，模板字符串匹配到 f 时， 不从头开始，而是从 b 开始匹配。思想非常简单，我们可以发现，对于 aabaabaafa 在第二个 b 我们匹配不上了，但是这个b前面的aa和模板字符串的开头aa是一样的，所以从aa后面一个值开始匹配是效率最高的。</p>
 <p>动图如下：</p>
-<p> <img src="/images/KMP%E7%B2%BE%E8%AE%B21.gif"></p>
+<p> <img src="D:\program\blog\source\images\KMP精讲1.gif"></p>
 <h4 id="3-前缀表"><a href="#3-前缀表" class="headerlink" title="3.前缀表"></a>3.前缀表</h4><p>现在有一个问题是，在字符不匹配时，我们怎么知道下一步该从哪里开始呢？这里就需要用到前缀表了。</p>
 <h6 id="1）先说一下什么是前缀和后缀："><a href="#1）先说一下什么是前缀和后缀：" class="headerlink" title="1）先说一下什么是前缀和后缀："></a>1）先说一下什么是前缀和后缀：</h6><p>前缀：不包括最后一个字符，包括第一个字符的所有连续子字符串。</p>
 <p>eg：aabaaf的所有前缀：a, aa, aab, aaba, aabaa 不包括aabaaf</p>
@@ -348,12 +348,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-count">42</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
