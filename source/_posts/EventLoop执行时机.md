@@ -4,6 +4,10 @@ date: 2022-03-16 01:08:06
 tags: 面试题
 ---
 
+Event Loop 的相关
+
+<!--more-->
+
 ```js
 async function async1(){
     console.log(1);
