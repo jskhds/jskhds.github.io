@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="JSX 基本使用、父子组件通信、生命周期、setState">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React01">
+<meta property="og:url" content="http://example.com/2022/01/27/React01/index.html">
+<meta property="og:site_name" content="D-Moon&#39;s Blog">
+<meta property="og:description" content="JSX 基本使用、父子组件通信、生命周期、setState">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/01/27/images/react-lifecycle.png">
+<meta property="article:published_time" content="2022-01-27T06:36:30.000Z">
+<meta property="article:modified_time" content="2022-03-11T04:49:09.218Z">
+<meta property="article:author" content="D-Moon">
+<meta property="article:tag" content="React 基本使用">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/01/27/images/react-lifecycle.png">
+
+<link rel="canonical" href="http://example.com/2022/01/27/React01/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>React01 | D-Moon's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">D-Moon's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/27/React01/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="D-Moon">
+      <meta itemprop="description" content="划船要不要用桨呢？这是一个问题">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="D-Moon's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          React01
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-01-27 14:36:30" itemprop="dateCreated datePublished" datetime="2022-01-27T14:36:30+08:00">2022-01-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-11 12:49:09" itemprop="dateModified" datetime="2022-03-11T12:49:09+08:00">2022-03-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>JSX 基本使用、父子组件通信、生命周期、setState</p>
+<span id="more"></span>
+
+<h4 id="0-React设计理念"><a href="#0-React设计理念" class="headerlink" title="0.React设计理念"></a>0.React设计理念</h4><ol>
+<li>单向数据流<ul>
+<li>数据与界面绑定</li>
+<li>单向渲染</li>
+<li>类似函数，同样的输入，同样的输出</li>
+</ul>
+</li>
+<li>虚拟 <code>DOM</code><ul>
+<li>在 <code>JS</code>  和真实的 <code>DOM</code> 间添加了虚拟 <code>DOM</code> 层，如果真实的 <code>UI</code> 需要更新，对比两个 <code>UI</code> 最小的差距进行重新渲染</li>
+</ul>
+</li>
+<li>组件化<ul>
+<li>保持交互一致性和视觉风格统一</li>
+<li>便于复用和相互协作</li>
+</ul>
+</li>
+</ol>
+<h4 id="1-JSX-基本使用"><a href="#1-JSX-基本使用" class="headerlink" title="1.JSX 基本使用"></a>1.JSX 基本使用</h4><ul>
+<li>变量、表达式</li>
+<li>class style</li>
+<li>子元素和组件</li>
+</ul>
+<h4 id="2-条件判断"><a href="#2-条件判断" class="headerlink" title="2.条件判断"></a>2.条件判断</h4><h4 id="3-事件"><a href="#3-事件" class="headerlink" title="3.事件"></a>3.事件</h4><p>React 自己的事件机制称为合成事件，如果要获得元素 DOM 事件可以用 e.nativeEvent</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;button onClick = &#123;handlerClick&#125;&gt;click&lt;button&gt;</span><br><span class="line">    </span><br><span class="line"><span class="keyword">const</span> <span class="title function_">handlerClick</span> = (<span class="params">e</span>) =&gt;&#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(e.<span class="property">nativeEvent</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>先处理原生事件，在处理 React 事件，最后真正执行 document 上挂载的事件</p>
+<ul>
+<li>react 注册的事件最终会绑定在 root 这个 DOM 上，而不是 React 组件对应的 DOM(减少内存开销就是因为所有的事件都绑定在document上，其它节点没有绑定事件)</li>
+<li>react 自身实现了一套事件冒泡机制，所以我们使用 event.stopPropagation() 是无效的</li>
+<li>react 有一套自己的合成事件 SyntheticEvent</li>
+</ul>
+<h4 id="4-表单"><a href="#4-表单" class="headerlink" title="4.表单"></a>4.表单</h4><h4 id="5-父子组件通信"><a href="#5-父子组件通信" class="headerlink" title="5.父子组件通信"></a>5.父子组件通信</h4><h5 id="5-1-父组件向子组件传递数据"><a href="#5-1-父组件向子组件传递数据" class="headerlink" title="5.1 父组件向子组件传递数据"></a>5.1 父组件向子组件传递数据</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 父组件在使用子组件时添加数据，子组件用 this.props 获取</span><br><span class="line">// 父组件：</span><br><span class="line">&lt;List list = &#123;this.state.list&#125;/&gt;</span><br><span class="line">// 子组件 List</span><br><span class="line">const &#123;list&#125; = this.props</span><br></pre></td></tr></table></figure>
+
+<h5 id="5-2-父组件向子组件传递函数"><a href="#5-2-父组件向子组件传递函数" class="headerlink" title="5.2 父组件向子组件传递函数"></a>5.2 父组件向子组件传递函数</h5><p>和传递属性差不多</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 父组件定义函数 onSubmitTitle，在标签中传递给子组件 Input</span><br><span class="line"> &lt;Input submitTitle = &#123;this.onSubmitTitle&#125;/&gt;</span><br><span class="line">// 子组件通过 this.props 获取这个函数，同时传递自己的参数</span><br><span class="line">&lt;button onClick=&#123;this.onSubmit.bind(this)&#125;&gt; 提交&lt;/button&gt;</span><br><span class="line">onSubmit()&#123;</span><br><span class="line">        const &#123; submitTitle &#125; = this.props</span><br><span class="line">        submitTitle() // 里面是否传参，传递什么参数，看父组件怎么定义的</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了确保父组件中使用子组件时传递的参数正确，还可以添加类型检查。(当然传递属性时也可以限制类型)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import PropTypes from &#x27;prop-types&#x27;</span><br><span class="line">// 类型检查</span><br><span class="line">Input.propTypes = &#123;</span><br><span class="line">    submitTitle: PropTypes.func.isRequired</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="5-3状态提升"><a href="#5-3状态提升" class="headerlink" title="5.3状态提升"></a>5.3状态提升</h5><p>比如说两个子组件 List 组件和 Input 组件都需要一个 list 列表数据，前者只负责渲染，后者只负责修改，那么 list 列表数据就可以放在父组件中，由父组件来统一调配，这称做状态提升</p>
+<h4 id="6-setState-important"><a href="#6-setState-important" class="headerlink" title="6.setState (important)"></a>6.setState (important)</h4><p>异步更新，同步执行</p>
+<h5 id="6-1-不可变值"><a href="#6-1-不可变值" class="headerlink" title="6.1 不可变值"></a>6.1 不可变值</h5><p>要在 setState 里面修改数据，在修改状态时千万不能改变原来的状态state。shouldMountUpdate生命周期中会将要改变的值与之前的值做个比较来确定是否改变视图，以这种方式来优化性能</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">// 1. state 在 constructor 里面定义</span><br><span class="line">constructor(props) &#123;</span><br><span class="line">        super(props)</span><br><span class="line"></span><br><span class="line">        // 第一，state 要在构造函数中定义</span><br><span class="line">        this.state = &#123;</span><br><span class="line">            count: 0,</span><br><span class="line">            list: [1,2,3,4,5],</span><br><span class="line">            obj1: &#123;a: 100&#125;,</span><br><span class="line">            obj2: &#123;x: 100&#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line">// 2. 第二，不要直接修改 state ，使用不可变值</span><br><span class="line">// this.state.count++ 是错误的</span><br><span class="line">this.setState(&#123;</span><br><span class="line">    	count: this.state.count + 1, // SCU</span><br><span class="line">    	list: this.state.list.concat(6), // 不能用 push pop splice 等会改变原数组的 api </span><br><span class="line">    	obj: Object.assign(&#123;&#125;, this.state.obj1, &#123;b: 200&#125;),</span><br><span class="line">    	obj1: &#123;...this.state.obj1, y: 200&#125;</span><br><span class="line">		</span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="6-2-可能是异步更新"><a href="#6-2-可能是异步更新" class="headerlink" title="6.2 可能是异步更新"></a>6.2 可能是异步更新</h5><p>① setState 异步的情况</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">constructor(props) &#123;</span><br><span class="line">        super(props)</span><br><span class="line">        this.state = &#123;</span><br><span class="line">            count: 0</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        return &lt;div&gt;</span><br><span class="line">            &lt;p&gt;&#123;this.state.count&#125;&lt;/p&gt;</span><br><span class="line">            &lt;button onClick=&#123;this.increase&#125;&gt;累加&lt;/button&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &#125;</span><br><span class="line">    increase = () =&gt; &#123;</span><br><span class="line">        this.setState(&#123;</span><br><span class="line">            count: this.state.count + 1</span><br><span class="line">        &#125;)</span><br><span class="line">        console.log(this.state.count);  // 只能拿到修改前的值</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果一定要拿到新值，可以在 setState 中加回调函数，相当于 vue 中的 $nextTick</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">this.setState(&#123;</span><br><span class="line">            count: this.state.count + 1</span><br><span class="line">        &#125;,()=&gt;&#123;</span><br><span class="line">            console.log(&#x27;回调函数打印的值&#x27;,this.state.count);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>② setState 是同步的情况</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 1. 在 setTimeout 中是同步的</span><br><span class="line">increase = () =&gt; &#123;</span><br><span class="line">        setTimeout(() =&gt; &#123;</span><br><span class="line">            this.setState(&#123;</span><br><span class="line">                count: this.state.count + 1</span><br><span class="line">            &#125;)</span><br><span class="line">            console.log(&#x27;setTimeout 打印的值&#x27;,this.state.count); // 打印的值是最新值</span><br><span class="line">        &#125;, 0);</span><br><span class="line">        </span><br><span class="line">&#125;</span><br><span class="line">componentWillUnmount() &#123;</span><br><span class="line">        // 及时销毁定时器</span><br><span class="line">        clearTimeout</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// 2. 在自定义的 DOM 事件中是同步的</span><br><span class="line">componentDidMount()&#123;</span><br><span class="line">        document.body.addEventListener(&#x27;click&#x27;, this.clickHandler)</span><br><span class="line">&#125;</span><br><span class="line">clickHandler = ()=&gt;&#123;</span><br><span class="line">        this.setState(&#123;</span><br><span class="line">            count: this.state.count + 1</span><br><span class="line">        &#125;)</span><br><span class="line">        console.log(&#x27;body 打印的值&#x27;,this.state.count);</span><br><span class="line">&#125;</span><br><span class="line">// 注意及时销毁</span><br><span class="line">componentWillUnmount() &#123;</span><br><span class="line">        // 及时销毁自定义 DOM 事件</span><br><span class="line">        document.body.removeEventListener(&#x27;click&#x27;, this.bodyClickHandler)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="6-3-可能会被合并"><a href="#6-3-可能会被合并" class="headerlink" title="6.3 可能会被合并"></a>6.3 可能会被合并</h5><p>① 传入对象时会被合并</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 传入对象，会被合并（类似 Object.assign ）。执行结果只一次 +1</span><br><span class="line">        this.setState(&#123;</span><br><span class="line">            count: this.state.count + 1</span><br><span class="line">        &#125;)</span><br><span class="line">        this.setState(&#123;</span><br><span class="line">            count: this.state.count + 1</span><br><span class="line">        &#125;)</span><br><span class="line">        this.setState(&#123;</span><br><span class="line">            count: this.state.count + 1</span><br><span class="line">        &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>② 传入函数时不会被合并</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">// 传入函数，不会被合并。执行结果是 +3</span><br><span class="line">        this.setState((prevState, props) =&gt; &#123;</span><br><span class="line">            return &#123;</span><br><span class="line">                count: prevState.count + 1</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">        this.setState((prevState, props) =&gt; &#123;</span><br><span class="line">            return &#123;</span><br><span class="line">                count: prevState.count + 1</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">        this.setState((prevState, props) =&gt; &#123;</span><br><span class="line">            return &#123;</span><br><span class="line">                count: prevState.count + 1</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="7-React-生命周期"><a href="#7-React-生命周期" class="headerlink" title="7.React 生命周期"></a>7.React 生命周期</h4><ul>
+<li>Mounting: 创建虚拟 DOM ， 渲染 UI</li>
+<li>Updating：更新虚拟 DOM， 重新渲染 UI</li>
+<li>Unmounting：删除虚拟 DOM，移除 UI</li>
+</ul>
+<p>单组件生命周期（父子组件生命周期和 Vue 一样）</p>
+<p><img src="../images/react-lifecycle.png" alt="react-lifecycle"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/React-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" rel="tag"># React 基本使用</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/01/01/React00/" rel="prev" title="React00">
+      <i class="fa fa-chevron-left"></i> React00
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/01/27/React02/" rel="next" title="React02">
+      React02 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#0-React%E8%AE%BE%E8%AE%A1%E7%90%86%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">0.React设计理念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-JSX-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">1.JSX 基本使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD"><span class="nav-number">3.</span> <span class="nav-text">2.条件判断</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E4%BA%8B%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">3.事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E8%A1%A8%E5%8D%95"><span class="nav-number">5.</span> <span class="nav-text">4.表单</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E7%88%B6%E5%AD%90%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1"><span class="nav-number">6.</span> <span class="nav-text">5.父子组件通信</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#5-1-%E7%88%B6%E7%BB%84%E4%BB%B6%E5%90%91%E5%AD%90%E7%BB%84%E4%BB%B6%E4%BC%A0%E9%80%92%E6%95%B0%E6%8D%AE"><span class="nav-number">6.1.</span> <span class="nav-text">5.1 父组件向子组件传递数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-2-%E7%88%B6%E7%BB%84%E4%BB%B6%E5%90%91%E5%AD%90%E7%BB%84%E4%BB%B6%E4%BC%A0%E9%80%92%E5%87%BD%E6%95%B0"><span class="nav-number">6.2.</span> <span class="nav-text">5.2 父组件向子组件传递函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-3%E7%8A%B6%E6%80%81%E6%8F%90%E5%8D%87"><span class="nav-number">6.3.</span> <span class="nav-text">5.3状态提升</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-setState-important"><span class="nav-number">7.</span> <span class="nav-text">6.setState (important)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#6-1-%E4%B8%8D%E5%8F%AF%E5%8F%98%E5%80%BC"><span class="nav-number">7.1.</span> <span class="nav-text">6.1 不可变值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-2-%E5%8F%AF%E8%83%BD%E6%98%AF%E5%BC%82%E6%AD%A5%E6%9B%B4%E6%96%B0"><span class="nav-number">7.2.</span> <span class="nav-text">6.2 可能是异步更新</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-3-%E5%8F%AF%E8%83%BD%E4%BC%9A%E8%A2%AB%E5%90%88%E5%B9%B6"><span class="nav-number">7.3.</span> <span class="nav-text">6.3 可能会被合并</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-React-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">8.</span> <span class="nav-text">7.React 生命周期</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">D-Moon</p>
+  <div class="site-description" itemprop="description">划船要不要用桨呢？这是一个问题</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">D-Moon</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

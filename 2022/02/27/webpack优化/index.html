@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="webpack 性能优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack性能优化">
+<meta property="og:url" content="http://example.com/2022/02/27/webpack%E4%BC%98%E5%8C%96/index.html">
+<meta property="og:site_name" content="D-Moon&#39;s Blog">
+<meta property="og:description" content="webpack 性能优化">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-02-27T06:26:40.000Z">
+<meta property="article:modified_time" content="2022-03-09T08:59:00.045Z">
+<meta property="article:author" content="D-Moon">
+<meta property="article:tag" content="webpack 性能优化">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/02/27/webpack%E4%BC%98%E5%8C%96/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>webpack性能优化 | D-Moon's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">D-Moon's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/02/27/webpack%E4%BC%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="D-Moon">
+      <meta itemprop="description" content="划船要不要用桨呢？这是一个问题">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="D-Moon's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          webpack性能优化
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-02-27 14:26:40" itemprop="dateCreated datePublished" datetime="2022-02-27T14:26:40+08:00">2022-02-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-09 16:59:00" itemprop="dateModified" datetime="2022-03-09T16:59:00+08:00">2022-03-09</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>webpack 性能优化</p>
+<span id="more"></span>
+
+<h4 id="1-优化打包效率"><a href="#1-优化打包效率" class="headerlink" title="1.优化打包效率"></a>1.优化打包效率</h4><p>开发体验和效率</p>
+<h5 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h5><ul>
+<li><h5 id="优化-babel-loader"><a href="#优化-babel-loader" class="headerlink" title="优化 babel-loader"></a><strong>优化 babel-loader</strong></h5></li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">test</span>:<span class="regexp">/\.js$/</span>,</span><br><span class="line">	use: [<span class="string">&#x27;babel-loader?cacheDirectory&#x27;</span>], <span class="comment">// 开启缓存</span></span><br><span class="line">	<span class="attr">include</span>: path.resolve(__dirname, <span class="string">&#x27;src&#x27;</span>) <span class="comment">// 明确打包范围</span></span><br><span class="line">	<span class="comment">// include 和 exclude 各选一个</span></span><br><span class="line">	<span class="attr">exclude</span>: path.resolve(__dirname, <span class="string">&#x27;node_modules&#x27;</span>)  <span class="comment">// 明确不打包的范围</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><h5 id="IgnorePlugin"><a href="#IgnorePlugin" class="headerlink" title="IgnorePlugin"></a><strong>IgnorePlugin</strong></h5></li>
+</ul>
+<p>避免引用无用模块，具体步骤：先忽略 =&gt; 再动态引用</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// prod.js/plugins下 先忽略</span></span><br><span class="line"><span class="keyword">new</span> webpack.IgnorePlugin(<span class="comment">/*正则匹配要忽略的文件*/</span>, <span class="comment">/*对应的插件*/</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在相应的文件下引入</span></span><br><span class="line"><span class="keyword">import</span> <span class="comment">/*对应插件想要功能的目录*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// eg moment 插件</span></span><br><span class="line"><span class="keyword">new</span> webpack.IgnorePlugin(<span class="regexp">/\./</span>\locale/, moment)  <span class="comment">// 忽略所有语言包</span></span><br><span class="line"><span class="keyword">import</span> moment <span class="keyword">from</span> <span class="string">&#x27;moment&#x27;</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;moment/locale/zh-cn&#x27;</span>  <span class="comment">// 手动引入中文语言包 </span></span><br><span class="line">moment.locale(<span class="string">&#x27;zh-cn&#x27;</span>)   <span class="comment">//把语言包设置成中文</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>noParse</strong></li>
+</ul>
+<p>避免重复打包。webpack noParse作用主要是过滤不需要解析依赖的文件，比如打包的时候依赖了三方库（jquyer、lodash）等，而这些三方库里面没有其他依赖，可以通过配置noParse不去解析文件，提高打包效率</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">	<span class="attr">module</span>: &#123;</span><br><span class="line">        <span class="comment">// 类似</span></span><br><span class="line">		<span class="attr">noParse</span>: [<span class="regexp">/react\.min\.js$/</span>, <span class="regexp">/jquery/</span>],</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>IgnorePlugin  是直接不引人，noParse 是引入但不打包</p>
+<ul>
+<li><strong>happyPack</strong></li>
+</ul>
+<p>由于 JavaScript 是单线程的，要想发挥多核 CPU 的能力，只能通过多进程去实现，而无法通过多线程实现。happyPack 就可以多进程打包。</p>
+<p>步骤：引入=&gt;替换 loader =&gt; 创建插件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> HappyPack = <span class="built_in">require</span>(<span class="string">&#x27;happypack&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    <span class="attr">module</span>: &#123;</span><br><span class="line">        <span class="attr">rules</span>: [</span><br><span class="line">            test: <span class="regexp">/\.js$/</span>,</span><br><span class="line">            <span class="comment">// use: [&#x27;babel-loader?cacheDirectory&#x27;] before</span></span><br><span class="line">            use: [<span class="string">&#x27;happypack/loader?id=babel&#x27;</span>], <span class="comment">// now</span></span><br><span class="line">            <span class="attr">exclude</span>: <span class="regexp">/node_modules/</span>             <span class="comment">// 排除 node_modules 目录下的文件</span></span><br><span class="line">        ]</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">plugins</span>: [</span><br><span class="line">        <span class="comment">//...,</span></span><br><span class="line">        <span class="keyword">new</span> HappyPack(&#123;</span><br><span class="line">            <span class="comment">/*</span></span><br><span class="line"><span class="comment">             * 必须配置</span></span><br><span class="line"><span class="comment">             */</span></span><br><span class="line">            <span class="comment">// id 标识符，要和 rules 中指定的 id 对应起来</span></span><br><span class="line">            <span class="attr">id</span>: <span class="string">&#x27;babel&#x27;</span>,</span><br><span class="line">            <span class="comment">// 需要使用的 loader，用法和 rules 中 Loader 配置一样</span></span><br><span class="line">            <span class="comment">// 可以直接是字符串，也可以是对象形式</span></span><br><span class="line">            <span class="attr">loaders</span>: [<span class="string">&#x27;babel-loader?cacheDirectory&#x27;</span>]</span><br><span class="line">        &#125;)</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>ParallelUglifyPlugin</strong></li>
+</ul>
+<p>多进程压缩 JS。因为 JS 是单线程的，所以开启多进程压缩会更快。原理同 happyPack</p>
+<p>步骤：引用 =&gt; plugins 配置</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用 ParallelUglifyPlugin 并行压缩输出的 JS 代码</span></span><br><span class="line">   <span class="keyword">new</span> ParallelUglifyPlugin(&#123;</span><br><span class="line">       <span class="comment">// 传递给 UglifyJS 的参数</span></span><br><span class="line">       <span class="comment">// （还是使用 UglifyJS 压缩，只不过帮助开启了多进程）</span></span><br><span class="line">       <span class="attr">uglifyJS</span>: &#123;</span><br><span class="line">           <span class="attr">output</span>: &#123;</span><br><span class="line">               <span class="attr">beautify</span>: <span class="literal">false</span>, <span class="comment">// 最紧凑的输出</span></span><br><span class="line">               <span class="attr">comments</span>: <span class="literal">false</span>, <span class="comment">// 删除所有的注释</span></span><br><span class="line">           &#125;,</span><br><span class="line">           <span class="attr">compress</span>: &#123;</span><br><span class="line">               <span class="comment">// 删除所有的 `console` 语句，可以兼容ie浏览器</span></span><br><span class="line">               <span class="attr">drop_console</span>: <span class="literal">true</span>,</span><br><span class="line">               <span class="comment">// 内嵌定义了但是只用到一次的变量</span></span><br><span class="line">               <span class="attr">collapse_vars</span>: <span class="literal">true</span>,</span><br><span class="line">               <span class="comment">// 提取出出现多次但是没有定义成变量去引用的静态值</span></span><br><span class="line">               <span class="attr">reduce_vars</span>: <span class="literal">true</span>,</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><strong>自动刷新</strong></li>
+</ul>
+<p>一般来说用不上，开发环境下可能会用。devServer 配置一般会自动带上自动刷新 </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.export = &#123;</span><br><span class="line">  <span class="attr">watch</span>: <span class="literal">true</span>,  <span class="comment">//默认为 false 开启监听后 webpack-dev-server 会自动开启刷新浏览器</span></span><br><span class="line">  <span class="attr">watchOptions</span>: &#123;</span><br><span class="line">    <span class="attr">ignored</span>: <span class="regexp">/node_modules/</span>,</span><br><span class="line">    <span class="comment">// 监听到变化发生后会等300ms再去执行动作，防止文件更新太快导致重新编译频率太高  </span></span><br><span class="line">    aggregateTimeout: <span class="number">300</span>,  </span><br><span class="line">    <span class="comment">// 判断文件是否发生变化是通过不停的去询问系统指定文件有没有变化实现的</span></span><br><span class="line">    <span class="attr">poll</span>: <span class="number">1000</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>热更新</strong></li>
+</ul>
+<p>自动刷新的缺点：整个网页全部刷新，速度较慢；整个网页刷新后状态丢失</p>
+<p>热更新：新代码生效，网页不刷新，状态不丢失</p>
+<p>步骤：安装 =&gt; 配置 =&gt; 按需引用 </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">npm i webpack webpack-cli -D</span><br><span class="line">npm i webpack-dev-server -D</span><br><span class="line">npm i html-webpack-plugin -D</span><br><span class="line"></span><br><span class="line"><span class="comment">//配置 config 文件</span></span><br><span class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">&#x27;html-webpack-plugin&#x27;</span>)</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="attr">devServer</span>: &#123;</span><br><span class="line">    <span class="attr">hot</span>: <span class="literal">true</span>, <span class="comment">// 开启热更新</span></span><br><span class="line">    <span class="attr">port</span>: <span class="number">8080</span>, <span class="comment">// 指定服务器端口号</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">plugins</span>: [</span><br><span class="line">    <span class="keyword">new</span> HotModuleReplacementPlugin(),</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//在对应模块中引入</span></span><br><span class="line"><span class="comment">// 增加，开启热更新之后的代码逻辑</span></span><br><span class="line"> <span class="keyword">if</span> (<span class="built_in">module</span>.hot) &#123;</span><br><span class="line">     <span class="comment">//xxx 模块需要热更新</span></span><br><span class="line">     <span class="built_in">module</span>.hot.accept([<span class="string">&#x27;./xxx&#x27;</span>], <span class="function">() =&gt;</span> &#123;</span><br><span class="line">       <span class="comment">/*</span></span><br><span class="line"><span class="comment">       do something</span></span><br><span class="line"><span class="comment">       */</span>   </span><br><span class="line">     &#125;)</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><strong>DllPlugin</strong></li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://webpack.wuhaolin.cn/4%E4%BC%98%E5%8C%96/4-2%E4%BD%BF%E7%94%A8DllPlugin.html">https://webpack.wuhaolin.cn/4%E4%BC%98%E5%8C%96/4-2%E4%BD%BF%E7%94%A8DllPlugin.html</a></p>
+<p>webpack 内置已经支持 </p>
+<p>DllPlugin: 打包出 dll 文件</p>
+<p>DLLReferencePlugin: 使用 dll 文件</p>
+<h5 id="环境区分"><a href="#环境区分" class="headerlink" title="环境区分"></a>环境区分</h5><p>1.<strong>可用于生产环境的</strong></p>
+<p>优化 babel-loader（明确缓存，要什么不要什么的范围）</p>
+<p>IgnorePlugin （最好用，不然打包出来代码比较大）</p>
+<p>noParse （提高生产环境打包速度）</p>
+<p>happyPack 和 ParallelUglifyPlugin （多进程打包提高效率）</p>
+<p>2.<strong>不适用于生产环境</strong></p>
+<p>自动刷新（只是为了提高开发体验）</p>
+<p>热更新 （万万不能用于生产环境）</p>
+<p>DLLPlugin (生产环境下打包一次就结束了，不需要使用。只是满足开发环境下的一个速度)</p>
+<h4 id="2-优化产出代码（重要）"><a href="#2-优化产出代码（重要）" class="headerlink" title="2.优化产出代码（重要）"></a>2.优化产出代码（重要）</h4><p>为了线上提高产品性能：让代码体积更小，合理分包不重复加载，速度更快内存使用更小</p>
+<ul>
+<li><strong>小图片 64 编码</strong></li>
+</ul>
+<p>在 url-loader 的 options 配置。低于多少大小的图片就用 base64 格式产出，不要再进行一次网络请求，很浪费资源</p>
+<ul>
+<li><strong>bundle加 hash</strong></li>
+</ul>
+<p>在打包出来的 bundle 里面要加上 contentHash。如果说我们的 hash 值没有改变，说明js css 这些文件没有改变，那么上线请求的时候前端代码就会命中缓存，没必要重新加载一遍，可以提高我们的效率</p>
+<p>eg：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">	...</span><br><span class="line">	<span class="attr">output</span>:&#123;</span><br><span class="line">		<span class="attr">filename</span>: <span class="string">&#x27;[name].[contentHash:8].js&#x27;</span> </span><br><span class="line">	&#125;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>懒加载</strong></li>
+</ul>
+<p>异步 import</p>
+<ul>
+<li><strong>提取公共代码</strong></li>
+<li><strong>IgnorePlugin</strong></li>
+<li><strong>使用 CDN 加速</strong></li>
+</ul>
+<p>​    步骤：在 output 中配置 CDN 前缀 =&gt; 把打包结果(JS CSS Img 等)上传到 CDN 中</p>
+<ul>
+<li><strong>使用 production</strong></li>
+</ul>
+<p>1.dev 模式下没有必要压缩代码，只要设置 mode: “ production”，就会自动压缩（webpack 4 之后）</p>
+<p>2.开发环境下，Vue React 会自动删掉调试代码，比如说开发环境下的 warning</p>
+<p>3.自动启动 Tree-Shaking</p>
+<p>​    前提：必须使用 ES6 Module 才能让 tree-shaking 生效，不能用 commonjs</p>
+<p>​    作用：把没用上的代码（export 出去的）删去</p>
+<p>​    为什么只能在ES6 module 条件下：因为 ES6 Module 是静态引入的，编译时就已经引入了，所以有条件分析我们引入    了什么，什么要用什么不用。但是 commonJS 是动态引入的，在编译时我们不知道到底要不要引入这个模块</p>
+<p>​    eg</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">if</span>(dev)&#123;</span><br><span class="line">	<span class="comment">// require 动态引入 可行</span></span><br><span class="line">	apiList = <span class="built_in">require</span>(<span class="string">&#x27;../config/api/apiList.js&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(dev)&#123;</span><br><span class="line">	<span class="comment">// import 静态引入，编译时报错</span></span><br><span class="line">	<span class="keyword">import</span> apiList <span class="keyword">from</span> <span class="string">&quot;../config/api/apiList.js&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>Scope Hosting</strong></li>
+</ul>
+<p>一个函数有一个作用域，一般来说，webpack 会把一个文件编成一个函数，加上 SH 之后就可以把这些文件编到一个函数中。</p>
+<p>配置：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> ModuleConcatenationPlugin = <span class="built_in">require</span> (<span class="string">&#x27;webpack/lib/optimize/ModuleConcatenationPlugin&#x27;</span>)</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">	<span class="attr">resolve</span>:&#123;</span><br><span class="line">		<span class="attr">mainFields</span>: [<span class="string">&#x27;jsnext:main&#x27;</span>, <span class="string">&#x27;browser&#x27;</span>, <span class="string">&#x27;main&#x27;</span>] <span class="comment">//优先使用jsnext:main指向 ES6模块化文件</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="attr">plugins</span>: [</span><br><span class="line">		<span class="keyword">new</span> ModuleConcatenationPlugin();</span><br><span class="line">	]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-一些常见问题"><a href="#3-一些常见问题" class="headerlink" title="3.一些常见问题"></a>3.一些常见问题</h4><h5 id="前端为什么要进行打包和构建？"><a href="#前端为什么要进行打包和构建？" class="headerlink" title="前端为什么要进行打包和构建？"></a>前端为什么要进行打包和构建？</h5><p>两个方面，代码层面和开发层面。对代码进行打包和构建可以：有更小的代码体积，让代码加载更快，比如说 tree-shaking 代码压缩 代码合并等的使用； 可以支持我们使用高级语言和特性，我们在使用的时候不必考虑其它问题，比如说 TS ES6 模块化 scss 这些；可以提高我们代码的兼容性，比如说 polyfill。 在开发层面：打包和构建可以让我们有一个统一的开发环境和标准（比如说都输出成 ES5 或者 ES6），提高整个部门的效率，还可以集成公司构建规范。</p>
+<h5 id="loader-和-plugin-的区别？"><a href="#loader-和-plugin-的区别？" class="headerlink" title="loader 和 plugin 的区别？"></a>loader 和 plugin 的区别？</h5><p>loader 模块转化器，比如把 less 变成 css</p>
+<p>plugin 扩展插件，loader 结束之后工作，丰富 webpack 的功能。比如说 loader 只能在最开始的时候工作，但是 plugin 就可以在 webpack 整个编译阶段按需求工作。</p>
+<h5 id="常见的-loader-和-plugin"><a href="#常见的-loader-和-plugin" class="headerlink" title="常见的 loader 和 plugin"></a>常见的 loader 和 plugin</h5><h5 id="babel-和-webpack-的区别"><a href="#babel-和-webpack-的区别" class="headerlink" title="babel 和 webpack 的区别"></a>babel 和 webpack 的区别</h5><p>babel 只是个编译工具，只关注语法，不关心模块化，只看语法有没有错误；webpack 是打包构建工具，是多个 loader 和 plugin  的集合。 </p>
+<h5 id="如何产生一个-lib"><a href="#如何产生一个-lib" class="headerlink" title="如何产生一个 lib"></a>如何产生一个 lib</h5><p>eg</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">output &#123;</span><br><span class="line">	<span class="comment">//lib 的文件名</span></span><br><span class="line">	<span class="attr">filename</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">	<span class="comment">// 输出目录</span></span><br><span class="line">	<span class="attr">path</span>: ,</span><br><span class="line">	<span class="comment">// lib 的全局变量名</span></span><br><span class="line">	library: <span class="string">&quot;&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="babel-polyfill-和-babel-runtime-的区别"><a href="#babel-polyfill-和-babel-runtime-的区别" class="headerlink" title="babel-polyfill 和 babel-runtime 的区别"></a>babel-polyfill 和 babel-runtime 的区别</h5><h5 id="webpack-实现懒加载"><a href="#webpack-实现懒加载" class="headerlink" title="webpack 实现懒加载"></a>webpack 实现懒加载</h5><p>import() 语法 + Vue React 异步组件 +Vue-router React-router 异步加载路由</p>
+<h5 id="为什么-proxy-不能用-polyfill？"><a href="#为什么-proxy-不能用-polyfill？" class="headerlink" title="为什么 proxy 不能用 polyfill？"></a>为什么 proxy 不能用 polyfill？</h5><h5 id="webpack有什么常见优化手段？"><a href="#webpack有什么常见优化手段？" class="headerlink" title="webpack有什么常见优化手段？"></a>webpack有什么常见优化手段？</h5>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/webpack-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag"># webpack 性能优化</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/02/26/webpack%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E4%B8%8E%E9%85%8D%E7%BD%AE/" rel="prev" title="webpack基本使用与配置">
+      <i class="fa fa-chevron-left"></i> webpack基本使用与配置
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/02/27/babel-polyfill-%E5%92%8C-babel-runtime/" rel="next" title="babel-polyfill 和 babel-runtime">
+      babel-polyfill 和 babel-runtime <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E4%BC%98%E5%8C%96%E6%89%93%E5%8C%85%E6%95%88%E7%8E%87"><span class="nav-number">1.</span> <span class="nav-text">1.优化打包效率</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8F%92%E4%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text">插件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BC%98%E5%8C%96-babel-loader"><span class="nav-number">1.2.</span> <span class="nav-text">优化 babel-loader</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#IgnorePlugin"><span class="nav-number">1.3.</span> <span class="nav-text">IgnorePlugin</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%8C%BA%E5%88%86"><span class="nav-number">1.4.</span> <span class="nav-text">环境区分</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E4%BC%98%E5%8C%96%E4%BA%A7%E5%87%BA%E4%BB%A3%E7%A0%81%EF%BC%88%E9%87%8D%E8%A6%81%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">2.优化产出代码（重要）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E4%B8%80%E4%BA%9B%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text">3.一些常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%BF%9B%E8%A1%8C%E6%89%93%E5%8C%85%E5%92%8C%E6%9E%84%E5%BB%BA%EF%BC%9F"><span class="nav-number">3.1.</span> <span class="nav-text">前端为什么要进行打包和构建？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#loader-%E5%92%8C-plugin-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">3.2.</span> <span class="nav-text">loader 和 plugin 的区别？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84-loader-%E5%92%8C-plugin"><span class="nav-number">3.3.</span> <span class="nav-text">常见的 loader 和 plugin</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#babel-%E5%92%8C-webpack-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">3.4.</span> <span class="nav-text">babel 和 webpack 的区别</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BA%A7%E7%94%9F%E4%B8%80%E4%B8%AA-lib"><span class="nav-number">3.5.</span> <span class="nav-text">如何产生一个 lib</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#babel-polyfill-%E5%92%8C-babel-runtime-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">3.6.</span> <span class="nav-text">babel-polyfill 和 babel-runtime 的区别</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#webpack-%E5%AE%9E%E7%8E%B0%E6%87%92%E5%8A%A0%E8%BD%BD"><span class="nav-number">3.7.</span> <span class="nav-text">webpack 实现懒加载</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-proxy-%E4%B8%8D%E8%83%BD%E7%94%A8-polyfill%EF%BC%9F"><span class="nav-number">3.8.</span> <span class="nav-text">为什么 proxy 不能用 polyfill？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#webpack%E6%9C%89%E4%BB%80%E4%B9%88%E5%B8%B8%E8%A7%81%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5%EF%BC%9F"><span class="nav-number">3.9.</span> <span class="nav-text">webpack有什么常见优化手段？</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">D-Moon</p>
+  <div class="site-description" itemprop="description">划船要不要用桨呢？这是一个问题</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">D-Moon</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
